@@ -9,6 +9,9 @@ import space.yjeong.web.dto.PostsResponseDto;
 import space.yjeong.web.dto.PostsSaveRequestDto;
 import space.yjeong.web.dto.PostsUpdateRequestDto;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RequiredArgsConstructor
 @Service
 public class PostsService {
@@ -26,8 +29,16 @@ public class PostsService {
         return id;
     }
 
+    @Transactional(readOnly = true)
     public PostsResponseDto findById(Long id) {
         Posts entity = postsRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. id=" + id));
         return new PostsResponseDto(entity);
+    }
+
+    @Transactional(readOnly = true)
+    public List<PostsListResponseDto> findAllDesc() {
+        return postsRepository.findAllDesc().stream()
+                .map(PostsListResponseDto::new)
+                .collect(Collectors.toList());
     }
 }
