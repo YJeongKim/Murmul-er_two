@@ -10,6 +10,7 @@ import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import space.yjeong.config.auth.dto.OAuthAttributes;
+import space.yjeong.config.auth.dto.SessionUser;
 import space.yjeong.domain.user.User;
 import space.yjeong.domain.user.UserRepository;
 
