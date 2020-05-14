@@ -1,6 +1,7 @@
 buildscript {
     ext {
         springBootVersion = '2.1.7.RELEASE'
+        swaggerVersion = '2.9.2'
     }
     repositories {
         mavenCentral()
@@ -33,5 +34,9 @@ dependencies {
     runtimeOnly 'com.h2database:h2'
     implementation 'org.springframework.boot:spring-boot-starter-mustache'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+
+    implementation "io.springfox:springfox-swagger2:${swaggerVersion}"
+    implementation "io.springfox:springfox-swagger-ui:${swaggerVersion}"
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
