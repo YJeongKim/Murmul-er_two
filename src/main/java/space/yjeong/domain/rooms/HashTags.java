@@ -1,5 +1,6 @@
 package space.yjeong.domain.rooms;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -14,9 +15,15 @@ public class HashTags {
     private Long id;
 
     @Column(length = 10, nullable = false)
-    private String hashTag;
+    private String tag;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sales_posts_id")
     private SalesPosts salesPosts;
+
+    @Builder
+    public HashTags(String tag, SalesPosts salesPosts) {
+        this.tag = tag;
+        this.salesPosts = salesPosts;
+    }
 }

@@ -1,8 +1,10 @@
 package space.yjeong.domain.rooms;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 import space.yjeong.domain.BaseTimeEntity;
 import space.yjeong.domain.user.User;
 
@@ -51,6 +53,10 @@ public class SalesPosts extends BaseTimeEntity {
     @Column(nullable = false)
     private PeriodUnit periodUnit;
 
+    @ElementCollection
+    @Enumerated(EnumType.STRING)
+    private List<MaintenanceOption> maintenanceOptions;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User salesUser;
@@ -60,8 +66,26 @@ public class SalesPosts extends BaseTimeEntity {
     private Rooms room;
 
     @OneToMany(mappedBy = "salesPosts")
-    private List<MaintenanceOptions> maintenanceOptions;
-
-    @OneToMany(mappedBy = "salesPosts")
     private List<HashTags> hashTags;
+
+    @Builder
+    public SalesPosts(String title, String content, Lease lease, Integer leaseDeposit, Integer leaseFee, Integer maintenanceFee, Integer leasePeriod, PeriodUnit periodUnit, List<MaintenanceOption> maintenanceOptions, User salesUser, Rooms room) {
+        this.title = title;
+        this.content = content;
+        this.views = 0;
+        this.postStatus = PostStatus.POSTING;
+        this.lease = lease;
+        this.leaseDeposit = leaseDeposit;
+        this.leaseFee = leaseFee;
+        this.maintenanceFee = maintenanceFee;
+        this.leasePeriod = leasePeriod;
+        this.periodUnit = periodUnit;
+        this.maintenanceOptions = maintenanceOptions;
+        this.salesUser = salesUser;
+        this.room = room;
+    }
+
+    public void setHashTags(List<HashTags> hashTags) {
+        this.hashTags = hashTags;
+    }
 }

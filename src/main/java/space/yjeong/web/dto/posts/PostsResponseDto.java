@@ -1,4 +1,4 @@
-package space.yjeong.web.dto;
+package space.yjeong.web.dto.posts;
 
 import lombok.Getter;
 import space.yjeong.domain.posts.Posts;

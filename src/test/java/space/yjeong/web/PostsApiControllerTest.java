@@ -14,8 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import space.yjeong.domain.posts.Posts;
 import space.yjeong.domain.posts.PostsRepository;
-import space.yjeong.web.dto.PostsSaveRequestDto;
-import space.yjeong.web.dto.PostsUpdateRequestDto;
+import space.yjeong.web.dto.posts.PostsSaveRequestDto;
+import space.yjeong.web.dto.posts.PostsUpdateRequestDto;
 
 import java.util.List;
 

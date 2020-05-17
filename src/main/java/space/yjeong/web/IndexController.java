@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import space.yjeong.config.auth.dto.SessionUser;
 import space.yjeong.service.PostsService;
-import space.yjeong.web.dto.PostsResponseDto;
+import space.yjeong.web.dto.posts.PostsResponseDto;
 
 import javax.servlet.http.HttpSession;
 
@@ -30,7 +30,7 @@ public class IndexController {
     @GetMapping("/posts/save")
     public String postsSave() {
         return "posts-save";
-    }
+}
 
     @GetMapping("/posts/update/{id}")
     public String postsUpdate(@PathVariable Long id, Model model) {

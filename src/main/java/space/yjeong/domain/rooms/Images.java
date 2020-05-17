@@ -1,5 +1,6 @@
 package space.yjeong.domain.rooms;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -19,4 +20,10 @@ public class Images {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_id")
     private Rooms room;
+
+    @Builder
+    public Images(String src, Rooms room) {
+        this.src = src;
+        this.room = room;
+    }
 }

@@ -3,9 +3,9 @@ package space.yjeong.web;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import space.yjeong.service.PostsService;
-import space.yjeong.web.dto.PostsResponseDto;
-import space.yjeong.web.dto.PostsSaveRequestDto;
-import space.yjeong.web.dto.PostsUpdateRequestDto;
+import space.yjeong.web.dto.posts.PostsResponseDto;
+import space.yjeong.web.dto.posts.PostsSaveRequestDto;
+import space.yjeong.web.dto.posts.PostsUpdateRequestDto;
 
 @RequiredArgsConstructor
 @RestController

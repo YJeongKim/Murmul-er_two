@@ -5,10 +5,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import space.yjeong.domain.posts.Posts;
 import space.yjeong.domain.posts.PostsRepository;
-import space.yjeong.web.dto.PostsListResponseDto;
-import space.yjeong.web.dto.PostsResponseDto;
-import space.yjeong.web.dto.PostsSaveRequestDto;
-import space.yjeong.web.dto.PostsUpdateRequestDto;
+import space.yjeong.web.dto.posts.PostsListResponseDto;
+import space.yjeong.web.dto.posts.PostsResponseDto;
+import space.yjeong.web.dto.posts.PostsSaveRequestDto;
+import space.yjeong.web.dto.posts.PostsUpdateRequestDto;
 
 import java.util.List;
 import java.util.stream.Collectors;

@@ -1,5 +1,6 @@
 package space.yjeong.domain.rooms;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -44,12 +45,35 @@ public class Rooms {
     @Column(nullable = false)
     private Heating heating;
 
-    @OneToMany(mappedBy = "room")
-    private List<Options> options;
+    @ElementCollection
+    @Enumerated(EnumType.STRING)
+    private List<Option> options;
 
     @OneToMany(mappedBy = "room")
     private List<Images> images;
 
     @OneToOne(mappedBy = "room")
     private SalesPosts salesPosts;
+
+    @Builder
+    public Rooms(BigDecimal latitude, BigDecimal longitude, String jibunAddress, String roadAddress, String detailAddress, Double area, Integer floor, RoomType roomType, Heating heating, List<Option> options) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.jibunAddress = jibunAddress;
+        this.roadAddress = roadAddress;
+        this.detailAddress = detailAddress;
+        this.area = area;
+        this.floor = floor;
+        this.roomType = roomType;
+        this.heating = heating;
+        this.options = options;
+    }
+
+    public void setImages(List<Images> images) {
+        this.images = images;
+    }
+
+    public void setSalesPosts(SalesPosts salesPosts) {
+        this.salesPosts = salesPosts;
+    }
 }
