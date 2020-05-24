@@ -4,7 +4,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.DynamicInsert;
 import space.yjeong.domain.BaseTimeEntity;
 import space.yjeong.domain.user.User;
 
@@ -87,5 +86,17 @@ public class SalesPosts extends BaseTimeEntity {
 
     public void setHashTags(List<HashTags> hashTags) {
         this.hashTags = hashTags;
+    }
+
+    public void update(SalesPosts salesPost) {
+        this.title = salesPost.getTitle();
+        this.content = salesPost.getContent();
+        this.lease = salesPost.getLease();
+        this.leaseDeposit = salesPost.getLeaseDeposit();
+        this.leaseFee = salesPost.getLeaseFee();
+        this.maintenanceFee = salesPost.getMaintenanceFee();
+        this.leasePeriod = salesPost.getLeasePeriod();
+        this.periodUnit = salesPost.getPeriodUnit();
+        this.maintenanceOptions = salesPost.getMaintenanceOptions();
     }
 }

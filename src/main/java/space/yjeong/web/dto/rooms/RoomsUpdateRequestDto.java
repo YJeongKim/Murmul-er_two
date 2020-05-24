@@ -1,24 +1,20 @@
 package space.yjeong.web.dto.rooms;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 import space.yjeong.domain.rooms.*;
 import space.yjeong.domain.user.User;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import java.io.File;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class RoomsSaveRequestDto {
+public class RoomsUpdateRequestDto {
     private BigDecimal latitude;
     private BigDecimal longitude;
     private String jibunAddress;
@@ -40,6 +36,7 @@ public class RoomsSaveRequestDto {
     private Integer maintenanceFee;
     private List<MaintenanceOption> maintenanceOptions;
     private List<MultipartFile> images;
+    private List<String> imagesUrl;
 
     public Rooms toRoomsEntity() {
         return Rooms.builder()
@@ -68,7 +65,7 @@ public class RoomsSaveRequestDto {
         return images;
     }
 
-    public SalesPosts toSalesPostsEntity(User salesUser, Rooms room) {
+    public SalesPosts toSalesPostsEntity() {
         return SalesPosts.builder()
                 .title(title)
                 .content(content)
@@ -79,8 +76,8 @@ public class RoomsSaveRequestDto {
                 .leasePeriod(leasePeriod)
                 .periodUnit(periodUnit)
                 .maintenanceOptions(maintenanceOptions)
-                .salesUser(salesUser)
-                .room(room)
+                .salesUser(null)
+                .room(null)
                 .build();
     }
 

@@ -76,4 +76,17 @@ public class Rooms {
     public void setSalesPosts(SalesPosts salesPosts) {
         this.salesPosts = salesPosts;
     }
+
+    public void update(Rooms room) {
+        this.latitude = room.getLatitude();
+        this.longitude = room.getLongitude();
+        this.jibunAddress = room.getJibunAddress();
+        this.roadAddress = room.getRoadAddress();
+        this.detailAddress = room.getRoadAddress();
+        this.area = room.getArea();
+        this.floor = room.getFloor();
+        this.roomType = room.getRoomType();
+        this.heating = room.getHeating();
+        this.options = room.getOptions();
+    }
 }

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import space.yjeong.config.auth.dto.SessionUser;
 import space.yjeong.service.RoomsService;
 import space.yjeong.web.dto.rooms.RoomsSaveRequestDto;
+import space.yjeong.web.dto.rooms.RoomsUpdateRequestDto;
 
 import javax.servlet.http.HttpSession;
 
@@ -25,5 +26,11 @@ public class RoomsController {
         return ResponseEntity.status(HttpStatus.CREATED).body(roomsService.saveRoom(requestDto, user));
     }
 
+    @ApiOperation("방 수정")
+    @PutMapping("/{roomId}")
+    public ResponseEntity updateRoom(@PathVariable Long roomId, @RequestBody RoomsUpdateRequestDto requestDto) {
+        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+        return ResponseEntity.status(HttpStatus.OK).body(roomsService.updateRoom(roomId, requestDto, user));
+    }
 
 }
