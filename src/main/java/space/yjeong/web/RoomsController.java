@@ -33,4 +33,10 @@ public class RoomsController {
         return ResponseEntity.status(HttpStatus.OK).body(roomsService.updateRoom(roomId, requestDto, user));
     }
 
+    @ApiOperation("방 삭제")
+    @DeleteMapping("/{roomId}")
+    public ResponseEntity deleteRoom(@PathVariable Long roomId) {
+        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+        return ResponseEntity.status(HttpStatus.OK).body(roomsService.deleteRoom(roomId, user));
+    }
 }

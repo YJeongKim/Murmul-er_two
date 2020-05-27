@@ -64,7 +64,7 @@ public class RoomsService {
         // TODO : 기존 등록된 이미지(url)과 새로 등록된 이미지(File) 검사 후 저장
 
         SalesPosts salesPosts = salesPostsRepository.findByRoomId(roomId).orElseThrow(
-                () -> new IllegalArgumentException("해당 글이 없습니다. roomId=" + roomId)
+                () -> new IllegalArgumentException("해당 방에 대한 글이 없습니다. roomId=" + roomId)
         );
         if(!salesPosts.getSalesUser().getId().equals(user.getId())) throw new SecurityException();
         salesPosts.update(requestDto.toSalesPostsEntity());
@@ -75,5 +75,34 @@ public class RoomsService {
             salesPosts.setHashTags(hashTagsRepository.saveAll(requestDto.toHashTagsEntity(salesPosts)));
 
         return new RoomsResponseDto("수정이 완료되었습니다.");
+    }
+
+    @Transactional
+    public RoomsResponseDto deleteRoom(Long roomId, SessionUser sessionUser) {
+        User user = userRepository.findByEmail(sessionUser.getEmail()).orElseThrow(
+                () -> new IllegalArgumentException("해당 사용자가 없습니다.")
+        );
+
+        Rooms room = roomsRepository.findById(roomId).orElseThrow(
+                () -> new IllegalArgumentException("해당 방이 없습니다. roomId=" + roomId)
+        );
+
+        List<Images> images = imagesRepository.findAllByRoom_Id(roomId);
+        // TODO : 서버에 업로드된 이미지 파일 삭제
+        imagesRepository.deleteAllByRoomId(roomId);
+
+        SalesPosts salesPosts = salesPostsRepository.findByRoomId(roomId).orElseThrow(
+                () -> new IllegalArgumentException("해당 방에 대한 글이 없습니다. roomId=" + roomId)
+        );
+
+        if(!salesPosts.getSalesUser().getId().equals(user.getId())) throw new SecurityException();
+
+        if(hashTagsRepository.existsBySalesPostsId(salesPosts.getId()))
+            hashTagsRepository.deleteAllBySalesPostsId(salesPosts.getId());
+
+        salesPostsRepository.delete(salesPosts);
+        roomsRepository.delete(room);
+
+        return new RoomsResponseDto("삭제가 완료되었습니다.");
     }
 }
