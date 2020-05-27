@@ -14,7 +14,7 @@ public class HashTags {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 10, nullable = false)
+    @Column(length = 100, nullable = false)
     private String tag;
 
     @ManyToOne(fetch = FetchType.LAZY)

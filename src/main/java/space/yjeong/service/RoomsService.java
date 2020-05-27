@@ -51,6 +51,10 @@ public class RoomsService {
         // TODO : 이미지 검사 및 업로드
 //        if (requestDto.getImages().size()<2) throw new NullPointerException();
 
+        User user = userRepository.findByEmail(sessionUser.getEmail()).orElseThrow(
+                () -> new IllegalArgumentException("해당 사용자가 없습니다.")
+        );
+
         Rooms room = roomsRepository.findById(roomId).orElseThrow(
                 () -> new IllegalArgumentException("해당 방이 없습니다. roomId=" + roomId)
         );
@@ -62,6 +66,7 @@ public class RoomsService {
         SalesPosts salesPosts = salesPostsRepository.findByRoomId(roomId).orElseThrow(
                 () -> new IllegalArgumentException("해당 글이 없습니다. roomId=" + roomId)
         );
+        if(!salesPosts.getSalesUser().getId().equals(user.getId())) throw new SecurityException();
         salesPosts.update(requestDto.toSalesPostsEntity());
 
         if(hashTagsRepository.existsBySalesPostsId(salesPosts.getId()))
