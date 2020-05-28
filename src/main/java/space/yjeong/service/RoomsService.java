@@ -105,4 +105,21 @@ public class RoomsService {
 
         return new RoomsResponseDto("삭제가 완료되었습니다.");
     }
+
+    @Transactional
+    public RoomsResponseDto updatePostStatus(Long salesPostsId, PostStatus postStatus, SessionUser sessionUser) {
+        User user = userRepository.findByEmail(sessionUser.getEmail()).orElseThrow(
+                () -> new IllegalArgumentException("해당 사용자가 없습니다.")
+        );
+
+        SalesPosts salesPosts = salesPostsRepository.findById(salesPostsId).orElseThrow(
+                () -> new IllegalArgumentException("해당 글이 없습니다. salesPostsId=" + salesPostsId)
+        );
+
+        if(!salesPosts.getSalesUser().getId().equals(user.getId())) throw new SecurityException();
+
+        salesPosts.updatePostStatus(postStatus);
+
+        return new RoomsResponseDto("게시상태 수정이 완료되었습니다.");
+    }
 }

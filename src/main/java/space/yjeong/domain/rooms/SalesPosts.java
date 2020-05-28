@@ -99,4 +99,8 @@ public class SalesPosts extends BaseTimeEntity {
         this.periodUnit = salesPost.getPeriodUnit();
         this.maintenanceOptions = salesPost.getMaintenanceOptions();
     }
+
+    public void updatePostStatus(PostStatus postStatus) {
+        this.postStatus = postStatus;
+    }
 }
