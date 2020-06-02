@@ -38,9 +38,4 @@ public class IndexController {
         model.addAttribute("post", dto);
         return "posts-update";
     }
-
-    @GetMapping("/rooms/post")
-    public String roomsPost() {
-        return "/rooms/rooms-save";
-    }
 }
