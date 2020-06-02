@@ -21,4 +21,10 @@ public class RoomsController {
     public String roomsPost() {
         return "/rooms/rooms-save";
     }
+
+    @ApiOperation("방 관리 페이지")
+    @GetMapping("/manage")
+    public String roomsManage() {
+        return "/rooms/rooms-manage";
+    }
 }

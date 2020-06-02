@@ -20,6 +20,13 @@ public class RoomsApiController {
     private final RoomsService roomsService;
     private final HttpSession httpSession;
 
+    @ApiOperation("방 목록 조회")
+    @GetMapping
+    public ResponseEntity readRooms() {
+        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+        return ResponseEntity.status(HttpStatus.OK).body(roomsService.readRooms(user));
+    }
+
     @ApiOperation("방 등록")
     @PostMapping
     public ResponseEntity saveRoom(@RequestBody RoomsSaveRequestDto requestDto) {

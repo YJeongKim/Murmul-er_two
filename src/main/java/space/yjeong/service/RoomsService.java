@@ -7,6 +7,7 @@ import space.yjeong.config.auth.dto.SessionUser;
 import space.yjeong.domain.rooms.*;
 import space.yjeong.domain.user.User;
 import space.yjeong.domain.user.UserRepository;
+import space.yjeong.web.dto.rooms.RoomsReadResponseDto;
 import space.yjeong.web.dto.rooms.RoomsResponseDto;
 import space.yjeong.web.dto.rooms.RoomsSaveRequestDto;
 import space.yjeong.web.dto.rooms.RoomsUpdateRequestDto;
@@ -22,6 +23,39 @@ public class RoomsService {
     private final ImagesRepository imagesRepository;
     private final HashTagsRepository hashTagsRepository;
     private final UserRepository userRepository;
+
+    @Transactional(readOnly = true)
+    public List<RoomsReadResponseDto> readRooms(SessionUser sessionUser) {
+        List<RoomsReadResponseDto> roomsReadResponseDtos = new ArrayList<>();
+
+        User user = userRepository.findByEmail(sessionUser.getEmail()).orElseThrow(
+                () -> new IllegalArgumentException("해당 사용자가 없습니다.")
+        );
+
+        List<SalesPosts> salesPosts = salesPostsRepository.findAllBySalesUserId(user.getId());
+        for(SalesPosts posts : salesPosts) {
+            Rooms room = roomsRepository.findById(posts.getRoom().getId()).orElseThrow(
+                    () -> new IllegalArgumentException("게시글에 대한 등록된 방 정보가 없습니다.")
+            );
+            roomsReadResponseDtos.add(RoomsReadResponseDto.builder()
+                    .roomId(room.getId())
+                    .salesPostId(posts.getId())
+                    .postStatus(posts.getPostStatus())
+                    .createDate(posts.getCreateDate())
+                    .modifiedDate(posts.getModifiedDate())
+                    .views(posts.getViews())
+                    .title(posts.getTitle())
+                    .address(room.getRoadAddress())
+                    .lease(posts.getLease().getTitle())
+                    .leasePeriod(posts.getLeasePeriod() + posts.getPeriodUnit().getTitle())
+                    .leaseDeposit(posts.getLeaseDeposit())
+                    .leaseFee(posts.getLeaseFee())
+                    .maintenanceFee(posts.getMaintenanceFee())
+                    .image(imagesRepository.findFirstByRoomId(room.getId()).getSrc())
+                    .build());
+        }
+        return roomsReadResponseDtos;
+    }
 
     @Transactional
     public RoomsResponseDto saveRoom(RoomsSaveRequestDto requestDto, SessionUser sessionUser) {
