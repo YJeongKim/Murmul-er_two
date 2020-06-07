@@ -1,5 +1,6 @@
-package space.yjeong.domain.rooms;
+package space.yjeong.domain.room;
 
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,9 +8,10 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Getter
-@NoArgsConstructor
 @Entity
-public class Images {
+@Table(name = "images")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,10 +21,10 @@ public class Images {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_id")
-    private Rooms room;
+    private Room room;
 
     @Builder
-    public Images(String src, Rooms room) {
+    public Image(String src, Room room) {
         this.src = src;
         this.room = room;
     }

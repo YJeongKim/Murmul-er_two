@@ -1,5 +1,6 @@
-package space.yjeong.domain.rooms;
+package space.yjeong.domain.room;
 
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,9 +8,10 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Getter
-@NoArgsConstructor
 @Entity
-public class HashTags {
+@Table(name = "hash_tags")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class HashTag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -18,12 +20,12 @@ public class HashTags {
     private String tag;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "sales_posts_id")
-    private SalesPosts salesPosts;
+    @JoinColumn(name = "sales_post_id")
+    private SalesPost salesPost;
 
     @Builder
-    public HashTags(String tag, SalesPosts salesPosts) {
+    public HashTag(String tag, SalesPost salesPost) {
         this.tag = tag;
-        this.salesPosts = salesPosts;
+        this.salesPost = salesPost;
     }
 }

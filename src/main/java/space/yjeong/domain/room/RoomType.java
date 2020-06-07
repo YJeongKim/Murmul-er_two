@@ -1,4 +1,4 @@
-package space.yjeong.domain.rooms;
+package space.yjeong.domain.room;
 
 
 import lombok.Getter;

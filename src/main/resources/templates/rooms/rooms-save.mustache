@@ -1,5 +1,5 @@
 {{>layout/header}}
-	<link rel="stylesheet" href="/css/rooms/rooms-save.css" />
+	<link rel="stylesheet" href="/css/room/room-save.css" />
 </head>
 <body>
 
@@ -193,13 +193,13 @@
 			<tr>
 				<td id="tdImg">
                     <button class="upload" id="btnImg"><img class="img" src="/img/rooms/addImage.png"/></button>
-					<input class="upload" id="uploadImages" type="file" name="uploadFile" multiple="multiple" onchange="readURL(this);" style="display: none;" accept=".gif, .jpg, .png">
+					<input class="upload" id="uploadImages" type="file" name="uploadFile" multiple="multiple" onchange="readURL(this);" style="display: none;" accept=".jpg, .png, .jpeg">
 				</td>
 			</tr>
 		</table>
 		<div class="lastButton">
-			<button id="cancel">취소</button>
-			<button id="save">등록</button>
+			<button id="btn-cancel">취소</button>
+			<button id="btn-save">등록</button>
 		</div>
 	</div>
 </div>

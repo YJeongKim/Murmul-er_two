@@ -1,5 +1,6 @@
-package space.yjeong.domain.rooms;
+package space.yjeong.domain.room;
 
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,9 +12,10 @@ import javax.persistence.*;
 import java.util.List;
 
 @Getter
-@NoArgsConstructor
 @Entity
-public class SalesPosts extends BaseTimeEntity {
+@Table(name = "sales_posts")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class SalesPost extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -62,13 +64,13 @@ public class SalesPosts extends BaseTimeEntity {
 
     @OneToOne
     @JoinColumn(name = "room_id")
-    private Rooms room;
+    private Room room;
 
-    @OneToMany(mappedBy = "salesPosts")
-    private List<HashTags> hashTags;
+    @OneToMany(mappedBy = "salesPost", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<HashTag> hashTags;
 
     @Builder
-    public SalesPosts(String title, String content, Lease lease, Integer leaseDeposit, Integer leaseFee, Integer maintenanceFee, Integer leasePeriod, PeriodUnit periodUnit, List<MaintenanceOption> maintenanceOptions, User salesUser, Rooms room) {
+    public SalesPost(String title, String content, Lease lease, Integer leaseDeposit, Integer leaseFee, Integer maintenanceFee, Integer leasePeriod, PeriodUnit periodUnit, List<MaintenanceOption> maintenanceOptions, User salesUser, Room room) {
         this.title = title;
         this.content = content;
         this.views = 0;
@@ -84,11 +86,11 @@ public class SalesPosts extends BaseTimeEntity {
         this.room = room;
     }
 
-    public void setHashTags(List<HashTags> hashTags) {
+    public void setHashTags(List<HashTag> hashTags) {
         this.hashTags = hashTags;
     }
 
-    public void update(SalesPosts salesPost) {
+    public void update(SalesPost salesPost) {
         this.title = salesPost.getTitle();
         this.content = salesPost.getContent();
         this.lease = salesPost.getLease();

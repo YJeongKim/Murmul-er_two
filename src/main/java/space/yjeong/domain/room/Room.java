@@ -1,5 +1,6 @@
-package space.yjeong.domain.rooms;
+package space.yjeong.domain.room;
 
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,9 +10,10 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Getter
-@NoArgsConstructor
 @Entity
-public class Rooms {
+@Table(name = "rooms")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -49,14 +51,14 @@ public class Rooms {
     @Enumerated(EnumType.STRING)
     private List<Option> options;
 
-    @OneToMany(mappedBy = "room")
-    private List<Images> images;
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Image> images;
 
-    @OneToOne(mappedBy = "room")
-    private SalesPosts salesPosts;
+    @OneToOne(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
+    private SalesPost salesPost;
 
     @Builder
-    public Rooms(BigDecimal latitude, BigDecimal longitude, String jibunAddress, String roadAddress, String detailAddress, Double area, Integer floor, RoomType roomType, Heating heating, List<Option> options) {
+    public Room(BigDecimal latitude, BigDecimal longitude, String jibunAddress, String roadAddress, String detailAddress, Double area, Integer floor, RoomType roomType, Heating heating, List<Option> options) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.jibunAddress = jibunAddress;
@@ -69,15 +71,15 @@ public class Rooms {
         this.options = options;
     }
 
-    public void setImages(List<Images> images) {
+    public void setImages(List<Image> images) {
         this.images = images;
     }
 
-    public void setSalesPosts(SalesPosts salesPosts) {
-        this.salesPosts = salesPosts;
+    public void setSalesPost(SalesPost salesPost) {
+        this.salesPost = salesPost;
     }
 
-    public void update(Rooms room) {
+    public void update(Room room) {
         this.latitude = room.getLatitude();
         this.longitude = room.getLongitude();
         this.jibunAddress = room.getJibunAddress();
