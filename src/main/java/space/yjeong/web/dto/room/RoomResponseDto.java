@@ -2,7 +2,7 @@ package space.yjeong.web.dto.room;
 
 import lombok.Builder;
 import lombok.Getter;
-import space.yjeong.domain.room.PostStatus;
+import space.yjeong.domain.salespost.PostStatus;
 
 import java.time.LocalDateTime;
 

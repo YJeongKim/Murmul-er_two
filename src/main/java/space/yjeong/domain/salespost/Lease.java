@@ -1,4 +1,4 @@
-package space.yjeong.domain.room;
+package space.yjeong.domain.salespost;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

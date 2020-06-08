@@ -1,4 +1,4 @@
-package space.yjeong.domain.room;
+package space.yjeong.domain.salespost;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 import space.yjeong.domain.BaseTimeEntity;
+import space.yjeong.domain.hashtag.HashTag;
+import space.yjeong.domain.room.*;
 import space.yjeong.domain.user.User;
 
 import javax.persistence.*;

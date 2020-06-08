@@ -1,4 +1,4 @@
-package space.yjeong.domain.room;
+package space.yjeong.domain.salespost;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

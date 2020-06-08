@@ -1,9 +1,10 @@
-package space.yjeong.domain.room;
+package space.yjeong.domain.image;
 
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import space.yjeong.domain.room.Room;
 
 import javax.persistence.*;
 

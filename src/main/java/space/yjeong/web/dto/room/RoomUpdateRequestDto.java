@@ -4,7 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
+import space.yjeong.domain.hashtag.HashTag;
+import space.yjeong.domain.image.Image;
 import space.yjeong.domain.room.*;
+import space.yjeong.domain.salespost.Lease;
+import space.yjeong.domain.salespost.MaintenanceOption;
+import space.yjeong.domain.salespost.PeriodUnit;
+import space.yjeong.domain.salespost.SalesPost;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
