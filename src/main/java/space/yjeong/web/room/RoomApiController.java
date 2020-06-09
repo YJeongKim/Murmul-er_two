@@ -1,4 +1,4 @@
-package space.yjeong.web;
+package space.yjeong.web.room;
 
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import space.yjeong.config.auth.dto.SessionUser;
 import space.yjeong.domain.salespost.PostStatus;
-import space.yjeong.service.RoomService;
+import space.yjeong.service.room.RoomService;
 import space.yjeong.web.dto.room.RoomSaveRequestDto;
 import space.yjeong.web.dto.room.RoomUpdateRequestDto;
 

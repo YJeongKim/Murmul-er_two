@@ -1,4 +1,4 @@
-package space.yjeong.service;
+package space.yjeong.service.room;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
