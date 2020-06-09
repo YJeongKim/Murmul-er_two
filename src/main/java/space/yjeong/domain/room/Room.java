@@ -4,7 +4,6 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import space.yjeong.domain.image.Image;
 import space.yjeong.domain.salespost.SalesPost;
 
 import javax.persistence.*;
@@ -53,9 +52,6 @@ public class Room {
     @Enumerated(EnumType.STRING)
     private List<Option> options;
 
-    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Image> images;
-
     @OneToOne(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
     private SalesPost salesPost;
 
@@ -71,10 +67,6 @@ public class Room {
         this.roomType = roomType;
         this.heating = heating;
         this.options = options;
-    }
-
-    public void setImages(List<Image> images) {
-        this.images = images;
     }
 
     public void setSalesPost(SalesPost salesPost) {

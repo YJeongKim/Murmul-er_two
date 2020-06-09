@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 import space.yjeong.domain.BaseTimeEntity;
 import space.yjeong.domain.hashtag.HashTag;
+import space.yjeong.domain.image.Image;
 import space.yjeong.domain.room.*;
 import space.yjeong.domain.user.User;
 
@@ -71,6 +72,9 @@ public class SalesPost extends BaseTimeEntity {
     @OneToMany(mappedBy = "salesPost", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<HashTag> hashTags;
 
+    @OneToMany(mappedBy = "salesPost", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Image> images;
+
     @Builder
     public SalesPost(String title, String content, Lease lease, Integer leaseDeposit, Integer leaseFee, Integer maintenanceFee, Integer leasePeriod, PeriodUnit periodUnit, List<MaintenanceOption> maintenanceOptions, User salesUser, Room room) {
         this.title = title;
@@ -90,6 +94,10 @@ public class SalesPost extends BaseTimeEntity {
 
     public void setHashTags(List<HashTag> hashTags) {
         this.hashTags = hashTags;
+    }
+
+    public void setImages(List<Image> images) {
+        this.images = images;
     }
 
     public void update(SalesPost salesPost) {

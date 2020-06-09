@@ -2,9 +2,14 @@ package space.yjeong.web.dto.room;
 
 import lombok.Builder;
 import lombok.Getter;
+import space.yjeong.domain.image.Image;
+import space.yjeong.domain.room.Room;
 import space.yjeong.domain.salespost.PostStatus;
+import space.yjeong.domain.salespost.SalesPost;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 public class RoomResponseDto {
@@ -41,5 +46,32 @@ public class RoomResponseDto {
         this.leaseFee = leaseFee;
         this.maintenanceFee = maintenanceFee;
         this.image = image;
+    }
+
+    public static RoomResponseDto of(SalesPost salesPost) {
+        Room room = salesPost.getRoom();
+        Image image = salesPost.getImages().get(0);
+
+        return RoomResponseDto.builder()
+                .roomId(room.getId())
+                .salesPostId(salesPost.getId())
+                .postStatus(salesPost.getPostStatus())
+                .createDate(salesPost.getCreateDate())
+                .modifiedDate(salesPost.getModifiedDate())
+                .views(salesPost.getViews())
+                .title(salesPost.getTitle())
+                .address(room.getRoadAddress())
+                .lease(salesPost.getLease().getTitle())
+                .leasePeriod(salesPost.getLeasePeriod() + salesPost.getPeriodUnit().getTitle())
+                .leaseFee(salesPost.getLeaseFee())
+                .maintenanceFee(salesPost.getMaintenanceFee())
+                .image(image.getSrc())
+                .build();
+    }
+
+    public static List<RoomResponseDto> listOf(List<SalesPost> salesPosts) {
+        return salesPosts.stream()
+                .map(RoomResponseDto::of)
+                .collect(Collectors.toList());
     }
 }

@@ -9,11 +9,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 public interface ImageRepository extends JpaRepository<Image, Long> {
-    List<Image> findAllByRoomId(Long roomId);
-    Image findFirstByRoomId(Long roomId);
+    List<Image> findAllBySalesPostId(Long salesPostId);
+    Image findFirstBySalesPostId(Long salesPostId);
 
     @Transactional
     @Modifying(clearAutomatically = true)
-    @Query("delete from Image i where i.room.id = :roomId")
-    void deleteAllByRoomId(@Param("roomId") Long roomId);
+    @Query("delete from Image i where i.salesPost.id = :salesPostId")
+    void deleteAllBySalesPostId(@Param("salesPostId") Long salesPostId);
 }

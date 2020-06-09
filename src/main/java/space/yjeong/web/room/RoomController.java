@@ -16,15 +16,15 @@ public class RoomController {
     private final RoomService roomService;
     private final HttpSession httpSession;
 
-    @ApiOperation("방 등록 페이지")
-    @GetMapping("/post")
-    public String roomPost() {
-        return "/room/room-save";
-    }
-
-    @ApiOperation("방 관리 페이지")
-    @GetMapping("/manage")
+    @ApiOperation("UI : 방 관리 페이지")
+    @GetMapping
     public String roomsManage() {
         return "/room/room-manage";
+    }
+
+    @ApiOperation("UI : 방 등록 페이지")
+    @GetMapping("/register")
+    public String roomRegister() {
+        return "/room/room-save";
     }
 }

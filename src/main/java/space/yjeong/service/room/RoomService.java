@@ -33,35 +33,15 @@ public class RoomService {
 
     @Transactional(readOnly = true)
     public List<RoomResponseDto> readRooms(SessionUser sessionUser) {
-        List<RoomResponseDto> roomResponseDtos = new ArrayList<>();
-
         User user = userRepository.findByEmail(sessionUser.getEmail()).orElseThrow(
                 () -> new IllegalArgumentException("해당 사용자가 없습니다.")
         );
 
         List<SalesPost> salesPosts = salesPostRepository.findAllBySalesUserId(user.getId());
-        for(SalesPost posts : salesPosts) {
-            Room room = roomRepository.findById(posts.getRoom().getId()).orElseThrow(
-                    () -> new IllegalArgumentException("게시글에 대한 등록된 방 정보가 없습니다.")
-            );
-            roomResponseDtos.add(RoomResponseDto.builder()
-                    .roomId(room.getId())
-                    .salesPostId(posts.getId())
-                    .postStatus(posts.getPostStatus())
-                    .createDate(posts.getCreateDate())
-                    .modifiedDate(posts.getModifiedDate())
-                    .views(posts.getViews())
-                    .title(posts.getTitle())
-                    .address(room.getRoadAddress())
-                    .lease(posts.getLease().getTitle())
-                    .leasePeriod(posts.getLeasePeriod() + posts.getPeriodUnit().getTitle())
-                    .leaseDeposit(posts.getLeaseDeposit())
-                    .leaseFee(posts.getLeaseFee())
-                    .maintenanceFee(posts.getMaintenanceFee())
-                    .image(imageRepository.findFirstByRoomId(room.getId()).getSrc())
-                    .build());
-        }
-        return roomResponseDtos;
+
+        List<RoomResponseDto> roomResponseDtoList = RoomResponseDto.listOf(salesPosts);
+
+        return roomResponseDtoList;
     }
 
     @Transactional
@@ -71,7 +51,6 @@ public class RoomService {
 //        if (requestDto.getImages().size()<2) throw new NullPointerException();
 
         Room room = roomRepository.save(requestDto.toRoomsEntity());
-        room.setImages(imageRepository.saveAll(requestDto.toImagesEntity(imagesSrc, room)));
 
         User user = userRepository.findByEmail(sessionUser.getEmail()).orElseThrow(
                 () -> new IllegalArgumentException("해당 사용자가 없습니다.")
@@ -81,6 +60,7 @@ public class RoomService {
         SalesPost salesPost = salesPostRepository.save(requestDto.toSalesPostEntity(user, room));
         if(!requestDto.getHashTags().isEmpty() && requestDto.getHashTags().get(0)!=null)
             salesPost.setHashTags(hashTagRepository.saveAll(requestDto.toHashTagEntity(salesPost)));
+        salesPost.setImages(imageRepository.saveAll(requestDto.toImagesEntity(imagesSrc, salesPost)));
         room.setSalesPost(salesPost);
 
         return new MessageResponseDto("등록이 완료되었습니다.");
@@ -101,9 +81,6 @@ public class RoomService {
         );
         room.update(requestDto.toRoomEntity());
 
-        List<Image> images = imageRepository.findAllByRoomId(roomId);
-        // TODO : 기존 등록된 이미지(url)과 새로 등록된 이미지(File) 검사 후 저장
-
         SalesPost salesPost = salesPostRepository.findByRoomId(roomId).orElseThrow(
                 () -> new IllegalArgumentException("해당 방에 대한 글이 없습니다. roomId=" + roomId)
         );
@@ -114,6 +91,9 @@ public class RoomService {
             hashTagRepository.deleteAllBySalesPost(salesPost);
         if(!requestDto.getHashTags().isEmpty() && requestDto.getHashTags().get(0)!=null)
             salesPost.setHashTags(hashTagRepository.saveAll(requestDto.toHashTagEntity(salesPost)));
+
+        List<Image> images = imageRepository.findAllBySalesPostId(salesPost.getId());
+        // TODO : 기존 등록된 이미지(url)과 새로 등록된 이미지(File) 검사 후 저장
 
         return new MessageResponseDto("수정이 완료되었습니다.");
     }
@@ -128,15 +108,14 @@ public class RoomService {
                 () -> new IllegalArgumentException("해당 방이 없습니다. roomId=" + roomId)
         );
 
-        List<Image> images = imageRepository.findAllByRoomId(roomId);
-        // TODO : 서버에 업로드된 이미지 파일 삭제
-        imageRepository.deleteAllByRoomId(roomId);
-
         SalesPost salesPost = salesPostRepository.findByRoomId(roomId).orElseThrow(
                 () -> new IllegalArgumentException("해당 방에 대한 글이 없습니다. roomId=" + roomId)
         );
 
         if(!salesPost.getSalesUser().getId().equals(user.getId())) throw new SecurityException();
+
+        // TODO : 서버에 업로드된 이미지 파일 삭제
+        imageRepository.deleteAllBySalesPostId(salesPost.getId());
 
         if(hashTagRepository.existsBySalesPostId(salesPost.getId()))
             hashTagRepository.deleteAllBySalesPost(salesPost);

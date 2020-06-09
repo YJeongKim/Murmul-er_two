@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import space.yjeong.domain.room.Room;
+import space.yjeong.domain.salespost.SalesPost;
 
 import javax.persistence.*;
 
@@ -21,12 +21,12 @@ public class Image {
     private String src;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "room_id")
-    private Room room;
+    @JoinColumn(name = "sales_post_id")
+    private SalesPost salesPost;
 
     @Builder
-    public Image(String src, Room room) {
+    public Image(String src, SalesPost salesPost) {
         this.src = src;
-        this.room = room;
+        this.salesPost = salesPost;
     }
 }

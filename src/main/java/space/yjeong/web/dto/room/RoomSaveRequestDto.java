@@ -58,12 +58,12 @@ public class RoomSaveRequestDto {
                 .build();
     }
 
-    public List<Image> toImagesEntity(List<String> imagesSrc, Room room) {
+    public List<Image> toImagesEntity(List<String> imagesSrc, SalesPost salesPost) {
         List<Image> images = new ArrayList<>();
         for (String src : imagesSrc) {
             Image image = Image.builder()
                     .src(src)
-                    .room(room)
+                    .salesPost(salesPost)
                     .build();
             images.add(image);
         }
