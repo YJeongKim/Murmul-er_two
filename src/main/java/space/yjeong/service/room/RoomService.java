@@ -11,8 +11,9 @@ import space.yjeong.domain.room.Room;
 import space.yjeong.domain.room.RoomRepository;
 import space.yjeong.domain.salespost.PostStatus;
 import space.yjeong.domain.salespost.SalesPost;
-import space.yjeong.domain.salespost.SalesPostRepository;
 import space.yjeong.domain.user.User;
+import space.yjeong.exception.RoomNotFoundException;
+import space.yjeong.service.salespost.SalesPostService;
 import space.yjeong.service.user.UserService;
 import space.yjeong.web.dto.MessageResponseDto;
 import space.yjeong.web.dto.room.RoomResponseDto;
@@ -26,16 +27,16 @@ import java.util.List;
 @Service
 public class RoomService {
     private final RoomRepository roomRepository;
-    private final SalesPostRepository salesPostRepository;
     private final ImageRepository imageRepository;
     private final HashTagRepository hashTagRepository;
     private final UserService userService;
+    private final SalesPostService salesPostService;
 
     @Transactional(readOnly = true)
     public List<RoomResponseDto> readRooms(SessionUser sessionUser) {
         User user = userService.findUserBySessionUser(sessionUser);
 
-        List<SalesPost> salesPosts = salesPostRepository.findAllBySalesUserId(user.getId());
+        List<SalesPost> salesPosts = salesPostService.findSalesPostsByUser(user.getId());
 
         List<RoomResponseDto> roomResponseDtoList = RoomResponseDto.listOf(salesPosts);
 
@@ -51,9 +52,10 @@ public class RoomService {
         Room room = roomRepository.save(requestDto.toRoomsEntity());
 
         User user = userService.findUserBySessionUser(sessionUser);
-        // TODO : if user null or role is guest, throw exception
+        userService.checkUserAuthority(user);
 
-        SalesPost salesPost = salesPostRepository.save(requestDto.toSalesPostEntity(user, room));
+        SalesPost salesPost = salesPostService.saveSalesPost(requestDto.toSalesPostEntity(user, room));
+
         if(!requestDto.getHashTags().isEmpty() && requestDto.getHashTags().get(0)!=null)
             salesPost.setHashTags(hashTagRepository.saveAll(requestDto.toHashTagEntity(salesPost)));
         salesPost.setImages(imageRepository.saveAll(requestDto.toImagesEntity(imagesSrc, salesPost)));
@@ -71,14 +73,12 @@ public class RoomService {
         User user = userService.findUserBySessionUser(sessionUser);
 
         Room room = roomRepository.findById(roomId).orElseThrow(
-                () -> new IllegalArgumentException("해당 방이 없습니다. roomId=" + roomId)
+                () -> new RoomNotFoundException(roomId)
         );
         room.update(requestDto.toRoomEntity());
 
-        SalesPost salesPost = salesPostRepository.findByRoomId(roomId).orElseThrow(
-                () -> new IllegalArgumentException("해당 방에 대한 글이 없습니다. roomId=" + roomId)
-        );
-        if(!salesPost.getSalesUser().getId().equals(user.getId())) throw new SecurityException();
+        SalesPost salesPost = salesPostService.findSalesPostByRoom(roomId);
+        userService.checkSameUser(salesPost.getSalesUser(), user);
         salesPost.update(requestDto.toSalesPostEntity());
 
         if(hashTagRepository.existsBySalesPostId(salesPost.getId()))
@@ -97,14 +97,11 @@ public class RoomService {
         User user = userService.findUserBySessionUser(sessionUser);
 
         Room room = roomRepository.findById(roomId).orElseThrow(
-                () -> new IllegalArgumentException("해당 방이 없습니다. roomId=" + roomId)
+                () -> new RoomNotFoundException(roomId)
         );
 
-        SalesPost salesPost = salesPostRepository.findByRoomId(roomId).orElseThrow(
-                () -> new IllegalArgumentException("해당 방에 대한 글이 없습니다. roomId=" + roomId)
-        );
-
-        if(!salesPost.getSalesUser().getId().equals(user.getId())) throw new SecurityException();
+        SalesPost salesPost = salesPostService.findSalesPostByRoom(roomId);
+        userService.checkSameUser(salesPost.getSalesUser(), user);
 
         // TODO : 서버에 업로드된 이미지 파일 삭제
         imageRepository.deleteAllBySalesPostId(salesPost.getId());
@@ -112,7 +109,7 @@ public class RoomService {
         if(hashTagRepository.existsBySalesPostId(salesPost.getId()))
             hashTagRepository.deleteAllBySalesPost(salesPost);
 
-        salesPostRepository.delete(salesPost);
+        salesPostService.deleteSalesPost(salesPost);
         roomRepository.delete(room);
 
         return new MessageResponseDto("삭제가 완료되었습니다.");
@@ -122,12 +119,8 @@ public class RoomService {
     public MessageResponseDto updatePostStatus(Long salesPostId, PostStatus postStatus, SessionUser sessionUser) {
         User user = userService.findUserBySessionUser(sessionUser);
 
-        SalesPost salesPost = salesPostRepository.findById(salesPostId).orElseThrow(
-                () -> new IllegalArgumentException("해당 글이 없습니다. salesPostId=" + salesPostId)
-        );
-
-        if(!salesPost.getSalesUser().getId().equals(user.getId())) throw new SecurityException();
-
+        SalesPost salesPost = salesPostService.findSalesPostById(salesPostId);
+        userService.checkSameUser(salesPost.getSalesUser(), user);
         salesPost.updatePostStatus(postStatus);
 
         return new MessageResponseDto("게시상태 수정이 완료되었습니다.");
