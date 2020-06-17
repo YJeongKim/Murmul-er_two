@@ -13,7 +13,7 @@ import space.yjeong.domain.salespost.PostStatus;
 import space.yjeong.domain.salespost.SalesPost;
 import space.yjeong.domain.salespost.SalesPostRepository;
 import space.yjeong.domain.user.User;
-import space.yjeong.domain.user.UserRepository;
+import space.yjeong.service.user.UserService;
 import space.yjeong.web.dto.MessageResponseDto;
 import space.yjeong.web.dto.room.RoomResponseDto;
 import space.yjeong.web.dto.room.RoomSaveRequestDto;
@@ -29,13 +29,11 @@ public class RoomService {
     private final SalesPostRepository salesPostRepository;
     private final ImageRepository imageRepository;
     private final HashTagRepository hashTagRepository;
-    private final UserRepository userRepository;
+    private final UserService userService;
 
     @Transactional(readOnly = true)
     public List<RoomResponseDto> readRooms(SessionUser sessionUser) {
-        User user = userRepository.findByEmail(sessionUser.getEmail()).orElseThrow(
-                () -> new IllegalArgumentException("해당 사용자가 없습니다.")
-        );
+        User user = userService.findUserBySessionUser(sessionUser);
 
         List<SalesPost> salesPosts = salesPostRepository.findAllBySalesUserId(user.getId());
 
@@ -52,9 +50,7 @@ public class RoomService {
 
         Room room = roomRepository.save(requestDto.toRoomsEntity());
 
-        User user = userRepository.findByEmail(sessionUser.getEmail()).orElseThrow(
-                () -> new IllegalArgumentException("해당 사용자가 없습니다.")
-        );
+        User user = userService.findUserBySessionUser(sessionUser);
         // TODO : if user null or role is guest, throw exception
 
         SalesPost salesPost = salesPostRepository.save(requestDto.toSalesPostEntity(user, room));
@@ -72,9 +68,7 @@ public class RoomService {
         // TODO : 이미지 검사 및 업로드
 //        if (requestDto.getImages().size()<2) throw new NullPointerException();
 
-        User user = userRepository.findByEmail(sessionUser.getEmail()).orElseThrow(
-                () -> new IllegalArgumentException("해당 사용자가 없습니다.")
-        );
+        User user = userService.findUserBySessionUser(sessionUser);
 
         Room room = roomRepository.findById(roomId).orElseThrow(
                 () -> new IllegalArgumentException("해당 방이 없습니다. roomId=" + roomId)
@@ -100,9 +94,7 @@ public class RoomService {
 
     @Transactional
     public MessageResponseDto deleteRoom(Long roomId, SessionUser sessionUser) {
-        User user = userRepository.findByEmail(sessionUser.getEmail()).orElseThrow(
-                () -> new IllegalArgumentException("해당 사용자가 없습니다.")
-        );
+        User user = userService.findUserBySessionUser(sessionUser);
 
         Room room = roomRepository.findById(roomId).orElseThrow(
                 () -> new IllegalArgumentException("해당 방이 없습니다. roomId=" + roomId)
@@ -128,9 +120,7 @@ public class RoomService {
 
     @Transactional
     public MessageResponseDto updatePostStatus(Long salesPostId, PostStatus postStatus, SessionUser sessionUser) {
-        User user = userRepository.findByEmail(sessionUser.getEmail()).orElseThrow(
-                () -> new IllegalArgumentException("해당 사용자가 없습니다.")
-        );
+        User user = userService.findUserBySessionUser(sessionUser);
 
         SalesPost salesPost = salesPostRepository.findById(salesPostId).orElseThrow(
                 () -> new IllegalArgumentException("해당 글이 없습니다. salesPostId=" + salesPostId)
