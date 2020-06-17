@@ -5,7 +5,7 @@ import org.apache.tika.Tika;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import space.yjeong.domain.image.ImageRepository;
+import space.yjeong.domain.salespost.ImageRepository;
 import space.yjeong.util.FilePath;
 
 import java.util.ArrayList;

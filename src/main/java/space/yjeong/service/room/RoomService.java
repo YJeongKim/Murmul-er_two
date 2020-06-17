@@ -4,13 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import space.yjeong.config.auth.dto.SessionUser;
-import space.yjeong.domain.hashtag.HashTag;
-import space.yjeong.domain.image.Image;
-import space.yjeong.domain.image.ImageRepository;
 import space.yjeong.domain.room.Room;
 import space.yjeong.domain.room.RoomRepository;
-import space.yjeong.domain.salespost.PostStatus;
-import space.yjeong.domain.salespost.SalesPost;
+import space.yjeong.domain.salespost.*;
 import space.yjeong.domain.user.User;
 import space.yjeong.exception.RoomNotFoundException;
 import space.yjeong.service.salespost.HashTagService;
@@ -27,6 +23,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class RoomService {
+
     private final RoomRepository roomRepository;
     private final ImageRepository imageRepository;
     private final UserService userService;
@@ -85,7 +82,7 @@ public class RoomService {
         userService.checkSameUser(salesPost.getSalesUser(), user);
         salesPost.update(requestDto.toSalesPostEntity());
 
-        hashTagService.deleteHashTags(salesPost);
+        hashTagService.deleteHashTags(salesPost.getId());
 
         List<HashTag> hashTags = new ArrayList<>();
         if(hashTagService.isHashTagNotNull(requestDto.getHashTags()))
@@ -112,7 +109,7 @@ public class RoomService {
         // TODO : 서버에 업로드된 이미지 파일 삭제
         imageRepository.deleteAllBySalesPostId(salesPost.getId());
 
-        hashTagService.deleteHashTags(salesPost);
+        hashTagService.deleteHashTags(salesPost.getId());
 
         salesPostService.deleteSalesPost(salesPost);
         roomRepository.delete(room);

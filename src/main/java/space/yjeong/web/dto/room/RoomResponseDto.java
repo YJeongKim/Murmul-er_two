@@ -2,8 +2,8 @@ package space.yjeong.web.dto.room;
 
 import lombok.Builder;
 import lombok.Getter;
-import space.yjeong.domain.image.Image;
 import space.yjeong.domain.room.Room;
+import space.yjeong.domain.salespost.Image;
 import space.yjeong.domain.salespost.PostStatus;
 import space.yjeong.domain.salespost.SalesPost;
 

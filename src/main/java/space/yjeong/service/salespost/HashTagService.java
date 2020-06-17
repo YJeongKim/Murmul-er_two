@@ -2,9 +2,8 @@ package space.yjeong.service.salespost;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import space.yjeong.domain.hashtag.HashTag;
-import space.yjeong.domain.hashtag.HashTagRepository;
-import space.yjeong.domain.salespost.SalesPost;
+import space.yjeong.domain.salespost.HashTag;
+import space.yjeong.domain.salespost.HashTagRepository;
 
 import java.util.List;
 
@@ -18,9 +17,9 @@ public class HashTagService {
         return hashTagRepository.saveAll(hashTags);
     }
 
-    public void deleteHashTags(SalesPost salesPost) {
-        if (hashTagRepository.existsBySalesPostId(salesPost.getId()))
-            hashTagRepository.deleteAllBySalesPost(salesPost);
+    public void deleteHashTags(Long salesPostId) {
+        if (hashTagRepository.existsBySalesPostId(salesPostId))
+            hashTagRepository.deleteAllBySalesPost(salesPostId);
     }
 
     public boolean isHashTagNotNull(List<String> hashTags) {

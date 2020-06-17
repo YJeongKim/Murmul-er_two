@@ -1,32 +1,31 @@
-package space.yjeong.domain.image;
+package space.yjeong.domain.salespost;
 
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import space.yjeong.domain.salespost.SalesPost;
 
 import javax.persistence.*;
 
 @Getter
 @Entity
-@Table(name = "images")
+@Table(name = "hash_tags")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Image {
+public class HashTag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String src;
+    @Column(length = 100, nullable = false)
+    private String tag;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sales_post_id")
     private SalesPost salesPost;
 
     @Builder
-    public Image(String src, SalesPost salesPost) {
-        this.src = src;
+    public HashTag(String tag, SalesPost salesPost) {
+        this.tag = tag;
         this.salesPost = salesPost;
     }
 }

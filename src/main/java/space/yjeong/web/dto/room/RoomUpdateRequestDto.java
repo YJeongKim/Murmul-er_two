@@ -4,8 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
-import space.yjeong.domain.hashtag.HashTag;
-import space.yjeong.domain.image.Image;
+import space.yjeong.domain.salespost.HashTag;
+import space.yjeong.domain.salespost.Image;
 import space.yjeong.domain.room.*;
 import space.yjeong.domain.salespost.Lease;
 import space.yjeong.domain.salespost.MaintenanceOption;
@@ -88,12 +88,15 @@ public class RoomUpdateRequestDto {
 
     public List<HashTag> toHashTagEntity(SalesPost salesPost) {
         List<HashTag> hashTags = new ArrayList<>();
-        for(String tag : this.hashTags) {
-            HashTag hashTag = HashTag.builder()
-                    .tag(tag)
-                    .salesPost(salesPost)
-                    .build();
-            hashTags.add(hashTag);
+        for (String tag : this.hashTags) {
+            tag = tag.trim();
+            if (!tag.equals("")) {
+                HashTag hashTag = HashTag.builder()
+                        .tag(tag)
+                        .salesPost(salesPost)
+                        .build();
+                hashTags.add(hashTag);
+            }
         }
         return hashTags;
     }

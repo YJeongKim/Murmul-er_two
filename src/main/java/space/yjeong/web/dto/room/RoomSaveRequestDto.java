@@ -4,8 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
-import space.yjeong.domain.hashtag.HashTag;
-import space.yjeong.domain.image.Image;
+import space.yjeong.domain.salespost.HashTag;
+import space.yjeong.domain.salespost.Image;
 import space.yjeong.domain.room.*;
 import space.yjeong.domain.salespost.Lease;
 import space.yjeong.domain.salespost.MaintenanceOption;
@@ -59,15 +59,15 @@ public class RoomSaveRequestDto {
     }
 
     public List<Image> toImagesEntity(List<String> imagesSrc, SalesPost salesPost) {
-        List<Image> images = new ArrayList<>();
+        List<Image> imageList = new ArrayList<>();
         for (String src : imagesSrc) {
             Image image = Image.builder()
                     .src(src)
                     .salesPost(salesPost)
                     .build();
-            images.add(image);
+            imageList.add(image);
         }
-        return images;
+        return imageList;
     }
 
     public SalesPost toSalesPostEntity(User salesUser, Room room) {
@@ -87,17 +87,17 @@ public class RoomSaveRequestDto {
     }
 
     public List<HashTag> toHashTagEntity(SalesPost salesPost) {
-        List<HashTag> hashTags = new ArrayList<>();
-        for(String tag : this.hashTags) {
+        List<HashTag> hashTagList = new ArrayList<>();
+        for (String tag : this.hashTags) {
             tag = tag.trim();
-            if(!tag.equals("")) {
+            if (!tag.equals("")) {
                 HashTag hashTag = HashTag.builder()
                         .tag(tag)
                         .salesPost(salesPost)
                         .build();
-                hashTags.add(hashTag);
+                hashTagList.add(hashTag);
             }
         }
-        return hashTags;
+        return hashTagList;
     }
 }
