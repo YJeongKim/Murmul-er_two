@@ -89,11 +89,14 @@ public class RoomSaveRequestDto {
     public List<HashTag> toHashTagEntity(SalesPost salesPost) {
         List<HashTag> hashTags = new ArrayList<>();
         for(String tag : this.hashTags) {
-            HashTag hashTag = HashTag.builder()
-                    .tag(tag)
-                    .salesPost(salesPost)
-                    .build();
-            hashTags.add(hashTag);
+            tag = tag.trim();
+            if(!tag.equals("")) {
+                HashTag hashTag = HashTag.builder()
+                        .tag(tag)
+                        .salesPost(salesPost)
+                        .build();
+                hashTags.add(hashTag);
+            }
         }
         return hashTags;
     }

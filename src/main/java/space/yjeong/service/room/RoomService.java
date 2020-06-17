@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import space.yjeong.config.auth.dto.SessionUser;
-import space.yjeong.domain.hashtag.HashTagRepository;
+import space.yjeong.domain.hashtag.HashTag;
 import space.yjeong.domain.image.Image;
 import space.yjeong.domain.image.ImageRepository;
 import space.yjeong.domain.room.Room;
@@ -13,6 +13,7 @@ import space.yjeong.domain.salespost.PostStatus;
 import space.yjeong.domain.salespost.SalesPost;
 import space.yjeong.domain.user.User;
 import space.yjeong.exception.RoomNotFoundException;
+import space.yjeong.service.salespost.HashTagService;
 import space.yjeong.service.salespost.SalesPostService;
 import space.yjeong.service.user.UserService;
 import space.yjeong.web.dto.MessageResponseDto;
@@ -28,9 +29,9 @@ import java.util.List;
 public class RoomService {
     private final RoomRepository roomRepository;
     private final ImageRepository imageRepository;
-    private final HashTagRepository hashTagRepository;
     private final UserService userService;
     private final SalesPostService salesPostService;
+    private final HashTagService hashTagService;
 
     @Transactional(readOnly = true)
     public List<RoomResponseDto> readRooms(SessionUser sessionUser) {
@@ -56,8 +57,11 @@ public class RoomService {
 
         SalesPost salesPost = salesPostService.saveSalesPost(requestDto.toSalesPostEntity(user, room));
 
-        if(!requestDto.getHashTags().isEmpty() && requestDto.getHashTags().get(0)!=null)
-            salesPost.setHashTags(hashTagRepository.saveAll(requestDto.toHashTagEntity(salesPost)));
+        List<HashTag> hashTags = new ArrayList<>();
+        if(hashTagService.isHashTagNotNull(requestDto.getHashTags()))
+            hashTags = hashTagService.saveHashTags(requestDto.toHashTagEntity(salesPost));
+        salesPost.setHashTags(hashTags);
+
         salesPost.setImages(imageRepository.saveAll(requestDto.toImagesEntity(imagesSrc, salesPost)));
         room.setSalesPost(salesPost);
 
@@ -81,10 +85,12 @@ public class RoomService {
         userService.checkSameUser(salesPost.getSalesUser(), user);
         salesPost.update(requestDto.toSalesPostEntity());
 
-        if(hashTagRepository.existsBySalesPostId(salesPost.getId()))
-            hashTagRepository.deleteAllBySalesPost(salesPost);
-        if(!requestDto.getHashTags().isEmpty() && requestDto.getHashTags().get(0)!=null)
-            salesPost.setHashTags(hashTagRepository.saveAll(requestDto.toHashTagEntity(salesPost)));
+        hashTagService.deleteHashTags(salesPost);
+
+        List<HashTag> hashTags = new ArrayList<>();
+        if(hashTagService.isHashTagNotNull(requestDto.getHashTags()))
+            hashTags = hashTagService.saveHashTags(requestDto.toHashTagEntity(salesPost));
+        salesPost.setHashTags(hashTags);
 
         List<Image> images = imageRepository.findAllBySalesPostId(salesPost.getId());
         // TODO : 기존 등록된 이미지(url)과 새로 등록된 이미지(File) 검사 후 저장
@@ -106,8 +112,7 @@ public class RoomService {
         // TODO : 서버에 업로드된 이미지 파일 삭제
         imageRepository.deleteAllBySalesPostId(salesPost.getId());
 
-        if(hashTagRepository.existsBySalesPostId(salesPost.getId()))
-            hashTagRepository.deleteAllBySalesPost(salesPost);
+        hashTagService.deleteHashTags(salesPost);
 
         salesPostService.deleteSalesPost(salesPost);
         roomRepository.delete(room);
