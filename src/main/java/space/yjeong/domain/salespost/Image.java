@@ -19,13 +19,17 @@ public class Image {
     @Column(nullable = false)
     private String src;
 
+    @Column(nullable = false)
+    private String filename;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sales_post_id")
     private SalesPost salesPost;
 
     @Builder
-    public Image(String src, SalesPost salesPost) {
+    public Image(String src, String filename, SalesPost salesPost) {
         this.src = src;
+        this.filename = filename;
         this.salesPost = salesPost;
     }
 }

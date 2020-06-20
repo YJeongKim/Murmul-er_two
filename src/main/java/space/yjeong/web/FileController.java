@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import space.yjeong.service.ImageService;
+import space.yjeong.domain.salespost.SalesPost;
+import space.yjeong.service.salespost.ImageService;
 
 import javax.servlet.annotation.MultipartConfig;
 import java.util.List;
@@ -17,8 +18,7 @@ import java.util.List;
 @MultipartConfig(
         fileSizeThreshold 	= 1024,
         maxFileSize 		= -1,
-        maxRequestSize		= -1,
-        location 		    = "C:/fileRepository"
+        maxRequestSize		= -1
 )
 @RequiredArgsConstructor
 @Controller
@@ -28,7 +28,7 @@ public class FileController {
 
     @ApiOperation("다중 이미지 파일 업로드")
     @PostMapping("/upload/images")
-    public ResponseEntity uploadImageFiles(@RequestParam List<MultipartFile> imageFiles, @RequestParam Long roomId) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(imageService.saveImages(imageFiles, roomId));
+    public ResponseEntity uploadImageFiles(@RequestParam List<MultipartFile> imageFiles, @RequestParam SalesPost salesPost) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(imageService.saveImages(imageFiles, salesPost));
     }
 }

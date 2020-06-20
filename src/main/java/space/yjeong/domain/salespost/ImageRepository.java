@@ -12,6 +12,8 @@ public interface ImageRepository extends JpaRepository<Image, Long> {
     List<Image> findAllBySalesPostId(Long salesPostId);
     Image findFirstBySalesPostId(Long salesPostId);
 
+    boolean existsBySalesPostId(Long salesPostId);
+
     @Transactional
     @Modifying(clearAutomatically = true)
     @Query("delete from Image i where i.salesPost.id = :salesPostId")

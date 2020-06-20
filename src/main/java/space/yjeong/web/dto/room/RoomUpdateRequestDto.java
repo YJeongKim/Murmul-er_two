@@ -4,13 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
-import space.yjeong.domain.salespost.HashTag;
-import space.yjeong.domain.salespost.Image;
-import space.yjeong.domain.room.*;
-import space.yjeong.domain.salespost.Lease;
-import space.yjeong.domain.salespost.MaintenanceOption;
-import space.yjeong.domain.salespost.PeriodUnit;
-import space.yjeong.domain.salespost.SalesPost;
+import space.yjeong.domain.room.Heating;
+import space.yjeong.domain.room.Option;
+import space.yjeong.domain.room.Room;
+import space.yjeong.domain.room.RoomType;
+import space.yjeong.domain.salespost.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -56,18 +54,6 @@ public class RoomUpdateRequestDto {
                 .heating(heating)
                 .options(options)
                 .build();
-    }
-
-    public List<Image> toImageEntity(List<String> imagesSrc, SalesPost salesPost) {
-        List<Image> images = new ArrayList<>();
-        for (String src : imagesSrc) {
-            Image image = Image.builder()
-                    .src(src)
-                    .salesPost(salesPost)
-                    .build();
-            images.add(image);
-        }
-        return images;
     }
 
     public SalesPost toSalesPostEntity() {

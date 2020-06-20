@@ -8,7 +8,9 @@ import space.yjeong.domain.room.Room;
 import space.yjeong.domain.room.RoomRepository;
 import space.yjeong.domain.salespost.*;
 import space.yjeong.domain.user.User;
+import space.yjeong.exception.ExpectedException;
 import space.yjeong.exception.RoomNotFoundException;
+import space.yjeong.service.salespost.ImageService;
 import space.yjeong.service.salespost.HashTagService;
 import space.yjeong.service.salespost.SalesPostService;
 import space.yjeong.service.user.UserService;
@@ -25,10 +27,11 @@ import java.util.List;
 public class RoomService {
 
     private final RoomRepository roomRepository;
-    private final ImageRepository imageRepository;
+
     private final UserService userService;
     private final SalesPostService salesPostService;
     private final HashTagService hashTagService;
+    private final ImageService imageService;
 
     @Transactional(readOnly = true)
     public List<RoomResponseDto> readRooms(SessionUser sessionUser) {
@@ -43,78 +46,96 @@ public class RoomService {
 
     @Transactional
     public MessageResponseDto saveRoom(RoomSaveRequestDto requestDto, SessionUser sessionUser) {
-        List<String> imagesSrc = new ArrayList<>();
-        // TODO : 이미지 검사 및 업로드
-//        if (requestDto.getImages().size()<2) throw new NullPointerException();
+        try {
+            Room room = roomRepository.save(requestDto.toRoomsEntity());
 
-        Room room = roomRepository.save(requestDto.toRoomsEntity());
+            User user = userService.findUserBySessionUser(sessionUser);
+            userService.checkUserAuthority(user);
 
-        User user = userService.findUserBySessionUser(sessionUser);
-        userService.checkUserAuthority(user);
+            SalesPost salesPost = salesPostService.saveSalesPost(requestDto.toSalesPostEntity(user, room));
 
-        SalesPost salesPost = salesPostService.saveSalesPost(requestDto.toSalesPostEntity(user, room));
+            List<HashTag> hashTags = new ArrayList<>();
+            if (hashTagService.isHashTagNotNull(requestDto.getHashTags()))
+                hashTags = hashTagService.saveHashTags(requestDto.toHashTagEntity(salesPost));
+            salesPost.setHashTags(hashTags);
 
-        List<HashTag> hashTags = new ArrayList<>();
-        if(hashTagService.isHashTagNotNull(requestDto.getHashTags()))
-            hashTags = hashTagService.saveHashTags(requestDto.toHashTagEntity(salesPost));
-        salesPost.setHashTags(hashTags);
+            List<Image> images = imageService.saveImages(requestDto.getImages(), salesPost);
+            salesPost.setImages(images);
 
-        salesPost.setImages(imageRepository.saveAll(requestDto.toImagesEntity(imagesSrc, salesPost)));
-        room.setSalesPost(salesPost);
+            room.setSalesPost(salesPost);
 
-        return new MessageResponseDto("등록이 완료되었습니다.");
+        } catch (ExpectedException e) {
+            return MessageResponseDto.builder()
+                    .message("등록에 실패하였습니다.")
+                    .subMessage(e.getMessage())
+                    .build();
+        }
+        return MessageResponseDto.builder()
+                .message("등록이 완료되었습니다.").build();
     }
 
     @Transactional
     public MessageResponseDto updateRoom(Long roomId, RoomUpdateRequestDto requestDto, SessionUser sessionUser) {
-        List<String> imagesSrc = new ArrayList<>();
-        // TODO : 이미지 검사 및 업로드
-//        if (requestDto.getImages().size()<2) throw new NullPointerException();
+        try {
+            User user = userService.findUserBySessionUser(sessionUser);
 
-        User user = userService.findUserBySessionUser(sessionUser);
+            Room room = roomRepository.findById(roomId).orElseThrow(
+                    () -> new RoomNotFoundException(roomId)
+            );
+            room.update(requestDto.toRoomEntity());
 
-        Room room = roomRepository.findById(roomId).orElseThrow(
-                () -> new RoomNotFoundException(roomId)
-        );
-        room.update(requestDto.toRoomEntity());
+            SalesPost salesPost = salesPostService.findSalesPostByRoom(roomId);
+            userService.checkSameUser(salesPost.getSalesUser(), user);
+            salesPost.update(requestDto.toSalesPostEntity());
 
-        SalesPost salesPost = salesPostService.findSalesPostByRoom(roomId);
-        userService.checkSameUser(salesPost.getSalesUser(), user);
-        salesPost.update(requestDto.toSalesPostEntity());
+            hashTagService.deleteHashTags(salesPost.getId());
 
-        hashTagService.deleteHashTags(salesPost.getId());
+            List<HashTag> hashTags = new ArrayList<>();
+            if (hashTagService.isHashTagNotNull(requestDto.getHashTags()))
+                hashTags = hashTagService.saveHashTags(requestDto.toHashTagEntity(salesPost));
+            salesPost.setHashTags(hashTags);
 
-        List<HashTag> hashTags = new ArrayList<>();
-        if(hashTagService.isHashTagNotNull(requestDto.getHashTags()))
-            hashTags = hashTagService.saveHashTags(requestDto.toHashTagEntity(salesPost));
-        salesPost.setHashTags(hashTags);
+            imageService.deleteImages(salesPost.getId());
 
-        List<Image> images = imageRepository.findAllBySalesPostId(salesPost.getId());
-        // TODO : 기존 등록된 이미지(url)과 새로 등록된 이미지(File) 검사 후 저장
-
-        return new MessageResponseDto("수정이 완료되었습니다.");
+            List<Image> images = imageService.saveImages(requestDto.getImages(), salesPost);
+            salesPost.setImages(images);
+        } catch (ExpectedException e) {
+            return MessageResponseDto.builder()
+                    .message("수정에 실패하였습니다.")
+                    .subMessage(e.getMessage())
+                    .build();
+        }
+        return MessageResponseDto.builder()
+                .message("수정이 완료되었습니다.").build();
     }
 
     @Transactional
     public MessageResponseDto deleteRoom(Long roomId, SessionUser sessionUser) {
-        User user = userService.findUserBySessionUser(sessionUser);
+        try {
+            User user = userService.findUserBySessionUser(sessionUser);
 
-        Room room = roomRepository.findById(roomId).orElseThrow(
-                () -> new RoomNotFoundException(roomId)
-        );
+            Room room = roomRepository.findById(roomId).orElseThrow(
+                    () -> new RoomNotFoundException(roomId)
+            );
 
-        SalesPost salesPost = salesPostService.findSalesPostByRoom(roomId);
-        userService.checkSameUser(salesPost.getSalesUser(), user);
+            SalesPost salesPost = salesPostService.findSalesPostByRoom(roomId);
+            userService.checkSameUser(salesPost.getSalesUser(), user);
 
-        // TODO : 서버에 업로드된 이미지 파일 삭제
-        imageRepository.deleteAllBySalesPostId(salesPost.getId());
+            imageService.deleteImages(salesPost.getId());
 
-        hashTagService.deleteHashTags(salesPost.getId());
+            hashTagService.deleteHashTags(salesPost.getId());
 
-        salesPostService.deleteSalesPost(salesPost);
-        roomRepository.delete(room);
+            salesPostService.deleteSalesPost(salesPost);
 
-        return new MessageResponseDto("삭제가 완료되었습니다.");
+            roomRepository.delete(room);
+        } catch (ExpectedException e) {
+            return MessageResponseDto.builder()
+                    .message("삭제에 실패하였습니다.")
+                    .subMessage(e.getMessage())
+                    .build();
+        }
+        return MessageResponseDto.builder()
+                .message("삭제가 완료되었습니다.").build();
     }
 
     @Transactional
@@ -125,6 +146,7 @@ public class RoomService {
         userService.checkSameUser(salesPost.getSalesUser(), user);
         salesPost.updatePostStatus(postStatus);
 
-        return new MessageResponseDto("게시상태 수정이 완료되었습니다.");
+        return MessageResponseDto.builder()
+                .message("게시상태 수정이 완료되었습니다.").build();
     }
 }
