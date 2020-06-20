@@ -18,7 +18,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class RoomSaveRequestDto {
+public class RoomRequestDto {
     private BigDecimal latitude;
     private BigDecimal longitude;
     private String jibunAddress;
@@ -41,7 +41,7 @@ public class RoomSaveRequestDto {
     private List<MaintenanceOption> maintenanceOptions;
     private List<MultipartFile> images;
 
-    public Room toRoomsEntity() {
+    public Room toRoomEntity() {
         return Room.builder()
                 .latitude(latitude)
                 .longitude(longitude)

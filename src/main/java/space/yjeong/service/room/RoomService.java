@@ -6,18 +6,20 @@ import org.springframework.transaction.annotation.Transactional;
 import space.yjeong.config.auth.dto.SessionUser;
 import space.yjeong.domain.room.Room;
 import space.yjeong.domain.room.RoomRepository;
-import space.yjeong.domain.salespost.*;
+import space.yjeong.domain.salespost.HashTag;
+import space.yjeong.domain.salespost.Image;
+import space.yjeong.domain.salespost.PostStatus;
+import space.yjeong.domain.salespost.SalesPost;
 import space.yjeong.domain.user.User;
 import space.yjeong.exception.ExpectedException;
 import space.yjeong.exception.RoomNotFoundException;
-import space.yjeong.service.salespost.ImageService;
 import space.yjeong.service.salespost.HashTagService;
+import space.yjeong.service.salespost.ImageService;
 import space.yjeong.service.salespost.SalesPostService;
 import space.yjeong.service.user.UserService;
 import space.yjeong.web.dto.MessageResponseDto;
+import space.yjeong.web.dto.room.RoomRequestDto;
 import space.yjeong.web.dto.room.RoomResponseDto;
-import space.yjeong.web.dto.room.RoomSaveRequestDto;
-import space.yjeong.web.dto.room.RoomUpdateRequestDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,9 +47,9 @@ public class RoomService {
     }
 
     @Transactional
-    public MessageResponseDto saveRoom(RoomSaveRequestDto requestDto, SessionUser sessionUser) {
+    public MessageResponseDto saveRoom(RoomRequestDto requestDto, SessionUser sessionUser) {
         try {
-            Room room = roomRepository.save(requestDto.toRoomsEntity());
+            Room room = roomRepository.save(requestDto.toRoomEntity());
 
             User user = userService.findUserBySessionUser(sessionUser);
             userService.checkUserAuthority(user);
@@ -75,7 +77,7 @@ public class RoomService {
     }
 
     @Transactional
-    public MessageResponseDto updateRoom(Long roomId, RoomUpdateRequestDto requestDto, SessionUser sessionUser) {
+    public MessageResponseDto updateRoom(Long roomId, RoomRequestDto requestDto, SessionUser sessionUser) {
         try {
             User user = userService.findUserBySessionUser(sessionUser);
 
@@ -86,7 +88,7 @@ public class RoomService {
 
             SalesPost salesPost = salesPostService.findSalesPostByRoom(roomId);
             userService.checkSameUser(salesPost.getSalesUser(), user);
-            salesPost.update(requestDto.toSalesPostEntity());
+            salesPost.update(requestDto.toSalesPostEntity(user, room));
 
             hashTagService.deleteHashTags(salesPost.getId());
 
