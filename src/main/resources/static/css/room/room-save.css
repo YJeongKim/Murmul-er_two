@@ -1,0 +1,238 @@
+@charset "UTF-8";
+
+table {
+    border-top: 1px solid #B0C4DE;
+    width: 100%;
+    margin: 30px auto;
+    font-size: 17px;
+    border-bottom: 2px solid #B0C4DE;
+}
+
+td.tbTitle {
+    background-color: rgba(100, 149, 237, 0.7);
+    text-align: center;
+    font-weight: bold;
+    color: white;
+}
+
+td.tbSubTitle {
+    width: 200px;
+    text-align: center;
+    border-right: 1px solid #B0C4DE;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+td.tdContent {
+    width: calc(100% - 200px);
+    padding-left: 10px;
+}
+
+td.tdHalf {
+    width: calc(100% - 400px);
+    padding-left: 10px;
+    border-right: 1px solid #B0C4DE;
+}
+
+table > tbody > tr > td {
+    height: 30px;
+    border-bottom: 1px solid #B0C4DE;
+}
+
+table > tbody > tr > td:last-child {
+    border-right: 0;
+}
+
+table tr:last-child > td {
+    border-bottom: 0;
+}
+
+input[type=text], input[type=number] {
+    height: 25px;
+    font-size: 14px;
+    border: 1px solid silver;
+    border-radius: 6px;
+    padding: 1px 12px;
+}
+
+.alignRight {
+    text-align: right;
+}
+
+@media (min-width: 512px) {
+    .fullTextBox {
+        width: 300px;
+        margin: 5px 0;
+    }
+    .addrTextBox {
+        width: 190px;
+        margin: 5px 0;
+    }
+    textarea {
+        width: 300px;
+    }
+    .tag {
+        width: calc(100% - 30px);
+    }
+    .hashTag {
+        display: inline-block;
+        float: bottom;
+    }
+}
+
+@media (max-width: 1130px) {
+    .fullTextBox {
+        width: 100%;
+        margin: 5px 0;
+    }
+    .addrTextBox {
+        width: calc(100% - 110px);
+        margin: 5px 0;
+    }
+    textarea {
+        width: 100%;
+    }
+    .tag {
+        width: 250px;
+    }
+    .hashTag {
+        margin-right: 30px;
+    }
+}
+
+@media (min-width: 1130px) {
+    .fullTextBox {
+        width: 900px;
+        margin: 5px 0;
+    }
+    .addrTextBox {
+        width: 790px;
+        margin: 5px 0;
+    }
+    textarea {
+        width: 900px;
+    }
+    .tag {
+        width: 250px;
+    }
+    .hashTag {
+        margin-right: 30px;
+    }
+}
+
+textarea {
+    height: 100px;
+    font-size: 14px;
+    border: 1px solid silver;
+    border-radius: 6px;
+    padding: 6px 15px;
+    margin: 5px 10px 5px 0;
+    resize: none;
+}
+
+.hash {
+    margin-right: 10px;
+    font-weight: bold;
+    color: cornflowerblue;
+}
+
+.tag {
+    padding: 1px 12px;
+    margin: 5px 10px;
+}
+
+.selectBox {
+    cursor: pointer;
+    height: 25px;
+    font-size: 14px;
+    border: 1px solid #6495ED;
+    border-radius: 6px;
+    padding: 1px 15px;
+    margin: 5px 0px;
+}
+
+td > input:first-child {
+    margin-left: 0;
+}
+
+button {
+    font-size: 15px;
+    border: 1px solid #6495ED;
+    background-color: ghostwhite;
+    outline: 0;
+    border-radius: .25rem;
+    padding: 2px 13px;
+    margin: 5px 10px 5px 0;
+}
+
+button:hover {
+    cursor: pointer;
+    border: 1px solid rgba(100, 149, 237, 0.4);
+    background-color: rgba(100, 149, 237, 0.7);
+    color: white;
+    transition: all linear 0.2s;
+}
+
+.lastButton {
+    text-align: center;
+}
+
+.lastButton button {
+    font-size: 18px;
+    outline: 0;
+    border-radius: 10px;
+    padding: 5px 40px;
+    margin: 30px 10px;
+    height: 45px;
+    width: 150px;
+}
+
+.upload {
+    width: 124px;
+    height: 124px;
+    margin: 20px;
+    border: 2px solid #6495ED;
+    background-color: white;
+    vertical-align: top;
+}
+
+.prevImage, .addImage {
+    width: 124px;
+    height: 124px;
+    margin: 20px;
+    border: 2px solid #6495ED;
+    border-radius: 13px;
+    -moz-border-radius: 13px;
+    -khtml-border-radius: 13px;
+    -webkit-border-radius: 13px;
+}
+
+.img {
+    height: 83%;
+    width: 100%;
+}
+
+.img-wrap {
+    position: relative;
+    display: inline-block;
+}
+
+.img-wrap .close {
+    position: absolute;
+    right: 5px;
+    z-index: 1000;
+    /*padding: 26px 23px;*/ /*사진 모서리*/
+    padding: 5px 2px; /*사진 벗어난 모서리*/
+    color: #000;
+    font-weight: bold;
+    cursor: pointer;
+    opacity: .2;
+    text-align: center;
+    font-size: 22px;
+    line-height: 10px;
+    /*border-radius: 50%;*/
+}
+
+.img-wrap:hover .close {
+    opacity: 1;
+}

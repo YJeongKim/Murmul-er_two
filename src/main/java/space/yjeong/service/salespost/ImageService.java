@@ -24,6 +24,7 @@ import java.util.List;
 public class ImageService {
 
     private final int MIN_SIZE = 2;
+    private final int MAX_SIZE = 10;
 
     private final ImageRepository imageRepository;
     private final FileHelper fileHelper;
@@ -36,7 +37,8 @@ public class ImageService {
 
         if (folder == null) throw new FileUploadException();
 
-        if (fileList.size() < MIN_SIZE) throw new UnableSaveImageException(UnableSaveImageException.MESSAGE_SIZE);
+        if (fileList.size() < MIN_SIZE || fileList.size() > MAX_SIZE)
+            throw new UnableSaveImageException(UnableSaveImageException.MESSAGE_SIZE);
 
         for (MultipartFile file : fileList) {
             if (checkImageExtension(file.getOriginalFilename()) == false)
