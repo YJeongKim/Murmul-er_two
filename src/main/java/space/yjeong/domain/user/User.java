@@ -23,6 +23,13 @@ public class User extends BaseTimeEntity {
     @Column(nullable = false)
     private String email;
 
+    @Column(nullable = false)
+    private String nickname;
+
+    @Column
+    private String phone;
+    // 핸드폰 등록 후 인증해야 USER
+
     @Column
     private String picture;
 
@@ -34,12 +41,14 @@ public class User extends BaseTimeEntity {
     public User(String name, String email, String picture, Role role) {
         this.name = name;
         this.email = email;
+        this.nickname = name;
+        this.phone = "";
         this.picture = picture;
         this.role = role;
     }
 
-    public User update(String name, String picture) {
-        this.name = name;
+    public User update(String nickname, String picture) {
+        this.nickname = nickname;
         this.picture = picture;
         return this;
     }

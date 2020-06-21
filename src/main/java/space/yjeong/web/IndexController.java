@@ -22,20 +22,20 @@ public class IndexController {
         model.addAttribute("posts", postsService.findAllDesc());
         SessionUser user = (SessionUser) httpSession.getAttribute("user");
         if(user!=null) {
-            model.addAttribute("userName", user.getName());
+            model.addAttribute("userName", user.getNickname());
         }
         return "index";
     }
 
     @GetMapping("/posts/save")
     public String postsSave() {
-        return "posts-save";
+        return "/posts/posts-save";
 }
 
     @GetMapping("/posts/update/{id}")
     public String postsUpdate(@PathVariable Long id, Model model) {
         PostsResponseDto dto = postsService.findById(id);
         model.addAttribute("post", dto);
-        return "posts-update";
+        return "/posts/posts-update";
     }
 }
