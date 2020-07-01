@@ -2,6 +2,7 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700');
 @import url('https://fonts.googleapis.com/css2?family=Turret+Road:wght@400');
 @import url('https://fonts.googleapis.com/css2?family=Julius+Sans+One');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400');
 
 body {
     font-family: Poppins;
@@ -36,8 +37,8 @@ body {
     font-size: 1.5rem;
 }
 .display-7 {
-    font-family: 'Comfortaa', sans-serif;
-    font-size: 1.1rem;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 1rem;
 }
 /* ---- Fluid typography for mobile devices ---- */
 /* 1.4 - font scale ratio ( bootstrap == 1.42857 ) */
@@ -64,6 +65,11 @@ body {
         font-size: 1.2rem;
         font-size: calc( 1.175rem + (1.5 - 1.175) * ((100vw - 20rem) / (48 - 20)));
         line-height: calc( 1.4 * (1.175rem + (1.5 - 1.175) * ((100vw - 20rem) / (48 - 20))));
+    }
+    .display-7 {
+        font-size: 0.8rem;
+        font-size: calc( 1rem + (1 - 1) * ((100vw - 20rem) / (48 - 20)));
+        line-height: calc( 1.4 * (1rem + (1 - 1) * ((100vw - 20rem) / (48 - 20))));
     }
 }
 /* Buttons */
@@ -124,7 +130,7 @@ body {
     background-color: #a38dfd !important;
 }
 .bg-success {
-    background-color: #b2ccd2 !important;
+    background-color: #6495ed !important;
 }
 .bg-info {
     background-color: #ffa0a4 !important;
@@ -297,23 +303,23 @@ body {
     transform: scale(0);
     transition-duration: 0.5s;
     transition-timing-function: ease-out;
-    background-color: #82acb6;
-    border-color: #82acb6;
+    background-color: #6495ed;
+    border-color: #6495ed;
     border-radius: 100px;
 }
 .btn-success,
 .btn-success:active,
 .btn-success.active {
-    background-color: #b2ccd2 !important;
-    border-color: #b2ccd2 !important;
+    background-color: #93b5f2 !important;
+    border-color: #93b5f2 !important;
     color: #ffffff !important;
 }
 .btn-success:hover,
 .btn-success:focus,
 .btn-success.focus {
     color: #ffffff !important;
-    background-color: #82acb6 !important;
-    border-color: #82acb6 !important;
+    background-color: #6495ed !important;
+    border-color: #6495ed !important;
 }
 .btn-success:hover:before,
 .btn-success:focus:before,
@@ -324,8 +330,8 @@ body {
 .btn-success.disabled,
 .btn-success:disabled {
     color: #ffffff !important;
-    background-color: #82acb6 !important;
-    border-color: #82acb6 !important;
+    background-color: #6495ed !important;
+    border-color: #6495ed !important;
 }
 .btn-warning {
     -webkit-transform: perspective(1px) translateZ(0);
@@ -695,23 +701,23 @@ body {
     transform: scale(0);
     transition-duration: 0.5s;
     transition-timing-function: ease-out;
-    background-color: #b2ccd2;
-    border-color: #b2ccd2;
+    background-color: #93b5f2;
+    border-color: #93b5f2;
     border-radius: 100px;
 }
 .btn-success-outline,
 .btn-success-outline:active,
 .btn-success-outline.active {
     background: none;
-    border-color: #72a1ac;
-    color: #72a1ac !important;
+    border-color: #6495ed;
+    color: #6495ed !important;
 }
 .btn-success-outline:hover,
 .btn-success-outline:focus,
 .btn-success-outline.focus {
     color: #ffffff !important;
-    background-color: #b2ccd2;
-    border-color: #b2ccd2;
+    background-color: #93b5f2;
+    border-color: #93b5f2;
 }
 .btn-success-outline:hover:before,
 .btn-success-outline:focus:before,
@@ -722,8 +728,8 @@ body {
 .btn-success-outline.disabled,
 .btn-success-outline:disabled {
     color: #ffffff !important;
-    background-color: #b2ccd2 !important;
-    border-color: #b2ccd2 !important;
+    background-color: #93b5f2 !important;
+    border-color: #93b5f2 !important;
 }
 .btn-warning-outline {
     -webkit-transform: perspective(1px) translateZ(0);
@@ -945,7 +951,7 @@ a.text-secondary:focus {
 }
 a.text-success:hover,
 a.text-success:focus {
-    color: #72a1ac !important;
+    color: #6495ed !important;
 }
 a.text-info:hover,
 a.text-info:focus {
@@ -968,7 +974,7 @@ a.text-black:focus {
     color: #4d4d4d !important;
 }
 .alert-success {
-    background-color: #b2ccd2;
+    background-color: #93b5f2;
 }
 .alert-info {
     background-color: #ffa0a4;
@@ -1274,13 +1280,14 @@ body {
     display: none;
 }
 .cid-rbb1P7Oggj .dropdown-item:before {
-    font-family: MobiriseIcons !important;
-    content: '\e966';
+    font-family: "Font Awesome 5 Free" !important;
+    content: '\f061';
+    font-weight: 900;
     display: inline-block;
     width: 0;
     position: absolute;
     left: 1rem;
-    top: 0.5rem;
+    top: 0.75rem;
     margin-right: 0.5rem;
     line-height: 1;
     font-size: inherit;
@@ -1311,7 +1318,7 @@ body {
         content: '';
         width: 0;
         height: 3px;
-        bottom: -0.5rem;
+        bottom: 0.15rem;
         left: 50%;
         background: linear-gradient(90deg, #a38dfd, #fe525b);
         transition: width 200ms linear, left 200ms linear;
@@ -1324,6 +1331,9 @@ body {
     .cid-rbb1P7Oggj .nav-item .nav-link:hover::before {
         width: calc(100% + 2rem);
         left: -1rem;
+    }
+    .cid-rbb1P7Oggj .nav-item .user::before {
+        background: linear-gradient(90deg, #ffffff00, #ffffff00);
     }
 }
 .cid-rbb1P7Oggj .dropdown .dropdown-menu .dropdown-item {
@@ -1525,6 +1535,7 @@ body {
 }
 .cid-rbb1P7Oggj .navbar-buttons {
     text-align: center;
+    display: flex;
 }
 .cid-rbb1P7Oggj button.navbar-toggler {
     outline: none;

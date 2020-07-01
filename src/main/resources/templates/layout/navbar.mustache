@@ -17,43 +17,60 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav nav-dropdown" data-app-modern-menu="true">
-                <li class="nav-item  dropdown">
-                    <a class="nav-link link text-black display-4" href="#" data-toggle="dropdown-submenu">
+                <li class="nav-item dropdown">
+                    <a class="nav-link link text-black display-7" href="#" data-toggle="dropdown-submenu">
                         방 검색하기
                     </a>
                 </li>
-                <li class="nav-item  dropdown">
-                    <a class="nav-link link text-black display-4" href="#" data-toggle="dropdown-submenu">
+                <li class="nav-item dropdown">
+                    <a class="nav-link link text-black display-7" href="#" data-toggle="dropdown-submenu">
                         방 관리하기
                     </a>
                 </li>
-                <li class="nav-item  dropdown">
-                    <a class="nav-link link text-black display-4" href="#" data-toggle="dropdown-submenu">
+                <li class="nav-item dropdown">
+                    <a class="nav-link link text-black display-7" href="#" data-toggle="dropdown-submenu">
                         리뷰
                     </a>
                 </li>
-                <li class="nav-item  dropdown">
-                    <a class="nav-link link text-black display-4 dropdown-toggle" href="#"  data-toggle="dropdown-submenu">
+                <li class="nav-item dropdown">
+                    <a class="nav-link link text-black display-7 dropdown-toggle" href="#"  data-toggle="dropdown-submenu">
                         마이페이지
                     </a><div class="dropdown-menu">
-                    <a class="dropdown-item text-black display-4" href="" aria-expanded="false">최근 본 목록</a>
-                    <a class="dropdown-item text-black display-4" href="" aria-expanded="false">관심 목록</a>
-                    <a class="dropdown-item text-black display-4" href="" aria-expanded="false">계약서 관리</a>
-                    <a class="dropdown-item text-black display-4" href="" aria-expanded="false">개인정보 관리</a></div>
+                    <a class="dropdown-item text-black display-7" href="" aria-expanded="false">최근 본 목록</a>
+                    <a class="dropdown-item text-black display-7" href="" aria-expanded="false">관심 목록</a>
+                    <a class="dropdown-item text-black display-7" href="" aria-expanded="false">계약서 관리</a>
+                    <a class="dropdown-item text-black display-7" href="" aria-expanded="false">개인정보 관리</a></div>
                 </li>
-                <li class="nav-item  dropdown">
-                    <a class="nav-link link text-black display-4 dropdown-toggle" href="#"  data-toggle="dropdown-submenu">
+                <li class="nav-item dropdown">
+                    <a class="nav-link link text-black display-7 dropdown-toggle" href="#"  data-toggle="dropdown-submenu">
                         고객센터
                     </a><div class="dropdown-menu">
-                    <a class="text-black dropdown-item display-4" href="">공지사항<br></a>
-                    <a class="text-black dropdown-item display-4" href="">FAQ<br></a>
-                    <a class="text-black dropdown-item display-4" href="">1:1 문의<br></a>
-                    <a class="text-black dropdown-item display-4" href="">이용약관<br></a></div>
+                    <a class="text-black dropdown-item display-7" href="">공지사항<br></a>
+                    <a class="text-black dropdown-item display-7" href="">FAQ<br></a>
+                    <a class="text-black dropdown-item display-7" href="">1:1 문의<br></a>
+                    <a class="text-black dropdown-item display-7" href="">이용약관<br></a></div>
                 </li>
             </ul>
-            <span class="line"> </span>
+
             <div class="navbar-buttons mbr-section-btn">
-                <a class="btn btn-sm btn-info display-4" href="">GOOGLE LOGIN</a>
+                {{#userName}}
+                <ul class="navbar-nav nav-dropdown" data-app-modern-menu="true">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link user link text-black display-4 dropdown-toggle" href="#" data-toggle="dropdown-submenu" style="color: #333333;">
+                            {{#userPicture}}<img src="{{userPicture}}">{{/userPicture}}
+                            {{^userPicture}}<img src="/img/index/default-picture.png">{{/userPicture}}
+                            {{userName}}
+                        </a><div class="dropdown-menu user-menu">
+                        <a class="dropdown-item display-4" href="#"><i class="far fa-user"></i> Profile</a>
+                        <a class="dropdown-item display-4" href="#"><i class="far fa-comment-dots"></i> Messenger <span class="badge">10</span></a>
+                        <a class="dropdown-item display-4" href="#"><i class="far fa-bell"></i> Notification <span class="badge">1</span></a></div>
+                    </li>
+                </ul>
+                    <a href="/logout" class="btn btn-sm btn-success display-4" role="button">LOGOUT</a>
+                {{/userName}}
+                {{^userName}}
+                    <a href="/oauth2/authorization/google" class="btn btn-sm btn-info display-4" role="button">GOOGLE LOGIN</a>
+                {{/userName}}
             </div>
         </div>
     </nav>

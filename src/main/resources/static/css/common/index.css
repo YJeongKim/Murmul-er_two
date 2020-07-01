@@ -434,6 +434,9 @@ nav .mbr-section-btn {
 .nav-dropdown .link {
     padding: .667em 1.667em !important;
     margin: 0 !important; }
+.nav-dropdown .user {
+    padding: 1.125em 1.667em !important;
+    margin: 0 !important; }
 
 .row {
     display: -webkit-flex;
