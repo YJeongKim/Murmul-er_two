@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700');
 @import url('https://fonts.googleapis.com/css2?family=Turret+Road:wght@400');
 @import url('https://fonts.googleapis.com/css2?family=Julius+Sans+One');
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;600;700');
 
 body {
     font-family: Poppins;
@@ -35,6 +35,10 @@ body {
 .display-5 {
     font-family: 'Comfortaa', sans-serif;
     font-size: 1.5rem;
+}
+.display-6 {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 1.3rem;
 }
 .display-7 {
     font-family: 'Noto Sans KR', sans-serif;
@@ -1788,6 +1792,17 @@ body {
     transform: none !important;
     padding: 10px;
 }
+.cid-qyvQ2gAtvk h4 {
+    font-weight: 600;
+    margin-top: 20px;
+    margin-bottom: 0;
+    text-align: center;
+    color: #3a3a3a;
+}
+.cid-qyvQ2gAtvk p {
+    color: #4c4c4c;
+    text-align: center;
+}
 .cid-rbaMy1tJOl .mbr-shop .galleryItem h4,
 .cid-rbaMy1tJOl .mbr-shop .carousel-item h4 {
     font-style: normal;
@@ -2500,3 +2515,7 @@ body {
 
 .moresttitle {font-weight:normal; font-size: 2rem;}
 
+.cid-qyvQ2gAtvk {
+    padding-top: 60px;
+    padding-bottom: 60px;
+    background-color: #ffffff; }

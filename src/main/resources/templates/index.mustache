@@ -1,50 +1,70 @@
-{{>layout/header}}
-</head>
-<body>
-
 {{>layout/navbar}}
+<section class="header3 cid-rbb39CwPuR" id="header3-6" data-sortbtn="btn-primary">
+    <div class="mbr-overlay" style="opacity: 0.7;"></div>
 
-{{>index-main}}
-
-<h1>Murmul-er</h1>
-<div class="col-md-12">
-<!-- 로그인 기능 영역 -->
-    <div class="row">
-        <div class="col-md-6">
-            <a href="/posts/save" role="button" class="btn btn-primary">글 등록</a>
-            {{#userName}}
-                Logged in as: <span id="user">{{userName}}</span>
-                <a href="/logout" class="btn btn-info active" role="button">Logout</a>
-            {{/userName}}
-            {{^userName}}
-                <a href="/oauth2/authorization/google" class="btn btn-success active" role="button">Google Login</a>
-            {{/userName}}
+    <div class="container align-right margin-right">
+        <div class="row justify-content-center">
+            <div class="media-container-column mbr-white col-md-10">
+                <h1 class="mbr-section-title align-right mbr-bold pb-3 mbr-fonts-style display-5">잠시 당신의 집에 머물게요</h1>
+                <h3 class="mbr-section-subtitle align-right mbr-light pb-3 mbr-fonts-style display-1">
+                    Murmul-er
+                </h3>
+            </div>
         </div>
     </div>
-</div>
-<br>
-<!-- 목록 출력 영역 -->
-<table class="table table-horizontal table-bordered">
-    <thead class="thead-strong">
-    <tr>
-        <th>게시글번호</th>
-        <th>제목</th>
-        <th>작성자</th>
-        <th>최종수정일</th>
-    </tr>
-    </thead>
-    <tbody id="tbody">
-    {{#posts}}
-        <tr>
-            <td>{{id}}</td>
-            <td><a href="/posts/update/{{id}}">{{title}}</a></td>
-            <td>{{author}}</td>
-            <td>{{modifiedDate}}</td>
-        </tr>
-    {{/posts}}
-    </tbody>
-    <img src="/img/index/main2.jpg"/>
-</table>
-</div>
+</section>
 
+<section class="cid-qyvQ2gAtvk" data-rv-view="1349">
+    <div class="container">
+        <div class="media-container-row">
+            <div class="card p-3 col-12 col-md-6 col-lg-4">
+                <div class="card-wrapper">
+                    <div class="card-img">
+                        <img src="/img/index/sub1.jpg" media-simple="true">
+                    </div>
+                    <div class="card-box">
+                        <h4 class="card-title pb-3 display-6">자취방 임대 및 양도</h4>
+                        <p class="mbr-text display-7">당신이 사용하지 않는 빈 방을 활용하세요.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card p-3 col-12 col-md-6 col-lg-4">
+                <div class="card-wrapper">
+                    <div class="card-img">
+                        <img src="/img/index/sub2.jpg" media-simple="true">
+                    </div>
+                    <div class="card-box ">
+                        <h4 class="card-title pb-3 display-6">전대차 임대차 계약</h4>
+                        <p class="mbr-text display-7">편리하고 부담없이 당신이 머물 집을 구해보세요.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card p-3 col-12 col-md-6 col-lg-4">
+                <div class="card-wrapper">
+                    <div class="card-img">
+                        <img src="/img/index/sub3.jpg" media-simple="true">
+                    </div>
+                    <div class="card-box">
+                        <h4 class="card-title pb-3 display-6">안전한 계약서 관리</h4>
+                        <p class="mbr-text display-7">블록체인 기반으로 계약서를 안전하게 관리하세요.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card p-3 col-12 col-md-6 col-lg-4">
+                <div class="card-wrapper">
+                    <div class="card-img">
+                        <img src="/img/index/sub4.jpg" media-simple="true">
+                    </div>
+                    <div class="card-box">
+                        <h4 class="card-title pb-3 display-6">편리한 검색 및 비교</h4>
+                        <p class="mbr-text display-7">당신이 원하는 조건의 집을 찾아보세요.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 {{>layout/footer}}
