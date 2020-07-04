@@ -318,3 +318,9 @@
     float: left;
     margin-right: 10px;
 }
+.top-background {
+    margin-bottom: 70px;
+    height: 85px;
+    background: linear-gradient(30deg, #6495ED, #ffbaba);
+    opacity: 0.6;
+}
