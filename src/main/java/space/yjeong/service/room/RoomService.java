@@ -3,6 +3,7 @@ package space.yjeong.service.room;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import space.yjeong.config.auth.dto.SessionUser;
 import space.yjeong.domain.room.Room;
 import space.yjeong.domain.room.RoomRepository;
@@ -49,10 +50,11 @@ public class RoomService {
     @Transactional
     public MessageResponseDto saveRoom(RoomRequestDto requestDto, SessionUser sessionUser) {
         try {
-            Room room = roomRepository.save(requestDto.toRoomEntity());
-
             User user = userService.findUserBySessionUser(sessionUser);
-            userService.checkUserAuthority(user);
+            /* 현재 user 권한 : guest, 휴대폰 인증 후 : user 변경 */
+            // userService.checkUserAuthority(user);
+
+            Room room = roomRepository.save(requestDto.toRoomEntity());
 
             SalesPost salesPost = salesPostService.saveSalesPost(requestDto.toSalesPostEntity(user, room));
 
@@ -60,20 +62,13 @@ public class RoomService {
             if (hashTagService.isHashTagNotNull(requestDto.getHashTags()))
                 hashTags = hashTagService.saveHashTags(requestDto.toHashTagEntity(salesPost));
             salesPost.setHashTags(hashTags);
-
-            List<Image> images = imageService.saveImages(requestDto.getImages(), salesPost);
-            salesPost.setImages(images);
-
-            room.setSalesPost(salesPost);
-
         } catch (ExpectedException e) {
             return MessageResponseDto.builder()
                     .message("등록에 실패하였습니다.")
                     .subMessage(e.getMessage())
                     .build();
         }
-        return MessageResponseDto.builder()
-                .message("등록이 완료되었습니다.").build();
+        return new MessageResponseDto("등록이 완료되었습니다.");
     }
 
     @Transactional
@@ -99,16 +94,15 @@ public class RoomService {
 
             imageService.deleteImages(salesPost.getId());
 
-            List<Image> images = imageService.saveImages(requestDto.getImages(), salesPost);
-            salesPost.setImages(images);
+//            List<Image> images = imageService.saveImages(imageList, salesPost);
+//            salesPost.setImages(images);
         } catch (ExpectedException e) {
             return MessageResponseDto.builder()
                     .message("수정에 실패하였습니다.")
                     .subMessage(e.getMessage())
                     .build();
         }
-        return MessageResponseDto.builder()
-                .message("수정이 완료되었습니다.").build();
+        return new MessageResponseDto("수정이 완료되었습니다.");
     }
 
     @Transactional
@@ -136,8 +130,7 @@ public class RoomService {
                     .subMessage(e.getMessage())
                     .build();
         }
-        return MessageResponseDto.builder()
-                .message("삭제가 완료되었습니다.").build();
+        return new MessageResponseDto("삭제가 완료되었습니다.");
     }
 
     @Transactional
@@ -148,7 +141,26 @@ public class RoomService {
         userService.checkSameUser(salesPost.getSalesUser(), user);
         salesPost.updatePostStatus(postStatus);
 
-        return MessageResponseDto.builder()
-                .message("게시상태 수정이 완료되었습니다.").build();
+        return new MessageResponseDto("게시상태 수정이 완료되었습니다.");
+    }
+
+    public MessageResponseDto setImagesByUser(List<MultipartFile> imageFiles, SessionUser sessionUser) {
+        try {
+            User user = userService.findUserBySessionUser(sessionUser);
+
+            SalesPost salesPost = salesPostService.findLatestSalesPostByUser(user.getId());
+
+            List<Image> images = imageService.saveImages(imageFiles, salesPost);
+            salesPost.setImages(images);
+
+            Room room = roomRepository.findBySalesPostId(salesPost.getId());
+            room.setSalesPost(salesPost);
+        } catch (ExpectedException e) {
+            return MessageResponseDto.builder()
+                    .message("이미지 업로드에 실패하였습니다.")
+                    .subMessage(e.getMessage())
+                    .build();
+        }
+        return new MessageResponseDto("이미지 업로드가 완료되었습니다.");
     }
 }

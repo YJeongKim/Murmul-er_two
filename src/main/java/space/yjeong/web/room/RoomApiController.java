@@ -35,7 +35,8 @@ public class RoomApiController {
 
     @ApiOperation("방 수정")
     @PutMapping("/{roomId}")
-    public ResponseEntity updateRoom(@PathVariable Long roomId, @RequestBody RoomRequestDto requestDto) {
+    public ResponseEntity updateRoom(@PathVariable Long roomId,
+                                     @RequestBody RoomRequestDto requestDto) {
         SessionUser user = (SessionUser) httpSession.getAttribute("user");
         return ResponseEntity.status(HttpStatus.OK).body(roomService.updateRoom(roomId, requestDto, user));
     }

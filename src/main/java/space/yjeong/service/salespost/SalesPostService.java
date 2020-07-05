@@ -29,6 +29,10 @@ public class SalesPostService {
                 .orElseThrow(() -> new SalesPostNotFoundException(salesPostId));
     }
 
+    public SalesPost findLatestSalesPostByUser(Long userId) {
+        return salesPostRepository.findBySalesUserIdOrderByIdDesc(userId);
+    }
+
     public SalesPost saveSalesPost(SalesPost salesPost) {
         return salesPostRepository.save(salesPost);
     }

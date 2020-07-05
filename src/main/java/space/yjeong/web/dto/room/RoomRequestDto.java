@@ -3,7 +3,6 @@ package space.yjeong.web.dto.room;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
 import space.yjeong.domain.room.Heating;
 import space.yjeong.domain.room.Option;
 import space.yjeong.domain.room.Room;
@@ -39,7 +38,6 @@ public class RoomRequestDto {
     private PeriodUnit periodUnit;
     private Integer maintenanceFee;
     private List<MaintenanceOption> maintenanceOptions;
-    private List<MultipartFile> images;
 
     public Room toRoomEntity() {
         return Room.builder()

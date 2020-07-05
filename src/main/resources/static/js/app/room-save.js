@@ -2,7 +2,6 @@ let allAddress = {};
 let maintenanceOptionList = [];
 let optionList = [];
 let hashTagList = [];
-let imageList = [];
 
 let selectedRoomType = 0;
 let selectedLease = 0;
@@ -18,18 +17,10 @@ let cnt = 0;
 const selectedColor = 'rgb(100, 149, 237)';
 const maxMoney = 210000;
 
+// 이미지를 전송할 폼 데이터
 let formData = new FormData();
 
-var mapContainer = document.getElementById('map'), // 지도를 표시할 div
-    mapOption = {
-        center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
-        level: 3 // 지도의 확대 레벨
-    };
-
-// 지도를 생성합니다
-var map = new kakao.maps.Map(mapContainer, mapOption);
-
-// 장소 검색 객체를 생성합니다
+// 장소 검색 객체 생성
 var ps = new kakao.maps.services.Places();
 
 var room_save = {
@@ -40,7 +31,6 @@ var room_save = {
 
         $('#btn-save').on('click', function () {
             $.checkInput();
-            // _this.save();
         });
         $('#btn-cancel').on('click', function () {
             _this.cancel();
@@ -48,21 +38,6 @@ var room_save = {
         $('#btnImg').on('click', function () {
             $('#uploadImages').trigger('click');
         });
-    },
-    save : function () {
-        // var data = roomInfo;
-        // $.ajax({
-        //     type: 'POST',
-        //     url: '/api/rooms',
-        //     dataType: 'json',
-        //     contentType: 'application/json; charset=utf-8',
-        //     data: JSON.stringify(data)
-        // }).done(function () {
-        //     alert('방이 등록되었습니다.');
-        //     window.location.href = '/rooms';
-        // }).fail(function (error) {
-        //     alert(JSON.stringify(error));
-        // });
     }, cancel : function () {
         Swal.fire({
             title: "취소",
@@ -352,17 +327,11 @@ $.fn.clickOptions = function () {
 /* 버튼 클릭 이벤트 END */
 
 function placesSearchCB(result, status, pagination) {
-    alert(status);
     if (status === kakao.maps.services.Status.OK) {
         allAddress.latitude = result[0].y;
         allAddress.longitude = result[0].x;
-        console.log(allAddress);
         saveRoom();
-    } else if(status === kakao.maps.services.Status.ZERO_RESULT) {
-        alert("리절트 없음");
-    }
-    else {
-        console.log(allAddress);
+    } else {
         swalFocus("", "없는 주소입니다.", "error", "#inputAddress");
     }
 }
@@ -374,20 +343,10 @@ function pushHashTag() {
     }
 }
 
-function convertList(list) {
-    let listString = "";
-    for (let i = 0; i < list.length; i++) {
-        listString += list[i];
-        if (i < list.length - 1) listString += ",";
-    }
-    return listString;
-}
-
 function saveRoom() {
-    let maintenanceOptions = convertList(maintenanceOptionList);
-    let options = convertList(optionList);
-    let hashTags = convertList(hashTagList);
-    let images = convertList(imageList.push($('#uploadImages').val()));
+    let maintenanceOptions = maintenanceOptionList;
+    let options = optionList;
+    let hashTags = hashTagList;
 
     let roomInfo = {
         latitude: allAddress.latitude,
@@ -409,33 +368,53 @@ function saveRoom() {
         leasePeriod: $('#inputLeasePeriod').val(),
         periodUnit: $('#inputPeriodUnit').val(),
         maintenanceFee: $('#inputMaintenanceFee').val() * 10000,
-        maintenanceOptions: maintenanceOptions,
-        images: formData
+        maintenanceOptions: maintenanceOptions
     };
     console.log(roomInfo);
 
-    if (formData.get("uploadFile") == null) {
+    if (formData.get("images") == null) {
         return swalWarning('', '사진을 등록해주세요', '#tdImg');
     } else {
         $('#btn-save').attr('disabled', true);
         $('#bat-cancel').attr('disabled', true);
 
-        var data = roomInfo;
         $.ajax({
             type: 'POST',
             url: '/api/rooms',
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
-            data: JSON.stringify(data)
-        }).done(function () {
-            Swal.fire('등록 성공', '방 등록에 성공하였습니다.', 'success')
-                .then(function () {
-                    location.href = "/rooms";
-                });
-        }).fail(function (error) {
-            Swal.fire('등록 실패', JSON.stringify(error), 'error');
+            data: JSON.stringify(roomInfo)
+        }).then(function (data, status) {
+            if (status === 'success') {
+                switch (data.status) {
+                    case "SUCCESS":
+                        let message = data.message;
+                        $.ajax({
+                            url: '/files/upload/images',
+                            processData: false,
+                            contentType: false,
+                            data: formData,
+                            dataType: 'json',
+                            type: 'POST'
+                        }).then(function (data, status) {
+                            if (status === 'success' && data.status) {
+                                Swal.fire('등록 성공', message, 'success')
+                                    .then(function () {
+                                        location.href = "/rooms";
+                                    });
+                            } else {
+                                Swal.fire(data.message, data.subMessage, 'error');
+                            }
+                        });
+                        break;
+                    case "FAIL":
+                        Swal.fire(data.message, data.subMessage, 'error');
+                        break;
+                }
+            } else {
+                Swal.fire(data.message, data.subMessage, 'error');
+            }
         });
-
         $('#btn-save').attr('disabled', false);
         $('#btn-cancel').attr('disabled', false);
     }
@@ -476,11 +455,11 @@ function readURL(input) {
                             num = i;
                         }
                     }
-                    let fileArray = formData.getAll("uploadFile");
+                    let fileArray = formData.getAll("images");
                     fileArray.splice(num, 1);
-                    formData.delete("uploadFile");
+                    formData.delete("images");
                     for (let i = 0; i < fileArray.length; i++) {
-                        formData.append("uploadFile", fileArray[i]);
+                        formData.append("images", fileArray[i]);
                     }
                     rmDiv.remove();
                 });
@@ -491,7 +470,7 @@ function readURL(input) {
         let inputFile = $("input[name='uploadFile']");
         let files = inputFile[0].files;
         for (let i = 0; i < files.length; i++) {
-            formData.append("uploadFile", files[i]);
+            formData.append("images", files[i]);
         }
     }
     cnt += loopCnt;
@@ -695,19 +674,9 @@ $.checkInput = function() {
         cancelButtonText: '취소'
     }).then(result => {
         if (result.value) {
-            alert($('#inputAddress').val());
             ps.keywordSearch($('#inputAddress').val(), placesSearchCB);
         }
     })
-}
-
-$.fn.onlyNum = function() {
-    $(this).keyup(function (event) {
-        if (!(event.keyCode >= 37 && event.keyCode <= 40)) {
-            let inputVal = $(this).val();
-            $(this).val(inputVal.replace(/[a-zㄱ-힣,~`!@#$%^&*()_+=<>/]/gi, ''));
-        }
-    });
 }
 
 var swalWarning = function (title, content, selector) {
@@ -715,6 +684,7 @@ var swalWarning = function (title, content, selector) {
         title: title,
         text: content,
         type: "warning",
+        confirmButtonClass: 'btn-info',
         onAfterClose: () => {
             $(selector).focus();
         }
@@ -727,12 +697,14 @@ var swalFocus = function (title, content, type, selector) {
         title: title,
         text: content,
         type: type,
+        confirmButtonClass: 'btn-success',
         onAfterClose: () => {
             $(selector).focus();
         }
     });
 }
 
+// 스크립트 방어
 function defend(value) {
     value = value + "";
     value = value.trim();

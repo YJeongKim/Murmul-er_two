@@ -9,7 +9,6 @@ public class MessageResponseDto {
     private String status;
     private String subMessage;
 
-    @Builder
     public MessageResponseDto(String message) {
         this.message = message;
         this.status = "SUCCESS";
