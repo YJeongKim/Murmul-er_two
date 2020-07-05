@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import space.yjeong.domain.salespost.Image;
 import space.yjeong.domain.salespost.ImageRepository;
 import space.yjeong.domain.salespost.SalesPost;
+import space.yjeong.exception.FileDownloadException;
 import space.yjeong.exception.FileUploadException;
 import space.yjeong.exception.UnableSaveImageException;
 import space.yjeong.util.FileHelper;
@@ -16,6 +17,8 @@ import space.yjeong.util.FilePath;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,6 +61,17 @@ public class ImageService {
         return images;
     }
 
+    public Path readImage(Long salesPostIdId, String imageName) {
+        String filePath = FilePath.ROOT_PATH + FilePath.ROOM_IMG_PATH + salesPostIdId;
+
+        File file = new File(filePath +  "/" + imageName);
+        if(!file.exists()) throw new FileDownloadException();
+
+        Path path = Paths.get(file.getAbsolutePath());
+
+        return path;
+    }
+
     @Transactional
     public void deleteImages(Long salesPostId) {
         String path = FilePath.ROOT_PATH + FilePath.ROOM_IMG_PATH + salesPostId;
@@ -71,7 +85,8 @@ public class ImageService {
     private boolean checkImageExtension(String imageName) {
         String extension = imageName.substring(imageName.lastIndexOf(".") + 1);
 
-        if (extension.equals("jpg") || extension.equals("jpeg") || extension.equals("png"))
+        if (extension.equals("jpg") || extension.equals("jpeg") ||
+                extension.equals("png") || extension.equals("PNG"))
             return true;
         else return false;
     }

@@ -4,34 +4,32 @@ import lombok.Builder;
 import lombok.Getter;
 import space.yjeong.domain.room.Room;
 import space.yjeong.domain.salespost.Image;
-import space.yjeong.domain.salespost.PostStatus;
 import space.yjeong.domain.salespost.SalesPost;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
-
 @Getter
 public class RoomResponseDto {
     private Long roomId;
     private Long salesPostId;
-    private PostStatus postStatus;
-    private LocalDateTime createDate;
-    private LocalDateTime modifiedDate;
+    private String postStatus;
+    private LocalDate createDate;
+    private LocalDate modifiedDate;
     private Integer views;
     private String title;
     private String address;
     private String lease;
     private String leasePeriod;
-    private Integer leaseDeposit;
-    private Integer leaseFee;
-    private Integer maintenanceFee;
+    private String leaseDeposit;
+    private String leaseFee;
+    private String maintenanceFee;
     private String image;
 
     @Builder
-    public RoomResponseDto(Long roomId, Long salesPostId, PostStatus postStatus, LocalDateTime createDate,
-                           LocalDateTime modifiedDate, Integer views, String title, String address, String lease,
-                           String leasePeriod, Integer leaseDeposit, Integer leaseFee, Integer maintenanceFee, String image) {
+    public RoomResponseDto(Long roomId, Long salesPostId, String postStatus, LocalDate createDate,
+                           LocalDate modifiedDate, Integer views, String title, String address, String lease,
+                           String leasePeriod, String leaseDeposit, String leaseFee, String maintenanceFee, String image) {
         this.roomId = roomId;
         this.salesPostId = salesPostId;
         this.postStatus = postStatus;
@@ -55,17 +53,18 @@ public class RoomResponseDto {
         return RoomResponseDto.builder()
                 .roomId(room.getId())
                 .salesPostId(salesPost.getId())
-                .postStatus(salesPost.getPostStatus())
-                .createDate(salesPost.getCreateDate())
-                .modifiedDate(salesPost.getModifiedDate())
+                .postStatus(salesPost.getPostStatus().getTitle())
+                .createDate(salesPost.getCreateDate().toLocalDate())
+                .modifiedDate(salesPost.getModifiedDate().toLocalDate())
                 .views(salesPost.getViews())
                 .title(salesPost.getTitle())
                 .address(room.getRoadAddress())
                 .lease(salesPost.getLease().getTitle())
                 .leasePeriod(salesPost.getLeasePeriod() + salesPost.getPeriodUnit().getTitle())
-                .leaseFee(salesPost.getLeaseFee())
-                .maintenanceFee(salesPost.getMaintenanceFee())
-                .image(image.getSrc())
+                .leaseDeposit(convertMoneyToString(salesPost.getLeaseDeposit()))
+                .leaseFee(convertMoneyToString(salesPost.getLeaseFee()))
+                .maintenanceFee(convertMoneyToString(salesPost.getMaintenanceFee()))
+                .image(image.getFilename())
                 .build();
     }
 
@@ -73,5 +72,22 @@ public class RoomResponseDto {
         return salesPosts.stream()
                 .map(RoomResponseDto::of)
                 .collect(Collectors.toList());
+    }
+
+    private static String convertMoneyToString(int money) {
+        int convertMoney = money / 10000;
+        String result = "";
+
+        if (convertMoney == 0) {
+            result = "없음";
+        } else if (convertMoney > 9999) {
+            result += (convertMoney / 10000) + "억 ";
+            if (convertMoney % 10000 != 0) {
+                result += (convertMoney % 10000) + "만 원";
+            }
+        } else {
+            result += convertMoney + "만 원";
+        }
+        return result;
     }
 }

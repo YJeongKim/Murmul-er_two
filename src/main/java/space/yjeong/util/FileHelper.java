@@ -5,8 +5,11 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
 @Component
 public class FileHelper {
@@ -123,6 +126,50 @@ public class FileHelper {
         } catch (IOException e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    public boolean downloadFile(String path, String fileName, HttpServletResponse response) {
+        if (path == null || path.trim().equals("")) {
+            logger.error("실패: 잘못된 경로입니다.");
+            return false;
+        }
+        if (fileName == null || fileName.trim().equals("")) {
+            logger.error("실패: 잘못된 파일명입니다.");
+            return false;
+        }
+        logger.info("다운로드 경로 : " + path);
+
+        File file = new File(path + "/" + fileName);
+        if (!file.exists()) {
+            logger.error("실패: 존재하지 않는 파일입니다.");
+            return false;
+        } else {
+            FileInputStream inputStream = null;
+            OutputStream outputStream = null;
+            response.setHeader("Cache-Control", "no-cache");
+            response.addHeader("Content-disposition", "attachment;fileName=" + fileName);
+            try {
+                inputStream = new FileInputStream(file);
+                outputStream = response.getOutputStream();
+                byte[] buffer = new byte[1024 * 8];
+                while (true) {
+                    int count = inputStream.read(buffer);
+                    if (count == -1)
+                        break;
+                    outputStream.write(buffer, 0, count);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    inputStream.close();
+                    outputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return true;
         }
     }
 }

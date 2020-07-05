@@ -1,0 +1,70 @@
+{{>layout/header}}
+<link rel="stylesheet" href="/css/room/room-title.css" />
+<link rel="stylesheet" href="/css/room/room-manage.css" />
+</head>
+<body>
+{{>layout/navbar}}
+<div class="wrap">
+    {{>room/room-title}}
+
+    {{#rooms}}
+        {{#sub}}
+        <table class="tbList" id="tbList-{{index}}">
+            <tbody>
+            <tr>
+                <td class="tableTitle">게시상태</td>
+                <td class="tdImage" id="tdImage" rowspan="7">
+                    <img class="uploadImage" width=320 height=320 src="" id="preview-{{index}}">
+                    <input type="hidden" id="uploadValue-{{index}}" value="{{salesPostId}},{{image}}">
+                <td class="tableTitle">등록일</td>
+                <td class="val" id="tdDate">{{createDate}}</td>
+            </tr>
+            <tr>
+                <td class="tdPostStatus" id="tdPostStatus-{{index}}" rowspan="6">{{postStatus}}</td>
+                <td class="tableTitle">조회수</td>
+                <td class="val" id="tdView">{{views}}</td>
+            </tr>
+            <tr>
+                <td class="tableTitle">제목</td>
+                <td class="val" id="tdTitle">{{title}}</td>
+            </tr>
+            <tr>
+                <td class="tableTitle">주소</td>
+                <td class="val" id="tdAddress">{{address}}</td>
+            </tr>
+            <tr>
+                <td class="tableTitle">금액</td>
+                <td class="val" id="tdLease">
+                    보증금 <b>{{leaseDeposit}} </b>
+                    {{#isLeaseJeonse}}{{/isLeaseJeonse}}
+                    {{^isLeaseJeonse}}/ 월세 <b>{{leaseFee}} </b>{{/isLeaseJeonse}}
+                    / 관리비 <b>{{maintenanceFee}}</b>
+                </td>
+            </tr>
+            <tr>
+                <td class="tableTitle">임대기간</td>
+                <td class="val" id="tdLeasePeriod">{{lease}} / <b>{{leasePeriod}}</b></td>
+            </tr>
+            <tr>
+                <td id="tdButton-{{index}}" class="tdButton" colspan="2">
+                    <button class="button" id="btn-modify-{{salesPostId}}" value="{{salesPostId}}">수정</button>
+                    <button class="button" id="btn-delete-{{salesPostId}}" value="{{salesPostId}}">삭제</button>
+                    <button class="button btnPt" id="btn-post" value="{{salesPostId}}">게시종료</button>
+                    <button class="button btnPt" id="btn-deal" value="{{salesPostId}}">거래완료</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        {{/sub}}
+    {{/rooms}}
+    {{^rooms}}
+        <div>
+            <div class="noContent">등록한 방이 없습니다.</div>
+        </div>
+    {{/rooms}}
+</div>
+{{>layout/footer}}
+<script type="text/javascript" src="/js/app/room-title.js"></script>
+<script type="text/javascript" src="/js/app/room-manage.js"></script>
+</body>
+</html>

@@ -397,13 +397,21 @@ function saveRoom() {
                             dataType: 'json',
                             type: 'POST'
                         }).then(function (data, status) {
-                            if (status === 'success' && data.status) {
+                            if (status === 'success' && data.status === "SUCCESS") {
                                 Swal.fire('등록 성공', message, 'success')
                                     .then(function () {
                                         location.href = "/rooms";
                                     });
                             } else {
                                 Swal.fire(data.message, data.subMessage, 'error');
+                                $.ajax({
+                                    type: 'DELETE',
+                                    url: '/api/rooms/' + data.id,
+                                    dataType: 'json',
+                                    contentType: 'application/json; charset=utf-8',
+                                }).fail(function () {
+                                    Swal.fire("ERROR", "관리자에게 문의하세요.", 'error');
+                                });
                             }
                         });
                         break;
