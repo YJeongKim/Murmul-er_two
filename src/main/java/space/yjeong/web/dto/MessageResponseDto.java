@@ -8,11 +8,13 @@ public class MessageResponseDto {
     private String message;
     private String status;
     private String subMessage;
+    private Long id;
 
-    public MessageResponseDto(String message) {
+    public MessageResponseDto(String message, Long id) {
         this.message = message;
         this.status = "SUCCESS";
         this.subMessage = "";
+        this.id = id;
     }
 
     @Builder
@@ -20,5 +22,6 @@ public class MessageResponseDto {
         this.message = message;
         this.status = "FAIL";
         this.subMessage = subMessage;
+        this.id = 0L;
     }
 }

@@ -389,6 +389,7 @@ function saveRoom() {
                 switch (data.status) {
                     case "SUCCESS":
                         let message = data.message;
+                        let id = data.id;
                         $.ajax({
                             url: '/files/upload/images',
                             processData: false,
@@ -406,7 +407,7 @@ function saveRoom() {
                                 Swal.fire(data.message, data.subMessage, 'error');
                                 $.ajax({
                                     type: 'DELETE',
-                                    url: '/api/rooms/' + data.id,
+                                    url: '/api/rooms/' + id,
                                     dataType: 'json',
                                     contentType: 'application/json; charset=utf-8',
                                 }).fail(function () {

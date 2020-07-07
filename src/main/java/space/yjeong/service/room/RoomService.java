@@ -62,13 +62,14 @@ public class RoomService {
             if (hashTagService.isHashTagNotNull(requestDto.getHashTags()))
                 hashTags = hashTagService.saveHashTags(requestDto.toHashTagEntity(salesPost));
             salesPost.setHashTags(hashTags);
+
+            return new MessageResponseDto("등록이 완료되었습니다.", room.getId());
         } catch (ExpectedException e) {
             return MessageResponseDto.builder()
                     .message("등록에 실패하였습니다.")
                     .subMessage(e.getMessage())
                     .build();
         }
-        return new MessageResponseDto("등록이 완료되었습니다.");
     }
 
     @Transactional
@@ -96,13 +97,14 @@ public class RoomService {
 
 //            List<Image> images = imageService.saveImages(imageList, salesPost);
 //            salesPost.setImages(images);
+
+            return new MessageResponseDto("수정이 완료되었습니다.", room.getId());
         } catch (ExpectedException e) {
             return MessageResponseDto.builder()
                     .message("수정에 실패하였습니다.")
                     .subMessage(e.getMessage())
                     .build();
         }
-        return new MessageResponseDto("수정이 완료되었습니다.");
     }
 
     @Transactional
@@ -124,13 +126,14 @@ public class RoomService {
             salesPostService.deleteSalesPost(salesPost);
 
             roomRepository.delete(room);
+
+            return new MessageResponseDto("삭제가 완료되었습니다.", room.getId());
         } catch (ExpectedException e) {
             return MessageResponseDto.builder()
                     .message("삭제에 실패하였습니다.")
                     .subMessage(e.getMessage())
                     .build();
         }
-        return new MessageResponseDto("삭제가 완료되었습니다.");
     }
 
     @Transactional
@@ -141,7 +144,7 @@ public class RoomService {
         userService.checkSameUser(salesPost.getSalesUser(), user);
         salesPost.updatePostStatus(postStatus);
 
-        return new MessageResponseDto("게시상태 수정이 완료되었습니다.");
+        return new MessageResponseDto("게시상태 수정이 완료되었습니다.", salesPost.getId());
     }
 
     public MessageResponseDto setImagesByUser(List<MultipartFile> imageFiles, SessionUser sessionUser) {
@@ -155,12 +158,13 @@ public class RoomService {
 
             Room room = roomRepository.findBySalesPostId(salesPost.getId());
             room.setSalesPost(salesPost);
+
+            return new MessageResponseDto("이미지 업로드가 완료되었습니다.", room.getId());
         } catch (ExpectedException e) {
             return MessageResponseDto.builder()
                     .message("이미지 업로드에 실패하였습니다.")
                     .subMessage(e.getMessage())
                     .build();
         }
-        return new MessageResponseDto("이미지 업로드가 완료되었습니다.");
     }
 }

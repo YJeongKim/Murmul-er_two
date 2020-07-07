@@ -48,7 +48,17 @@ public class RoomResponseDto {
 
     public static RoomResponseDto of(SalesPost salesPost) {
         Room room = salesPost.getRoom();
-        Image image = salesPost.getImages().get(0);
+
+        Image image;
+        if (salesPost.getImages().size() == 0) {
+            image = Image.builder()
+                    .filename("")
+                    .src("")
+                    .salesPost(salesPost)
+                    .build();
+        } else {
+            image = salesPost.getImages().get(0);
+        }
 
         return RoomResponseDto.builder()
                 .roomId(room.getId())

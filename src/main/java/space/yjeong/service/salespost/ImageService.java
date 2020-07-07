@@ -85,8 +85,8 @@ public class ImageService {
     private boolean checkImageExtension(String imageName) {
         String extension = imageName.substring(imageName.lastIndexOf(".") + 1);
 
-        if (extension.equals("jpg") || extension.equals("jpeg") ||
-                extension.equals("png") || extension.equals("PNG"))
+        if (extension.equals("jpg") || extension.equals("jpeg") || extension.equals("JPG")
+                || extension.equals("png") || extension.equals("PNG"))
             return true;
         else return false;
     }
