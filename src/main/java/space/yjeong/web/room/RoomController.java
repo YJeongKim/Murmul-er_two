@@ -11,10 +11,7 @@ import space.yjeong.service.room.RoomService;
 import space.yjeong.web.dto.room.RoomResponseDto;
 
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RequiredArgsConstructor
 @Controller
@@ -35,17 +32,6 @@ public class RoomController {
             List<RoomResponseDto> responses = roomService.readRooms(user);
             model.addAttribute("rooms", responses);
 
-            List<Map<String, Object>> subInfo = new ArrayList<>();
-            for(int i=0; i<responses.size(); i++) {
-                Map<String, Object> subMap = new HashMap<>();
-                boolean lease = responses.get(i).getLease().equals("전세") ? true : false;
-
-                subMap.put("index", i+1);
-                subMap.put("isLeaseJeonse", lease);
-                subInfo.add(subMap);
-                System.out.println(subMap.get("index") + " " + subMap.get("isLeaseJeonse"));
-            }
-            model.addAttribute("sub", subInfo);
             return "/room/room-manage";
         } else return "redirect:/";
     }

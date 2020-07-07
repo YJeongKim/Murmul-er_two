@@ -5,6 +5,7 @@ import lombok.Getter;
 import space.yjeong.domain.room.Room;
 import space.yjeong.domain.salespost.Image;
 import space.yjeong.domain.salespost.SalesPost;
+import space.yjeong.util.Constant;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -25,11 +26,14 @@ public class RoomResponseDto {
     private String leaseFee;
     private String maintenanceFee;
     private String image;
+    private Integer index;
+    private Boolean isLease;
 
     @Builder
     public RoomResponseDto(Long roomId, Long salesPostId, String postStatus, LocalDate createDate,
                            LocalDate modifiedDate, Integer views, String title, String address, String lease,
-                           String leasePeriod, String leaseDeposit, String leaseFee, String maintenanceFee, String image) {
+                           String leasePeriod, String leaseDeposit, String leaseFee, String maintenanceFee, String image,
+                           Integer index, Boolean isLease) {
         this.roomId = roomId;
         this.salesPostId = salesPostId;
         this.postStatus = postStatus;
@@ -44,11 +48,12 @@ public class RoomResponseDto {
         this.leaseFee = leaseFee;
         this.maintenanceFee = maintenanceFee;
         this.image = image;
+        this.index = index;
+        this.isLease = isLease;
     }
 
     public static RoomResponseDto of(SalesPost salesPost) {
         Room room = salesPost.getRoom();
-
         Image image;
         if (salesPost.getImages().size() == 0) {
             image = Image.builder()
@@ -59,6 +64,7 @@ public class RoomResponseDto {
         } else {
             image = salesPost.getImages().get(0);
         }
+        boolean isLease = salesPost.getLease().getTitle().equals("전세") ? true : false;
 
         return RoomResponseDto.builder()
                 .roomId(room.getId())
@@ -75,10 +81,13 @@ public class RoomResponseDto {
                 .leaseFee(convertMoneyToString(salesPost.getLeaseFee()))
                 .maintenanceFee(convertMoneyToString(salesPost.getMaintenanceFee()))
                 .image(image.getFilename())
+                .index(++Constant.count)
+                .isLease(isLease)
                 .build();
     }
 
     public static List<RoomResponseDto> listOf(List<SalesPost> salesPosts) {
+        Constant.count = 0;
         return salesPosts.stream()
                 .map(RoomResponseDto::of)
                 .collect(Collectors.toList());

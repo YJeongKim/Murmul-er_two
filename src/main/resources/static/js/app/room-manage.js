@@ -79,7 +79,7 @@ $.fn.changePostType = function (callback){
 $(document).ready(function () {
     $('.btnModify').clickModifyBtn();
     $('.btnDelete').clickDeleteBtn();
-    $('.btnPt').clickPostStatBtn();;
+    $('.btnPt').clickPostStatBtn();
 });
 
 

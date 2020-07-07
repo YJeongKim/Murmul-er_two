@@ -608,13 +608,19 @@ $.checkInput = function() {
     }
 
     if ($('#inputSize').val() <= 0) {
-        return swalWarning("면적을 확인하세요.", "양수를 입력하세요.", '#inputSize');
+        return swalWarning("잘못된 평 수입니다.", "양수를 입력하세요.", '#inputSize');
     } else if ($('#inputSize').val() == "") {
-        return swalWarning("", "면적을 입력하세요.", '#inputSize');
+        return swalWarning("", "평 수를 입력하세요.", '#inputSize');
+    }
+
+    if ($('#inputArea').val() <= 0) {
+        return swalWarning("잘못된 면적입니다.", "양수를 입력하세요.", '#inputArea');
+    } else if ($('#inputArea').val() == "") {
+        return swalWarning("", "면적을 입력하세요.", '#inputArea');
     }
 
     if (!integer.test($('#inputFloor').val())) {
-        return swalWarning("층수를 확인하세요.", "정수를 입력하세요.", '#inputFloor');
+        return swalWarning("잘못된 층수입니다.", "정수를 입력하세요.", '#inputFloor');
     } else if ($('#inputFloor').val() == "") {
         return swalWarning("", "층수를 입력하세요.", '#inputFloor');
     }
@@ -627,20 +633,20 @@ $.checkInput = function() {
         return swalWarning("", "월세 / 단기 금액을 입력하세요.", '#inputLeaseFee');
     }
     if (!positive_integer.test($('#inputLeaseDeposit').val())) {
-        return swalWarning("금액을 확인하세요.", "양의 정수를 입력하세요.", '#inputLeaseDeposit');
+        return swalWarning("잘못된 금액입니다.", "양의 정수를 입력하세요.", '#inputLeaseDeposit');
     }
     if (!positive_integer.test($('#inputLeaseFee').val())) {
-        return swalWarning("금액을 확인하세요.", "양의 정수를 입력하세요.", '#inputLeaseFee');
+        return swalWarning("잘못된 금액입니다.", "양의 정수를 입력하세요.", '#inputLeaseFee');
     }
 
     if (!positive_integer.test($('#inputLeasePeriod').val())) {
-        return swalWarning("임대기간을 확인하세요.", "양의 정수를 입력하세요.", '#inputLeasePeriod');
+        return swalWarning("잘못된 임대기간입니다.", "양의 정수를 입력하세요.", '#inputLeasePeriod');
     } else if ($('#inputLeasePeriod').val() == "") {
         return swalWarning("", "임대기간을 입력하세요.", '#inputLeasePeriod');
     }
 
     if (!positive_integer.test($('#inputMaintenanceFee').val())) {
-        return swalWarning("관리비를 확인하세요.", "양의 정수를 입력하세요.", '#inputMaintenanceFee');
+        return swalWarning("잘못된 관리비입니다.", "양의 정수를 입력하세요.", '#inputMaintenanceFee');
     } else if (selectedMaintenanceFee == 2 && $('#inputMaintenanceFee').val() == "") {
         return swalWarning("", "관리비를 입력하세요.", '#inputMaintenanceFee');
     }

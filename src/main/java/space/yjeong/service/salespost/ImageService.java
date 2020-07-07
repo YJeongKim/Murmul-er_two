@@ -35,7 +35,7 @@ public class ImageService {
     @Transactional
     public List<Image> saveImages(List<MultipartFile> fileList, SalesPost salesPost) {
         List<Image> images = new ArrayList<>();
-        String path = FilePath.ROOT_PATH + FilePath.ROOM_IMG_PATH + salesPost.getRoom().getId();
+        String path = FilePath.ROOT_PATH + FilePath.ROOM_IMG_PATH + salesPost.getId();
         File folder = fileHelper.createFolder(path);
 
         if (folder == null) throw new FileUploadException();
@@ -61,8 +61,8 @@ public class ImageService {
         return images;
     }
 
-    public Path readImage(Long salesPostIdId, String imageName) {
-        String filePath = FilePath.ROOT_PATH + FilePath.ROOM_IMG_PATH + salesPostIdId;
+    public Path readImage(Long salesPostId, String imageName) {
+        String filePath = FilePath.ROOT_PATH + FilePath.ROOM_IMG_PATH + salesPostId;
 
         File file = new File(filePath +  "/" + imageName);
         if(!file.exists()) throw new FileDownloadException();

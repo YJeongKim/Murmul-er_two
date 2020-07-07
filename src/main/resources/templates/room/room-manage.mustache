@@ -8,7 +8,6 @@
     {{>room/room-title}}
 
     {{#rooms}}
-        {{#sub}}
         <table class="tbList" id="tbList-{{index}}">
             <tbody>
             <tr>
@@ -36,8 +35,8 @@
                 <td class="tableTitle">금액</td>
                 <td class="val" id="tdLease">
                     보증금 <b>{{leaseDeposit}} </b>
-                    {{#isLeaseJeonse}}{{/isLeaseJeonse}}
-                    {{^isLeaseJeonse}}/ 월세 <b>{{leaseFee}} </b>{{/isLeaseJeonse}}
+                    {{#isLease}}{{/isLease}}
+                    {{^isLease}}/ 월세 <b>{{leaseFee}} </b>{{/isLease}}
                     / 관리비 <b>{{maintenanceFee}}</b>
                 </td>
             </tr>
@@ -55,7 +54,6 @@
             </tr>
             </tbody>
         </table>
-        {{/sub}}
     {{/rooms}}
     {{^rooms}}
         <div>
