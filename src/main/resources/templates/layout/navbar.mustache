@@ -18,14 +18,17 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav nav-dropdown" data-app-modern-menu="true">
                 <li class="nav-item dropdown">
-                    <a class="nav-link link text-black display-7" href="#" data-toggle="dropdown-submenu">
+                    <a class="nav-link link text-black display-7 dropdown-toggle" href="#" data-toggle="dropdown-submenu">
                         방 검색하기
-                    </a>
+                    </a><div class="dropdown-menu">
+                    <a class="dropdown-item text-black display-7" id="nav-search" aria-expanded="false">방 검색</a></div>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link link text-black display-7" href="#" data-toggle="dropdown-submenu">
+                    <a class="nav-link link text-black display-7 dropdown-toggle" href="#" data-toggle="dropdown-submenu">
                         방 관리하기
-                    </a>
+                    </a><div class="dropdown-menu">
+                    <a class="dropdown-item text-black display-7" id="nav-register" aria-expanded="false">방 등록</a>
+                    <a class="dropdown-item text-black display-7" id="nav-manage" aria-expanded="false">방 관리</a></div>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link link text-black display-7" href="#" data-toggle="dropdown-submenu">
@@ -66,10 +69,10 @@
                         <a class="dropdown-item display-4" href="#"><i class="far fa-bell"></i> Notification <span class="badge">1</span></a></div>
                     </li>
                 </ul>
-                    <a href="/logout" class="btn btn-sm btn-success display-4" role="button">LOGOUT</a>
+                    <a id="logout" class="btn btn-sm btn-success display-4" role="button">LOGOUT</a>
                 {{/userName}}
                 {{^userName}}
-                    <a href="/oauth2/authorization/google" class="btn btn-sm btn-info display-4" role="button">GOOGLE LOGIN</a>
+                    <a id="login" class="btn btn-sm btn-info display-4" role="button">GOOGLE LOGIN</a>
                 {{/userName}}
             </div>
         </div>
