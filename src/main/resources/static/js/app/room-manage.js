@@ -9,8 +9,10 @@ var room_manage = {
 
     }, setButtonPostStatus: function () {
         let len = $('.tbList').length;
+
         for (let i = 1; i <= len; i++) {
-            let postStatus = $('#tdroomState-' + i).text();
+            let postStatus = $('#tdPostStatus-' + i).text();
+
             switch (postStatus) {
                 case "게시중":
                     $('#tdButton-' + i + '>#btn-post').text('게시종료');
@@ -19,9 +21,9 @@ var room_manage = {
                     $('#tdButton-' + i + '>#btn-post').text('재게시');
                     break;
                 case "게시금지" :
-                    $('#tdroomState-' + i).css('color', '#ff545b');
+                    $('#tdPostStatus-' + i).css('color', '#ff545b');
                 case "거래완료" :
-                    $.setBtnDisabled(i);
+                    room_manage.setButtonDisabled(i);
                     break;
             }
         }
@@ -35,133 +37,83 @@ var room_manage = {
             let src = '/files/download?id=' + encodeURI(salesPostId) + '&image=' + encodeURI(fileName);
             $('#preview-' + i).attr('src', src);
         }
+    }, setButtonDisabled: function (listNum) {
+        $('#tdButton-' + listNum + '>.btn-modify').prop('disabled', 'disabled');
+        $('#tdButton-' + listNum + '>#btn-post').prop('disabled', 'disabled');
+        $('#tdButton-' + listNum + '>#btn-deal').prop('disabled', 'disabled');
+        $('#tdButton-' + listNum + '>button').removeAttr('class');
+        $('#tdButton-' + listNum + '>button').css('cursor', 'default');
+        $('#tdButton-' + listNum + '>button').eq(1).attr('class', 'button btn-delete');
+        $('#tdButton-' + listNum + '>button').eq(1).removeAttr('style');
+    }, deleteRoom : function (roomId, callback) {
+        $.ajax({
+            type: 'DELETE',
+            url: '/api/rooms/' + roomId,
+            contentType: 'application/json; charset=utf-8'
+        }).then(function (data, status) {
+            if (status === 'success') {
+                callback(data);
+            } else {
+                Swal.fire('연결 실패', '잠시후 다시 시도해주세요.', 'error');
+            }
+        });
     }
 }
 
 room_manage.init();
 
-$.fn.changePostType = function (callback){
-    let listNum = $(this).parent().attr('id').split('tdbtns')[1];
-    let btnText = $(this).text();
-    let roomId = $(this).val();
-    let postType = (btnText === "재게시") ? "게시중" : btnText;
-    $.ajax('/manage/post-status', {
-        type: 'POST',
-        data: {roomId: roomId, postType: postType}
-    }).then(function (data, status) {
-        if (status === 'success') {
-            switch (data.result) {
-                case "XSS_FAIL" :
-                    callback(false);
-                    return;
-                case "UPDATE_FAIL" :
-                    // console.log('update fail..');
-                    callback(false);
-                    return;
-                case "POSTING" :
-                    $('#tdroomState'+listNum).text('게시중'); break;
-                case "END_POSTING" :
-                    $('#tdroomState'+listNum).text('게시종료'); break;
-                case "DEAL_COMPLETE" :
-                    $('#tdroomState'+listNum).text('거래완료'); break;
-                case "NO_POSTING" :
-                    $('#tdroomState'+listNum).text('게시금지'); break;
-            }
-            $.setPostTypeEach(listNum);
-            callback($('#tdroomState'+listNum).text());
-        } else {
-            // console.log(',,,,');
-            return;
-        }
-    })
-}
-
 $(document).ready(function () {
-    $('.btnModify').clickModifyBtn();
-    $('.btnDelete').clickDeleteBtn();
+    $('.btn-modify').clickModifyBtn();
+    $('.btn-delete').clickDeleteBtn();
     $('.btnPt').clickPostStatBtn();
 });
 
-
-$.setBtnDisabled = function (listNum) {
-    $('#tdbtns'+listNum+'>.btnModify').prop('disabled', 'disabled');
-    $('#tdbtns'+listNum+'>.btnPost').prop('disabled', 'disabled');
-    $('#tdbtns'+listNum+'>.btnDeal').prop('disabled', 'disabled');
-    $('#tdbtns'+listNum+'>button').removeAttr('class');
-    $('#tdbtns'+listNum+'>button').css('cursor', 'default');
-    $('#tdbtns'+listNum+'>button').eq(1).attr('class', 'button btnDelete');
-    $('#tdbtns'+listNum+'>button').eq(1).removeAttr('style');
-}
-
 $.fn.clickModifyBtn = function () {
-    let roomId;
-    $(this).click(function () {
-        //roomId = $(this).attr('value');
-        roomId = $(this).val();
-        $('#delete'+roomId).attr('disabled', true);
-        location.href = "/manage/update/"+roomId;
-    })
+    $(this).on('click', function () {
+        let roomId = $(this).val();
+        $('#delete' + roomId).attr('disabled', true);
+        location.href = "/rooms/update/" + roomId;
+    });
 }
 $.fn.clickDeleteBtn = function () {
-    // console.log($(this).parent().parent());
-
-    $(this).click(function () {
-        let listNum = $(this).parent().attr('id').split('tdbtns')[1];
-        // console.log(listNum);
+    $(this).on('click', function () {
+        let listNum = $(this).parent().attr('id').split('tdButtons-')[1];
         Swal.fire({
             title: "방 삭제",
             text: "이 방을 정말로 삭제하시겠습니까?",
             type: "warning",
             showCancelButton: true,
-            confirmButtonColor: '#3085d6',
+            confirmButtonClass: 'btn-success',
             confirmButtonText: '확인',
-            cancelButtonColor: '#d33',
+            cancelButtonClass: 'btn-info',
             cancelButtonText: '취소'
         }).then(result => {
             if (result.value) {
                 let roomId = $(this).val();
-                $('#delete'+roomId).attr('disabled', true);
-                $('#modify'+roomId).attr('disabled', true);
-                $.deleteRoom(roomId, function(deleteResult){
-                    switch (deleteResult) {
+                $('#btn-delete-' + listNum).attr('disabled', true);
+                $('#btn-modify-' + listNum).attr('disabled', true);
+
+                room_manage.deleteRoom(roomId, function (data) {
+                    switch (data.status) {
                         case "SUCCESS" :
-                            Swal.fire('방 삭제', '삭제를 완료하였습니다.', 'success')
+                            Swal.fire('삭제 성공', data.message, 'success')
                                 .then(function () {
-                                    $('#tblist'+listNum).remove();
-                                    //location.href = "";
+                                    location.reload();
                                 });
                             break;
-                        case "DELETE_FAIL" :
-                            Swal.fire('삭제 실패', '삭제에 실패하였습니다.', 'error'); break;
-                        case "CONNECT_ERROR" :
-                            Swal.fire('연결 실패', '잠시후 다시 시도해주세요.', 'error'); break;
+                        case "FAIL" :
+                            Swal.fire(data.message, data.subMessage, 'error');
+                            break;
                     }
-                    $('#delete'+roomId).attr('disabled', false);
-                    $('#modify'+roomId).attr('disabled', false);
+                    $('#btn-delete-' + listNum).attr('disabled', false);
+                    $('#btn-modify-' + listNum).attr('disabled', false);
                 });
             }
         });
     })
 }
-
-$.deleteRoom = function (roomId, callback) {
-    // console.log('delete');
-    $('#modify'+roomId).attr('disabled', true);
-    $.ajax('/manage/room/delete', {
-        type: 'POST',
-        data: {roomId: roomId}
-    }).then(function (data, status) {
-        if (status === 'success') {
-            callback(data.deleteResult);
-        } else {
-            callback("CONNECT_ERROR");
-        }
-    })
-}
-
-
 $.fn.clickPostStatBtn = function(){
-    $(this).click(function () {
+    $(this).on('click', function () {
         let btnText = $(this).text();
         let swalTitle = "";
         let swalText = "";
@@ -185,21 +137,56 @@ $.fn.clickPostStatBtn = function(){
             text: swalText,
             type: swalType,
             showCancelButton: true,
-            confirmButtonColor: '#3085d6',
+            confirmButtonClass: 'btn-success',
             confirmButtonText: '확인',
-            cancelButtonColor: '#d33',
+            cancelButtonClass: 'btn-info',
             cancelButtonText: '취소'
         }).then(result => {
             if (result.value) {
-                $(this).changePostType(function(postType){
-                    // console.log(postType);
-                    if (postType === false) {
-                        Swal.fire('오류발생', '게시상태 변경에 실패하였습니다.', 'error');
+                $(this).changePostType(function(data, postType){
+                    if (data.status === "FAIL") {
+                        Swal.fire(data.message, data.subMessage, 'error');
                     } else {
-                        Swal.fire('게시상태 변경', postType+' 상태로 변경하였습니다.', 'success');
+                        Swal.fire(data.message, postType+' 상태로 변경되었습니다.', 'success');
                     }
                 });
             }
         });
     })
+}
+$.fn.changePostType = function (callback) {
+    let listNum = $(this).parent().attr('id').split('tdButton-')[1];
+    let btnText = $(this).text();
+    let id = $(this).val();
+    let postType = (btnText === "재게시") ? "게시중" : btnText;
+
+    $.ajax({
+        url: '/api/rooms/' + id + '/post-status',
+        type: 'PATCH',
+        dataType: 'json',
+        contentType: 'application/text; charset=utf-8',
+        data: JSON.stringify(postType)
+    }).then(function (data, status) {
+        if (status === 'success' && data.status === "SUCCESS") {
+            switch (data.subMessage) {
+                case "POSTING" :
+                    $('#tdPostStatus-' + listNum).text('게시중');
+                    break;
+                case "POSTING_END" :
+                    $('#tdPostStatus-' + listNum).text('게시종료');
+                    break;
+                case "DEAL_COMPLETED" :
+                    $('#tdPostStatus-' + listNum).text('거래완료');
+                    break;
+                case "POSTING_BAN" :
+                    $('#tdPostStatus-' + listNum).text('게시금지');
+                    break;
+            }
+            room_manage.setButtonPostStatus(listNum);
+            callback(data, $('#tdPostStatus-' + listNum).text());
+        } else {
+            callback(false);
+            return;
+        }
+    });
 }

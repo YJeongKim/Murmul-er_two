@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import space.yjeong.config.auth.dto.SessionUser;
 import space.yjeong.service.room.RoomService;
@@ -39,6 +40,19 @@ public class RoomController {
     @ApiOperation("UI : 방 등록 페이지")
     @GetMapping("/register")
     public String roomRegister(Model model) {
+        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+        if (user != null) {
+            model.addAttribute("userName", user.getNickname());
+            if (user.getPicture() != null) {
+                model.addAttribute("userPicture", user.getPicture());
+            }
+            return "/room/room-save";
+        } else return "redirect:/";
+    }
+
+    @ApiOperation("UI : 방 수정 페이지")
+    @GetMapping("/update/{roomId}")
+    public String roomUpdate(Model model, @PathVariable Long roomId) {
         SessionUser user = (SessionUser) httpSession.getAttribute("user");
         if (user != null) {
             model.addAttribute("userName", user.getNickname());

@@ -50,7 +50,7 @@ public class RoomApiController {
 
     @ApiOperation("방 게시상태 수정")
     @PatchMapping("/{salesPostsId}/post-status")
-    public ResponseEntity updatePostStatus(@PathVariable Long salesPostsId, @RequestBody PostStatus postStatus) {
+    public ResponseEntity updatePostStatus(@PathVariable Long salesPostsId, @RequestBody String postStatus) {
         SessionUser user = (SessionUser) httpSession.getAttribute("user");
         return ResponseEntity.status(HttpStatus.OK).body(roomService.updatePostStatus(salesPostsId, postStatus, user));
     }

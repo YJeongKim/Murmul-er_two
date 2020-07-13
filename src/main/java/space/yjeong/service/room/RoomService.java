@@ -137,14 +137,40 @@ public class RoomService {
     }
 
     @Transactional
-    public MessageResponseDto updatePostStatus(Long salesPostId, PostStatus postStatus, SessionUser sessionUser) {
-        User user = userService.findUserBySessionUser(sessionUser);
+    public MessageResponseDto updatePostStatus(Long salesPostId, String status, SessionUser sessionUser) {
+        try {
+            User user = userService.findUserBySessionUser(sessionUser);
 
-        SalesPost salesPost = salesPostService.findSalesPostById(salesPostId);
-        userService.checkSameUser(salesPost.getSalesUser(), user);
-        salesPost.updatePostStatus(postStatus);
+            PostStatus postStatus;
+            status = status.replaceAll("\\\"", "");
 
-        return new MessageResponseDto("게시상태 수정이 완료되었습니다.", salesPost.getId());
+            switch (status) {
+                case "게시종료":
+                    postStatus = PostStatus.POSTING_END;
+                    break;
+                case "게시금지":
+                    postStatus = PostStatus.POSTING_BAN;
+                    break;
+                case "거래완료":
+                    postStatus = PostStatus.DEAL_COMPLETED;
+                    break;
+                case "게시중":
+                default:
+                    postStatus = PostStatus.POSTING;
+                    break;
+            }
+
+            SalesPost salesPost = salesPostService.findSalesPostById(salesPostId);
+            userService.checkSameUser(salesPost.getSalesUser(), user);
+            salesPost.updatePostStatus(postStatus);
+
+            return new MessageResponseDto("게시상태 변경이 완료되었습니다.", postStatus.name(), salesPost.getId());
+        } catch (ExpectedException e) {
+            return MessageResponseDto.builder()
+                    .message("게시상태 변경에 실패하였습니다.")
+                    .subMessage(e.getMessage())
+                    .build();
+        }
     }
 
     public MessageResponseDto setImagesByUser(List<MultipartFile> imageFiles, SessionUser sessionUser) {
