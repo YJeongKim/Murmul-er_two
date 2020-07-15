@@ -1,4 +1,6 @@
-var slideMenuFlag = false;
+let slideMenuFlag = false;
+const selectedColor = 'rgb(255, 160, 164)';
+let roomTypeList = [];
 
 $(window).resize(function () {
     if ($('#slideMenu').val() === "<") {
@@ -20,30 +22,28 @@ $(document).ready(function () {
             searchPlaces();
         }
     })
+
     $("#slideMenu").showSlideMenu();
 
     $.clickEvent();
 
-    $("#btnFilter").click(function () {
+    $("#btn-filter").on('click', function () {
         if ($('.filterWrap').css('display') == 'none') {
             $('.filterWrap').css('z-index', '10');
             $('.filterWrap').css('display', 'initial');
         } else {
             $('.filterWrap').css('z-index', 'auto');
             $('.filterWrap').css('display', 'none');
-
         }
     });
 
-    $('#btnMyFilter').click(function () {
-        if ($('.myFilterWrap').css('display') == 'none') {
-            $('.myFilterWrap').css('display', 'inline-block');
-        } else {
-            $('.myFilterWrap').css('display', 'none');
-        }
+    $('#btn-confirm').on('click', function () {
+        $('.filterWrap').css('z-index', 'auto');
+        $('.filterWrap').css('display', 'none');
+        searchRoomFromMap();
     });
 
-    $('#btnOption').click(function () {
+    $('#btn-option').on('click', function () {
         if ($('.wrapOption').css('display') == 'none') {
             $('.wrapOption').css('display', 'inline-block');
         } else {
@@ -51,46 +51,41 @@ $(document).ready(function () {
         }
     });
 
-    $('#btnSubmit').click(function () {
-        $('.filterWrap').css('z-index', 'auto');
-        $('.filterWrap').css('display', 'none');
-        searchRoomFromMap();
-    })
+    $('#btn-apply').on('click', function () {
+        $('.wrapOption').css('display', 'none');
+    });
 
-    $('#btnDefaultSet').click(function () {
+    $('#btn-default').on('click', function () {
         $(".optionCheckbox").each(function () {
             this.checked = false;
         });
     });
-
-    $('#btnApply').click(function () {
-        $('.wrapOption').css('display', 'none');
-    });
 });
 
 $.clickEvent = function () {
-    $('#apt').clickRt();
-    $('#villa').clickRt();
-    $('#tworoom').clickRt();
-    $('#oneroom').clickRt();
-    $('#officetel').clickRt();
-    let bt = $('.buildingType');
+    $('#apartment').setRoomType();
+    $('#villa').setRoomType();
+    $('#tworoom').setRoomType();
+    $('#oneroom').setRoomType();
+    $('#officetel').setRoomType();
+    let bt = $('.room-type');
     for(let i = 0; i < bt.length; i++){
-        roomTypeList.push($('.buildingType').eq(i).val());
+        roomTypeList.push($('.room-type').eq(i).val());
     }
 }
 
-var roomTypeList = [];
-$.fn.clickRt = function () {
-    $(this).click(function () {
-        if ($(this).css('background-color') === "rgb(182, 226, 248)") {
-            $(this).css('background-color', '#ffffff');
+$.fn.setRoomType = function () {
+    $(this).on('click', function () {
+        if ($(this).css('background-color') === selectedColor) {
+            $(this).css('background-color', 'white');
+            $(this).css('color', 'black');
             for(let i = 0 ; i < roomTypeList.length; i++){
                 if(roomTypeList[i] === $(this).val())
                     roomTypeList.splice(i,1);
             }
         } else {
-            $(this).css('background-color', 'rgb(182, 226, 248)');
+            $(this).css('background-color', selectedColor);
+            $(this).css('color', 'white');
             roomTypeList.push($(this).val());
         }
     })

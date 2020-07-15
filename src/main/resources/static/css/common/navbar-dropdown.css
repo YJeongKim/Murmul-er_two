@@ -28,7 +28,8 @@
 .navbar-dropdown .mbr-iconfont + .navbar-caption {
     vertical-align: -1px; }
 .navbar-dropdown.navbar-fixed-top {
-    position: fixed; }
+    position: fixed;
+    box-shadow: 0px 0px 10px 0px #2f2f2f;}
 .navbar-dropdown .navbar-brand span {
     vertical-align: -4px; }
 .navbar-dropdown.bg-color.transparent {

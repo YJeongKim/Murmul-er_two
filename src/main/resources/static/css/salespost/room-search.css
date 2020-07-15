@@ -8,7 +8,8 @@ body {
 .wrap {
 	position: absolute;
 	width: 100%;
-	height: 94%;
+	height: 90.9%;
+    font-family: 'Nanum Gothic', sans-serif;
 }
 .mapWrap {
 	position: relative;
@@ -39,7 +40,8 @@ body {
 	overflow-y: auto;
 	z-index: 510;
 	background-color: white;
-	border-left: 2px solid gray;
+    box-shadow: -8px 5px 10px -5px #464646;
+	border-left: 2px solid #B0C4DE;
 }
 .item {
     cursor: pointer;
@@ -56,22 +58,23 @@ body {
 	width: 260px;
 	height: 30px;
 	outline: 0;
-	margin: 10px 0px 10px 5px;
+	margin: 10px;
 	font-size: 15px;
-	border: 1px solid #B6E2F8;
+	border: 1px solid #ffa0a4;
 	border-radius: 5px;
+    padding-left: 10px;
 }
-#btnMapSearch {
+#btn-search {
 	width: 35px;
 	height: 35px;
 	outline: 0;
 	background-image: url("/img/room/search.png");
 	background-size: contain;
 	background-repeat: no-repeat;
-	border: 1px solid #B6E2F8;
+	border: 1px solid #ffa0a4;
 	border-radius: 5px;
 }
-#btnFilter {
+#btn-filter {
 	width: 70px;
 	height: 35px;
 	outline: 0;
@@ -83,24 +86,24 @@ body {
 	background-size: contain;
 	background-repeat: no-repeat;
 	background-position: right;
-	border: 1px solid #B6E2F8;
+	border: 1px solid #ffa0a4;
 	border-radius: 5px;
 }
-.wrap>button {
-	border: 0;
-	background-color: #B6E2F8;
-	outline: 0;
-}
-.wrap>button:hover {
-	cursor: pointer;
+#btn-search:hover, #btn-filter:hover {
+    border: 2px solid #ffa0a4;
 }
 .searchWrap {
-	position: absolute;
-	display: block;
-	margin: 15px 0px 0px 20px;
-	background-color: white;
-	border-radius: 5px;
-	z-index: 10;
+    position: absolute;
+    display: block;
+    margin: 15px 0px 0px 20px;
+    background-color: white;
+    border: 3px solid #fdd5d6;
+    box-shadow: 0px 0 10px 0px #000000;
+    border-radius: 10px;
+    z-index: 10;
+}
+.searchWrap button {
+    background-color: white;
 }
 .slideMenu {
     cursor: pointer;
@@ -112,11 +115,11 @@ body {
     z-index: 511;
     padding: 0;
     outline: 0;
-    border: 2px solid gray;
+    border: 2px solid #B0C4DE;
     border-right: 0;
     border-top-left-radius: 4px;
     border-bottom-left-radius: 4px;
-    box-shadow: rgba(0, 0.18, 0, 0) 2px -1px 2px 1px;
+    box-shadow: -8px 0 10px -5px #464646;
     background-color: rgb(255, 255, 255);
     font-size: 20px;
 }
@@ -128,14 +131,13 @@ body {
 		width: calc(100% - 265px);
 	}
 }
- .filterWrap {
+.filterWrap {
  	position: absolute;
- 	width: 800px;
-	height: 650px;
 	display: none;
-	top: 150px;
-	left: 15px;
+	top: 160px;
+	left: 75px;
    	z-index: 0;
+    font-family: 'Nanum Gothic', sans-serif;
 }
 .filterMenuWrap {
 	position: relative;
@@ -144,19 +146,19 @@ body {
     text-align: center;
     margin: 0px 10px 0px 0px;
     z-index: 0;
+    box-shadow: 0 0 10px 0px #3c3c3c;
 }
-
 .filterMenu {
     margin: 0 auto;
     width: 350px;
     height: 350px;
     border-collapse: collapse;
-    background: #B6E2F8;
+    background: #fdd5d6;
     z-index: 0;
 }
 .filterMenu td {
-    border: 2px solid #4B88CC;
-    font-family: 'Nanum Gothic', sans-serif;
+    border: 2px solid #fdd5d6;
+    background-color: white;
 }
 .range {
 	font-size: 13px;
@@ -164,9 +166,6 @@ body {
 }
 .filterMenu td:first-child {
     font-weight: bold;
-}
-.filterMenu td:nth-child(2) {
-    background: white;
 }
 .tbAddress {
     width: 170px;
@@ -179,23 +178,9 @@ body {
     border: 0;
     border-radius: 5px;
     font-size: 12px;
-    font-family: 'Nanum Gothic', sans-serif;
-    background-color: #B6E2F8;
-    color: black;
-}
-.optionButton {
-    float: left;
-    width: 50%;
-    height: 100%;
-    border: 0;
-    background-color: #B6E2F8;
-    outline: 0;
-    font-size: 20px;
-    font-weight: bold;
-    font-family: 'Nanum Gothic', sans-serif;
-}
-.optionButton:first-child {
-    border-right: 2px solid #4B88CC;
+    font-weight: 600;
+    background-color: #ffa0a4;
+    color: white;
 }
 #btnMyFilter {
     width: 20px;
@@ -291,31 +276,38 @@ body {
 	display: none;
 	float:left;
 	z-index: 0;
+    box-shadow: 0 0 10px 0px #3c3c3c;
 }
 .filterOption {
-    margin: 10px 0px 0px 0px;
-    width: 380px;
+    width: 280px;
     height: 385px;
     border-collapse: collapse;
-    background-color: #B6E2F8;
 }
 .filterOption td {
-    width: 50%;
-    border: 2px solid #4B88CC;
-    font-family: 'Nanum Gothic', sans-serif;
+    border: 2px solid #fdd5d6;
     background-color: white;
 }
 .optionCheckbox {
-    margin: 0px 10px 0px 10px;
+    margin: 5px 10px 5px 10px;
 }
-.btnOption {
-    width: 100%;
-    height: 100%;
+.optionCheckbox:hover {
+    cursor: pointer;
+}
+.btn-option {
     outline: 0;
-    border: 0;
-    background-color: #B6E2F8;
-    font-family: 'Nanum Gothic', sans-serif;
-    font-size: 20px;
+    font-size: 18px;
+    font-weight: 600;
+}
+.filterMenuWrap .btn-option {
+    margin: 0px 1px 0px 1px;
+    padding: 0px;
+    width: 48%;
+    height: 100%;
+}
+.wrapOption .btn-option {
+    margin: 1px -4px 1px 3px;
+    width: 48.3%;
+    height: 50px;
 }
 .infoWrap {
     position: absolute;
@@ -399,4 +391,102 @@ body {
 }
 .info .link {
     color: #5085BB;
+}
+button {
+    border: 0;
+    outline: 0;
+}
+button:hover {
+    cursor: pointer;
+    transition: all linear 0.2s;
+}
+button:focus {
+    outline: none;
+}
+/* range css */
+input[type=range] {
+    width: 100%;
+    margin: 9px 2px;
+    background-color: transparent;
+    -webkit-appearance: none;
+}
+input[type=range]:focus {
+    outline: none;
+}
+input[type=range]::-webkit-slider-runnable-track {
+    background: #ffa0a4;
+    border: 0px;
+    border-radius: 25px;
+    width: 100%;
+    height: 8px;
+    cursor: pointer;
+}
+input[type=range]::-webkit-slider-thumb {
+    margin-top: -6px;
+    width: 20px;
+    height: 20px;
+    background: #ffa0a4;
+    border: 0px;
+    border-radius: 50px;
+    cursor: pointer;
+    -webkit-appearance: none;
+}
+input[type=range]:focus::-webkit-slider-runnable-track {
+    background: #ffa0a4;
+}
+input[type=range]::-moz-range-track {
+    background: #ffa0a4;
+    border: 0px;
+    border-radius: 25px;
+    width: 100%;
+    height: 8px;
+    cursor: pointer;
+}
+input[type=range]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: #ffa0a4;
+    border: 0px;
+    border-radius: 50px;
+    cursor: pointer;
+}
+input[type=range]::-ms-track {
+    background: transparent;
+    border-color: transparent;
+    border-width: 11.8px 0;
+    color: transparent;
+    width: 100%;
+    height: 8px;
+    cursor: pointer;
+}
+input[type=range]::-ms-fill-lower {
+    background: #ffc9cb;
+    border: 0px;
+    border-radius: 2.6px;
+}
+input[type=range]::-ms-fill-upper {
+    background: #ff767b;
+    border: 0px;
+    border-radius: 2.6px;
+}
+input[type=range]::-ms-thumb {
+    width: 20px;
+    height: 20px;
+    background: #ffa0a4;
+    border: 0px;
+    border-radius: 50px;
+    cursor: pointer;
+    margin-top: 0px;
+    /*Needed to keep the Edge thumb centred*/
+}
+input[type=range]:focus::-ms-fill-lower {
+    background: #ffc9cb;
+}
+input[type=range]:focus::-ms-fill-upper {
+    background: #ff767b;
+}
+@supports (-ms-ime-align:auto) {
+    input[type=range] {
+        margin: 0;
+    }
 }

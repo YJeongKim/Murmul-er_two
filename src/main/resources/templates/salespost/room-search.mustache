@@ -1,5 +1,10 @@
 {{>layout/header}}
-<link rel="stylesheet" href="/css/room/room-title.css"/>
+<style type="text/css">
+    .top-background {
+        height: 84px;
+        margin-bottom: 0px;
+    }
+</style>
 <link rel="stylesheet" href="/css/salespost/room-search.css"/>
 </head>
 <body>
@@ -13,8 +18,8 @@
         </div>
         <div class="searchWrap">
             <input id="mapInputBox" type="text" placeholder="아파트, 지역, 지하철, 학교검색">
-            <button id="btnMapSearch" style="background-color:white;" onClick="searchPlaces()">&nbsp;</button>
-            <button id="btnFilter" style="background-color:white;">필터</button>
+            <button id="btn-search" onClick="searchPlaces()">&nbsp;</button>
+            <button id="btn-filter">필터</button>
         </div>
     </div>
 </div>
@@ -24,11 +29,11 @@
             <tr>
                 <td>건물 유형</td>
                 <td>
-                    <button class="room-type" id="apt" name="buildingType" value="아파트">아파트</button>
-                    <button class="room-type" id="villa" name="buildingType" value="빌라">빌라</button>
-                    <button class=room-type" id="tworoom" name="buildingType" value="투룸">투룸</button>
-                    <button class="room-type" id="oneroom" name="buildingType" value="원룸">원룸</button>
-                    <button class=room-type" id="officetel" name="buildingType" value="오피스텔">오피스텔</button>
+                    <button class="room-type" id="apartment" value="아파트">아파트</button>
+                    <button class="room-type" id="villa" value="빌라">빌라</button>
+                    <button class="room-type" id="tworoom" value="투룸">투룸</button>
+                    <button class="room-type" id="oneroom" value="원룸">원룸</button>
+                    <button class="room-type" id="officetel" value="오피스텔">오피스텔</button>
                 </td>
             </tr>
             <tr>
@@ -57,21 +62,26 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    <button class="optionButton" id="btnSubmit">확인</button>
-                    <button class="optionButton" id="btnOption">옵션 설정</button>
+                    <button class="btn btn-info btn-option" id="btn-confirm">확인</button>
+                    <button class="btn btn-info btn-option" id="btn-option">옵션 설정</button>
                 </td>
             </tr>
         </table>
     </div>
     <div class="wrapOption">
         <table class="filterOption">
-
+            {{#options}}
             <tr>
                 <td>
-                    <button class="btnOption" id="btnApply">적용</button>
+                    <input type="checkbox" name="optionCheckbox" class="optionCheckbox"
+                           value="{{title}}"/>{{title}}
                 </td>
+            </tr>
+            {{/options}}
+            <tr>
                 <td>
-                    <button class="btnOption" id="btnDefaultSet">기본값</button>
+                    <button class="btn btn-info btn-option" id="btn-apply">적용</button>
+                    <button class="btn btn-info btn-option" id="btn-default">기본값</button>
                 </td>
             </tr>
         </table>
