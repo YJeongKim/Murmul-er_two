@@ -1,0 +1,86 @@
+{{>layout/header}}
+<link rel="stylesheet" href="/css/room/room-title.css"/>
+<link rel="stylesheet" href="/css/salespost/room-search.css"/>
+</head>
+<body>
+{{>layout/navbar}}
+<div class="wrap">
+    <div class="mapWrap">
+        <div class="map" id="map"></div>
+        <div class="sub">
+            <input type="button" class="slideMenu" id="slideMenu" value="<">
+            <div class="itemsList" id="itemsList"></div>
+        </div>
+        <div class="searchWrap">
+            <input id="mapInputBox" type="text" placeholder="아파트, 지역, 지하철, 학교검색">
+            <button id="btnMapSearch" style="background-color:white;" onClick="searchPlaces()">&nbsp;</button>
+            <button id="btnFilter" style="background-color:white;">필터</button>
+        </div>
+    </div>
+</div>
+<div class="filterWrap">
+    <div class="filterMenuWrap">
+        <table class="filterMenu">
+            <tr>
+                <td>건물 유형</td>
+                <td>
+                    <button class="room-type" id="apt" name="buildingType" value="아파트">아파트</button>
+                    <button class="room-type" id="villa" name="buildingType" value="빌라">빌라</button>
+                    <button class=room-type" id="tworoom" name="buildingType" value="투룸">투룸</button>
+                    <button class="room-type" id="oneroom" name="buildingType" value="원룸">원룸</button>
+                    <button class=room-type" id="officetel" name="buildingType" value="오피스텔">오피스텔</button>
+                </td>
+            </tr>
+            <tr>
+                <td>임대기간</td>
+                <td>
+                    없음<input type="range" min="0" max="4" value="4" id="rentRange" class="slider" name="rentRange"
+                             style="width: 180px;"/>최대
+                    <br><span class="range">1개월</span><span class="range">6개월</span><span class="range">1년</span>
+                </td>
+            </tr>
+            <tr>
+                <td>보증금</td>
+                <td>
+                    없음<input type="range" min="0" max="4" value="4" id="deposit" class="slider" name="deposit"
+                             style="width: 180px;">최대
+                    <br><span class="range">300만</span> <span class="range">500만</span> <span class="range">1000만</span>
+                </td>
+            </tr>
+            <tr>
+                <td>월세</td>
+                <td>
+                    없음<input type="range" min="0" max="4" value="4" id="monthlyCost" class="slider" name="monthlyCost"
+                             style="width: 180px;">최대
+                    <br><span class="range">30만</span><span class="range">50만</span><span class="range">100만</span>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <button class="optionButton" id="btnSubmit">확인</button>
+                    <button class="optionButton" id="btnOption">옵션 설정</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="wrapOption">
+        <table class="filterOption">
+
+            <tr>
+                <td>
+                    <button class="btnOption" id="btnApply">적용</button>
+                </td>
+                <td>
+                    <button class="btnOption" id="btnDefaultSet">기본값</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+{{>layout/footer}}
+<script type="text/javascript" src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=ae3ff68e9ec7f395cd455470c3cde547&libraries=services,clusterer,drawing"></script>
+<script type="text/javascript" src="/js/app/room-search.js"></script>
+<script type="text/javascript" src="/js/app/search-map.js"></script>
+</body>
+</html>
