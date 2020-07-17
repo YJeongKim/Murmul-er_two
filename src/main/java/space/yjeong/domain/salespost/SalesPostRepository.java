@@ -10,6 +10,6 @@ public interface SalesPostRepository extends JpaRepository<SalesPost, Long> {
     Optional<SalesPost> findByRoomId(Long roomId);
     List<SalesPost> findAllBySalesUserId(Long salesUserId);
 
-    @Query(nativeQuery = true, value = "select * from sales_posts s where s.user_id = :salesUserId order by s.id desc limit 1 ")
+    @Query(nativeQuery = true, value = "select * from sales_posts s where s.user_id = :salesUserId order by s.id desc limit 1")
     SalesPost findBySalesUserIdOrderByIdDesc(Long salesUserId);
 }

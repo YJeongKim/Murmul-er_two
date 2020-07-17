@@ -5,7 +5,7 @@ import lombok.Getter;
 import space.yjeong.domain.room.Room;
 import space.yjeong.domain.salespost.Image;
 import space.yjeong.domain.salespost.SalesPost;
-import space.yjeong.util.Constant;
+import space.yjeong.util.ViewHelper;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -77,36 +77,19 @@ public class RoomResponseDto {
                 .address(room.getRoadAddress())
                 .lease(salesPost.getLease().getTitle())
                 .leasePeriod(salesPost.getLeasePeriod() + salesPost.getPeriodUnit().getTitle())
-                .leaseDeposit(convertMoneyToString(salesPost.getLeaseDeposit()))
-                .leaseFee(convertMoneyToString(salesPost.getLeaseFee()))
-                .maintenanceFee(convertMoneyToString(salesPost.getMaintenanceFee()))
+                .leaseDeposit(ViewHelper.convertMoneyToString(salesPost.getLeaseDeposit()))
+                .leaseFee(ViewHelper.convertMoneyToString(salesPost.getLeaseFee()))
+                .maintenanceFee(ViewHelper.convertMoneyToString(salesPost.getMaintenanceFee()))
                 .image(image.getFilename())
-                .index(++Constant.count)
+                .index(++ViewHelper.count)
                 .isLease(isLease)
                 .build();
     }
 
     public static List<RoomResponseDto> listOf(List<SalesPost> salesPosts) {
-        Constant.count = 0;
+        ViewHelper.count = 0;
         return salesPosts.stream()
                 .map(RoomResponseDto::of)
                 .collect(Collectors.toList());
-    }
-
-    private static String convertMoneyToString(int money) {
-        int convertMoney = money / 10000;
-        String result = "";
-
-        if (convertMoney == 0) {
-            result = "없음";
-        } else if (convertMoney > 9999) {
-            result += (convertMoney / 10000) + "억 ";
-            if (convertMoney % 10000 != 0) {
-                result += (convertMoney % 10000) + "만 원";
-            }
-        } else {
-            result += convertMoney + "만 원";
-        }
-        return result;
     }
 }
