@@ -2,10 +2,11 @@ package space.yjeong.domain.room;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import space.yjeong.util.EnumModel;
 
 @Getter
 @RequiredArgsConstructor
-public enum Option {
+public enum Option implements EnumModel {
     REFRIGERATOR("OPTION_REFRIGERATOR", "냉장고"),
     AIR_CONDITIONER("OPTION_AIR_CONDITIONER", "에어컨"),
     WASHING_MACHINE("OPTION_WASHING_MACHINE", "세탁기"),
