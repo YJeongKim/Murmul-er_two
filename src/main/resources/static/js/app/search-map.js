@@ -1,15 +1,20 @@
 var map;
-var point;
-var overlay;
-//마커를 담을 배열
-let markers = [];
+
+var overlay; // 오버레이
+
+let markers = []; //마커를 담을 배열
+
 let idleFlag = true;
 
-let markerImageOR = '/img/marker/mk_or.png';
-let markerImageTR = '/img/marker/mk_tr.png';
-let markerImageVI = '/img/marker/mk_vi.png';
-let markerImageOF = '/img/marker/mk_of.png';
-let markerImageAP = '/img/marker/mk_ap.png';
+let subData = []; // 지도 옆 표시되는 데이터
+
+var ps = new kakao.maps.services.Places(); //장소 검색 객체 생성
+
+let markerImageOR = '/img/room/mk_or.png';
+let markerImageTR = '/img/room/mk_tr.png';
+let markerImageVI = '/img/room/mk_vi.png';
+let markerImageOF = '/img/room/mk_of.png';
+let markerImageAP = '/img/room/mk_ap.png';
 
 $(document).ready(function (listener) {
 	let container = document.getElementById('map'); // 지도를 표시할 div
@@ -27,22 +32,18 @@ $(document).ready(function (listener) {
 
 var searchRoomFromMap = function() {
 	let bounds = map.getBounds();
-	if(!idleFlag) return;
+	if (!idleFlag) return;
 	idleFlag = false;
 	$.ajax({
-		url: "/searchRoom/search",
-		type: "GET",
+		url: '/api/salesposts',
+		type: 'GET',
+		dataType: 'json',
+		contentType: 'application/json; charset=utf-8',
 		data: {
 			southWest: bounds.getSouthWest().toString(),
 			northEast: bounds.getNorthEast().toString()
 		}, success: function (data) {
-			for (let i = 0; i < subData.length; i++){
-				//console.log(subData[i]);
-				closeOverlay(subData[i]);
-			}
-			subData = [];
-			setMarkers(null);
-			markers = [];
+			initData();
 			if (data != '{}') {
 				$('#slideMenu').css("visibility", "visible");
 				$.showSubList(data);
@@ -63,6 +64,15 @@ function setMarkers(map) {
 	for (let i = 0; i < markers.length; i++) {
 		markers[i].setMap(map);
 	}
+}
+
+function initData() {
+	for (let i = 0; i < subData.length; i++){
+		closeOverlay(subData[i]);
+	}
+	subData = [];
+	setMarkers(null);
+	markers = [];
 }
 
 var setWindow = function() {
@@ -89,9 +99,6 @@ var setWindow = function() {
 	}
 }
 
-//장소 검색 객체 생성
-var ps = new kakao.maps.services.Places();
-
 //키워드 검색을 요청하는 함수
 function searchPlaces(){
 	var keyword = $('#mapInputBox').val();
@@ -103,35 +110,33 @@ function searchPlaces(){
 	ps.keywordSearch(keyword, placesSearchCB);
 }
 
-var subData = [];
-//키워드 검색 완료 시 호출되는 콜백함수 입니다
+//키워드 검색 완료 시 호출되는 콜백함수
 function placesSearchCB (data, status) {
 	if (status === kakao.maps.services.Status.OK) {
-		var bounds = new kakao.maps.LatLngBounds();
+		let bounds = new kakao.maps.LatLngBounds();
 		bounds.extend(new kakao.maps.LatLng(data[0].y, data[0].x));
 		map.setBounds(bounds);
-		var bounds = map.getBounds();
-		var southWest = bounds.getSouthWest().toString();
-        var northEast = bounds.getNorthEast().toString();
+		let location = map.getBounds();
+		let southWest = location.getSouthWest().toString();
+		let northEast = location.getNorthEast().toString();
+
 		$.ajax({
-			url: "searchRoom/search",
-			type: "GET",
+			url: '/api/salesposts',
+			type: 'GET',
+			dataType: 'json',
+			contentType: 'application/json; charset=utf-8',
 			data: {
-                southWest: southWest,
-                northEast: northEast
+				southWest: southWest,
+				northEast: northEast
 			}, success: function (data) {
-				for (let i = 0; i < subData.length; i++){
-					closeOverlay(subData[i]);
-				}
-				subData = [];
-				setMarkers(null);
-				markers = [];
+				initData();
+
 				if (data != '{}') {
 					$('#slideMenu').css("visibility", "visible");
 					$.showSubList(data);
 					setWindow();
 				} else {
-					Swal.fire("", "이 지역에 등록된 방이 없습니다", "warning");
+					Swal.fire("", "이 지역에 등록된 방이 없습니다", "info");
 					$('.item').remove();
 					$('.sub').css("width", "0%");
 					$('#map').css('width', "100%");
@@ -148,37 +153,41 @@ $.boundsLocation = function(res) {
 	bounds.extend(new kakao.maps.LatLng(res.latitude, res.longitude));
 }
 
-$.showSubList = function(data){
-   	let obj = JSON.parse(data);
-	$('.item').remove();
-	for(let i = 0; i < Object.keys(obj).length; i++) {
-	   	let size = Object.keys(obj['item'+i]).length;
-		let temp = obj['item'+i].substring(1, size-1);
-		let res = eval("("+ temp +")");
-		subData.push(res.roomId);
+$.showSubList = function(data) {
+	$('.item').remove()
+
+	console.log(data.length);
+	console.log(data);
+
+	for (let i = 0; i < data.length; i++) {
+		let obj = data[i];
+		subData.push(obj.salesPostId);
+
 		let subList = ''
-			+ '<div class="item" id=' + res.roomId + ' style="float: left; width: ' + ($("#slideMenu").val() === '>' ? 47 : 95)
-			+ '%; height: 360px; display: inline-block;" onclick="showRoom(' + res.roomId + ')">'
-			+ '	<div class="roomImage" style="width: 100%; height: 60%;"><img src=' + '"/manage/download?middlePath=/room/roomId_' + res.roomId + '&imageFileName='
-			+ res.roomImg + '" width="97%" height="100%"/></div>'
-			+ '		<p style="font-size: 15px;">' + res.roomType + ' | ' + res.rentType + ' | ' + res.period + ' 가능</p>'
-			+ '			<span style="font-size: 17px; font-weight: bold;">보증금 ' + res.deposit + ' </span>';
-		if(res.rentType!='전세') {
-			subList += '		/ <span style="font-size: 17px; font-weight: bold;">월세 ' + res.monthlyCost + '</span>'
+			+ '<div class="item" id=' + obj.salesPostId + ' style="float: left; width: ' + ($("#slideMenu").val() === '>' ? 47 : 95)
+			+ '%; height: 360px; display: inline-block;" onclick="showRoom(' + obj.salesPostId + ')">'
+			+ '	<div class="roomImage" style="width: 100%; height: 60%;"><img src=' + '"/files/download?id=' + obj.salesPostId
+			+ '&image=' + obj.image + '" width="97%" height="100%"/></div>'
+			+ '		<p style="font-size: 15px;">' + obj.roomType + ' | ' + obj.lease + ' | ' + obj.leasePeriod + '</p>'
+			+ '			<span style="font-size: 17px; font-weight: bold;">보증금 ' + obj.leaseDeposit + ' </span>';
+		if (obj.lease === "월세") {
+			subList += '		/ <span style="font-size: 17px; font-weight: bold;">월세 ' + obj.leaseFee + '</span>'
+		} else if (obj.lease === "단기") {
+			subList += '		/ <span style="font-size: 17px; font-weight: bold;">금액 ' + obj.leaseFee + '</span>'
 		}
-		subList += '	<p style="font-size: 16px; font-weight: 500;">' + $.changeTitle(res.title) + '</p>'
-			+ '</div>'
-		if (filter(res) !== false) {
-			$.boundsLocation(res);
-            $(subList).appendTo($('#itemsList'));
-		} else {
+		subList += '	<p style="font-size: 16px; font-weight: 500;">' + $.changeTitle(obj.title) + '</p>'
+			+ '</div>';
+
+		if (filter(obj) !== false) {
+			$.boundsLocation(obj);
+			$(subList).appendTo($('#itemsList'));
 		}
 	}
 }
 
-// 지도에 마커를 표시하는 함수입니다
+// 지도에 마커를 표시하는 함수
 function displayMarker(place) {
-	// 마커를 생성하고 지도에 표시합니다
+	// 마커를 생성하고 지도에 표시
 	let marker = new kakao.maps.Marker({
 		map: map,
 		position: new kakao.maps.LatLng(place.latitude, place.longitude)
@@ -208,7 +217,7 @@ function displayMarker(place) {
 	markers.push(marker);
 	kakao.maps.event.addListener(marker, 'click', function() {
 		if($('.infoWrap#' + place.roomId)) {
-			$('.infoWrap#' + place.roomId).remove();
+			closeOverlay(place.roomId);
 		}
 		openOverlay(place);
 	});
@@ -219,21 +228,23 @@ function openOverlay(place) {
 		+ '<div class="infoWrap" id=' + place.roomId + '>'
 		+ ' <div class="info">'
 		+ '		<div class="addr">' + place.address
-		+ '			<div class="close" onclick="closeOverlay('+ place.roomId +')" title="닫기"></div>'
+		+ '			<div class="close" onclick="closeOverlay(' + place.roomId + ')" title="닫기"></div>'
 		+ '		</div>'
 		+ '		<div class="body">'
 		+ '			<div class="desc">'
 		+ '				<div class="content">[' + place.roomType + '] ' + $.changeTitle(place.title) + '</div>'
-		+ '				<div class="cost content">' + place.rentType + ' ( 보증금 ' + place.deposit;
-	if(place.rentType!='전세') {
-		content += ' / 월세 ' + place.monthlyCost;
+		+ '				<div class="cost content">' + place.lease + ' ( 보증금 ' + place.leaseDeposit;
+	if (place.lease === "월세") {
+		content += ' / 월세 ' + place.leaseFee;
+	} else if (place.lease === "단기") {
+		content += ' / 금액 ' + place.leaseFee;
 	}
 	content += ' )</div>'
-		+ '				<div><a href="/searchRoom/' + place.roomId + '" target="_blank" class="link">방 보러가기</a></div>'
+		+ '				<div><a href="/salesposts/' + place.salespostId + '" target="_blank" class="link">방 보러가기</a></div>'
 		+ '         </div>'
 		+ '		</div>'
 		+ '	</div>'
-		+'</div>';
+		+ '</div>';
 	overlay = new kakao.maps.CustomOverlay({
 		content: content,
 		map: map,
@@ -248,21 +259,21 @@ function closeOverlay(id) {
 
 function filter(obj) {
    	let roomTypeFlag = false;
+
    	for (let i = 0; i < roomTypeList.length; i++) {
    		if (obj.roomType === roomTypeList[i]) roomTypeFlag = true;
 	}
-
    	if (roomTypeFlag === false) return false;
 
-   	let periodNum = obj.period.replace(/[^0-9]/g,"");
-   	let rentD;
+   	let periodNum = obj.leasePeriod.replace(/[^0-9]/g,"");
+   	let rentDays;
 
-	if (obj.period.includes("주")) {
-		rentD = periodNum * 7;
-	} else if (obj.period.includes("개월")) {
-		rentD = periodNum * 30;
-	} else if (obj.period.includes("년")) {
-		rentD = periodNum * 365
+	if (obj.leasePeriod.includes("주")) {
+		rentDays = periodNum * 7;
+	} else if (obj.leasePeriod.includes("개월")) {
+		rentDays = periodNum * 30;
+	} else if (obj.leasePeriod.includes("년")) {
+		rentDays = periodNum * 365
 	}
 
 	let rentRange = 99999;
@@ -273,21 +284,21 @@ function filter(obj) {
 		case '3': rentRange = 365; break;
 	}
 
-	if (rentD > rentRange) {
+	if (rentDays > rentRange) {
 		return false;
 	}
 
 	let deposit;
-	if (obj.deposit.includes("없음")) {
+	if (obj.leaseDeposit.includes("없음")) {
 		deposit = 0;
-	} else if (obj.deposit.includes("억")) {
-		let temp = obj.deposit.split('억');
+	} else if (obj.leaseDeposit.includes("억")) {
+		let temp = obj.leaseDeposit.split('억');
 		deposit = temp[0] * 10000;
 		if (temp[1] != null) {
 			deposit += temp[1].replace(/[^0-9]/g,"") * 1;
 		}
-	} else if (obj.deposit.includes("만")) {
-		deposit = obj.deposit.replace(/[^0-9]/g,"") * 1;
+	} else if (obj.leaseDeposit.includes("만")) {
+		deposit = obj.leaseDeposit.replace(/[^0-9]/g,"") * 1;
 	}
 
 	let depositRange = 99999999;
@@ -303,16 +314,16 @@ function filter(obj) {
 	}
 
 	let monthlyCost;
-	if (obj.monthlyCost.includes("없음")) {
+	if (obj.leaseFee.includes("없음")) {
 		monthlyCost = 0;
-	} else if (obj.monthlyCost.includes("억")) {
-		let temp = obj.monthlyCost.split('억');
+	} else if (obj.leaseFee.includes("억")) {
+		let temp = obj.leaseFee.split('억');
 		monthlyCost = temp[0] * 10000;
 		if (temp[1] != null) {
 			monthlyCost += temp[1].replace(/[^0-9]/g,"") * 1;
 		}
-	} else if (obj.monthlyCost.includes("만")) {
-		monthlyCost = obj.monthlyCost.replace(/[^0-9]/g,"") * 1;
+	} else if (obj.leaseFee.includes("만")) {
+		monthlyCost = obj.leaseFee.replace(/[^0-9]/g,"") * 1;
 	}
 
 	var monthlyCostRange = 99999;
@@ -337,8 +348,8 @@ function filter(obj) {
 	let optionFlag;
 	for (let i = 0; i < checkedOptions.length; i++) {
 		optionFlag = false;
-		for (let j = 0; j < obj.roomOptions.length; j++) {
-			if (obj.roomOptions[j] === checkedOptions[i]) optionFlag = true;
+		for (let j = 0; j < obj.options.length; j++) {
+			if (obj.options[j] === checkedOptions[i]) optionFlag = true;
 		}
 		if (optionFlag === false) return false;
 	}
@@ -353,6 +364,6 @@ $.changeTitle = function(title) {
 	return title;
 }
 
-function showRoom(roomId) {
-	window.open("/searchRoom/" + roomId,"_blank");
+function showRoom(salesPostId) {
+	window.open("/salesposts/" + salesPostId,"_blank");
 }
