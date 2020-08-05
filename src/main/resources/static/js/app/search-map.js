@@ -19,15 +19,14 @@ let markerImageAP = '/img/room/mk_ap.png';
 $(document).ready(function (listener) {
 	let container = document.getElementById('map'); // 지도를 표시할 div
 	let options = {
-	    center: new kakao.maps.LatLng(37.4839778342191, 126.955578840377), // 지도의 중심 좌표
-	    level: 1
+	    center: new kakao.maps.LatLng(37.5559802396321, 126.972091251236), // 지도의 중심 좌표
+	    level: 3
 	};
 	map = new kakao.maps.Map(container, options); // 지도를 생성
     let zoomControl = new kakao.maps.ZoomControl();
     map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
 
 	kakao.maps.event.addListener(map, 'idle', searchRoomFromMap);
-	ps.keywordSearch("서경대학교", placesSearchCB);
 });
 
 var searchRoomFromMap = function() {
@@ -44,15 +43,15 @@ var searchRoomFromMap = function() {
 			northEast: bounds.getNorthEast().toString()
 		}, success: function (data) {
 			initData();
-			if (data != '{}') {
-				$('#slideMenu').css("visibility", "visible");
+			if (data.length) {
+				$('.noContent').css("height", "0px");
+				$('.noContent').css("visibility", "hidden");
 				$.showSubList(data);
 				setWindow();
 			} else {
 				$('.item').remove();
-				$('.sub').css("width", "0%");
-				$('#map').css('width', "100%");
-				$('#slideMenu').css("visibility", "hidden");
+				$('.noContent').removeAttr("height");
+				$('.noContent').css("visibility", "visible");
 			}
 		}
 	}).then(function () {
@@ -84,7 +83,7 @@ var setWindow = function() {
 			$("#map").css('width', '80%');
 			$(".sub").css('width', '19%');
 		}
-		$("#itemsList").css('width', '100%');
+		$("#itemList").css('width', '100%');
 		$('.item').css('width', '96%');
 	} else {
 		if ($(window).width() < 1400) {
@@ -94,7 +93,7 @@ var setWindow = function() {
 			$("#map").css('width', '60%');
 			$(".sub").css('width', '40%');
 		}
-		$("#itemsList").css('width', '98%');
+		$("#itemList").css('width', '98%');
 		$('.item').css('width', '44%');
 	}
 }
@@ -103,7 +102,7 @@ var setWindow = function() {
 function searchPlaces(){
 	var keyword = $('#mapInputBox').val();
 	if(!keyword.replace(/^\s+|\s+$/g, '')){
-		Swal.fire('키워드를 입력해주세요!');
+		Swal.fire('키워드를 입력해주세요!', '', 'info');
 		return false;
 	}
 	// 장소 검색 객체를 통해 키워드로 장소검색을 요청
@@ -131,16 +130,16 @@ function placesSearchCB (data, status) {
 			}, success: function (data) {
 				initData();
 
-				if (data != '{}') {
-					$('#slideMenu').css("visibility", "visible");
+				if (data.length) {
+					$('.noContent').css("height", "0px");
+					$('.noContent').css("visibility", "hidden");
 					$.showSubList(data);
 					setWindow();
 				} else {
-					Swal.fire("", "이 지역에 등록된 방이 없습니다", "info");
+					Swal.fire("", "이 위치에 등록된 방이 없습니다.", "info");
 					$('.item').remove();
-					$('.sub').css("width", "0%");
-					$('#map').css('width', "100%");
-					$('#slideMenu').css("visibility", "hidden");
+					$('.noContent').removeAttr("height");
+					$('.noContent').css("visibility", "visible");
 				}
 			}
 		});
@@ -156,9 +155,6 @@ $.boundsLocation = function(res) {
 $.showSubList = function(data) {
 	$('.item').remove()
 
-	console.log(data.length);
-	console.log(data);
-
 	for (let i = 0; i < data.length; i++) {
 		let obj = data[i];
 		subData.push(obj.salesPostId);
@@ -168,19 +164,19 @@ $.showSubList = function(data) {
 			+ '%; height: 360px; display: inline-block;" onclick="showRoom(' + obj.salesPostId + ')">'
 			+ '	<div class="roomImage" style="width: 100%; height: 60%;"><img src=' + '"/files/download?id=' + obj.salesPostId
 			+ '&image=' + obj.image + '" width="97%" height="100%"/></div>'
-			+ '		<p style="font-size: 15px;">' + obj.roomType + ' | ' + obj.lease + ' | ' + obj.leasePeriod + '</p>'
-			+ '			<span style="font-size: 17px; font-weight: bold;">보증금 ' + obj.leaseDeposit + ' </span>';
+			+ '		<p class="simple-1">' + obj.roomType + '  |  ' + obj.lease + '  |  ' + obj.leasePeriod + '</p>'
+			+ '			<span class="simple-2">보증금 ' + obj.leaseDeposit + ' </span>';
 		if (obj.lease === "월세") {
-			subList += '		/ <span style="font-size: 17px; font-weight: bold;">월세 ' + obj.leaseFee + '</span>'
+			subList += '		/ <span class="simple-2">월세 ' + obj.leaseFee + '</span>'
 		} else if (obj.lease === "단기") {
-			subList += '		/ <span style="font-size: 17px; font-weight: bold;">금액 ' + obj.leaseFee + '</span>'
+			subList += '		/ <span class="simple-2">금액 ' + obj.leaseFee + '</span>'
 		}
-		subList += '	<p style="font-size: 16px; font-weight: 500;">' + $.changeTitle(obj.title) + '</p>'
+		subList += '	<p class="simple-3">' + $.changeTitle(obj.title) + '</p>'
 			+ '</div>';
 
 		if (filter(obj) !== false) {
 			$.boundsLocation(obj);
-			$(subList).appendTo($('#itemsList'));
+			$(subList).appendTo($('#itemList'));
 		}
 	}
 }
@@ -231,16 +227,16 @@ function openOverlay(place) {
 		+ '			<div class="close" onclick="closeOverlay(' + place.roomId + ')" title="닫기"></div>'
 		+ '		</div>'
 		+ '		<div class="body">'
-		+ '			<div class="desc">'
+		+ '			<div class="description">'
 		+ '				<div class="content">[' + place.roomType + '] ' + $.changeTitle(place.title) + '</div>'
-		+ '				<div class="cost content">' + place.lease + ' ( 보증금 ' + place.leaseDeposit;
+		+ '				<div class="cost">' + place.lease + ' ( 보증금 ' + place.leaseDeposit;
 	if (place.lease === "월세") {
 		content += ' / 월세 ' + place.leaseFee;
 	} else if (place.lease === "단기") {
 		content += ' / 금액 ' + place.leaseFee;
 	}
 	content += ' )</div>'
-		+ '				<div><a href="/salesposts/' + place.salespostId + '" target="_blank" class="link">방 보러가기</a></div>'
+		+ '				<div><a href="/salesposts/' + place.salesPostId + '" target="_blank" class="link">방 보러가기</a></div>'
 		+ '         </div>'
 		+ '		</div>'
 		+ '	</div>'

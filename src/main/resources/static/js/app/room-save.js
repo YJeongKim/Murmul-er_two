@@ -121,7 +121,6 @@ let getAddress = function () {
     new daum.Postcode({
         oncomplete: function (data) {
             allAddress = data;
-            console.log(allAddress);
             $('#inputAddress').attr('value', data.roadAddress);
             $('#inputDetailAddress').val('');
         }
@@ -370,7 +369,6 @@ function saveRoom() {
         maintenanceFee: $('#inputMaintenanceFee').val() * 10000,
         maintenanceOptions: maintenanceOptions
     };
-    console.log(roomInfo);
 
     if (formData.get("images") == null) {
         return swalWarning('', '사진을 등록해주세요', '#tdImg');

@@ -30,7 +30,7 @@ body {
 	width: 19%;
 	height: 100%;
 }
-.itemsList {
+.itemList {
 	position: relative;
 	float: left;
 	display: inline-block;
@@ -43,6 +43,13 @@ body {
     box-shadow: -8px 5px 10px -5px #464646;
 	border-left: 2px solid #B0C4DE;
 }
+.noContent {
+    line-height: 735px;
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+    color: #6495ed;
+}
 .item {
     cursor: pointer;
 	padding: 10px;
@@ -53,6 +60,20 @@ body {
 }
 .roomImage {
 	width: 98%;
+}
+.simple-1 {
+    font-size: 15px;
+    font-weight: 600;
+    margin: 10px 0 10px 0;
+}
+.simple-2 {
+    font-size: 16px;
+    font-weight: 600;
+}
+.simple-3 {
+    font-size: 15px;
+    margin: 5px 0 5px 0;
+    font-weight: 400;
 }
 #mapInputBox {
 	width: 260px;
@@ -182,96 +203,6 @@ body {
     background-color: #ffa0a4;
     color: white;
 }
-#btnMyFilter {
-    width: 20px;
-    height: 50px;
-    outline: 0;
-    font-size: 20px;
-    background-color: white;
-    border: 0;
-}
-#btnAddressSearch {
-    width: 35px;
-    height: 35px;
-    outlint: 0;
-    background-image: url("/img/room/search.png");
-    background-repeat: no-repeat;
-    background-size: cover;
-    border: 0;
-}
-.myFilterWrap {
-	position: relative;
-    display: none;
-    width: 330px;
-    height: 200px;
-    float: left;
-    z-index: 0;
-}
-.divFilterSettingSave {
-    width: 99.5%;
-    height: 50px;
-}
-#btnFilterSettingSave {
-    width: 99%;
-    height: 100%;
-    outline: 0;
-    font-family: 'Nanum Gothic', sans-serif;
-    font-size: 15px;
-    background-color: #B6E2F8;
-    border: 1px solid #4B88CC;
-}
-.divFilterSettingLoad {
-    margin: 0 auto;
-    width: 100%;
-    height: 156px;
-}
-.divFilterSettingLoadBtn {
-    float: left;
-    display: inline-block;
-    width: 20%;
-    height: 100%;
-}
-#btnFilterSettingLoad {
-    width: 100%;
-    height: 94%;
-    outline: 0;
-    font-family: 'Nanum Gothic', sans-serif;
-    font-size: 11px;
-    background-color: #B6E2F8;
-    border-up: 0;
-    border-bottom: 1px solid #4B88CC;
-    border-left: 1px solid #4B88CC;
-    border-right: 0;
-}
-.divMyFilterList {
-    display: inline-block;
-    width: 78%;
-}
-.divMyFilter {
-    width: 100%;
-    height: 48px;
-    font-family: 'Nanum Gothic', sans-serif;
-    font-size: 20px;
-    background-color: #FFFFFF;
-    border-up: 0;
-    border-bottom: 1px solid #4B88CC;
-    border-left: 1px solid #4B88CC;
-    border-right: 1px solid #4B88CC;
-}
-.trashButton {
-	float: right;
-    width: 35px;
-    height: 35px;
-    outlint: 0;
-    margin-top: 5px;
-    background-image: url("/img/room/trash.png");
-    background-repeat: no-repeat;
-    background-size: contain;
-    border: 0;
-}
-.myFilterRadio {
-	margin: 20px 0px 0px 10px;
-}
 .wrapOption {
 	display: none;
 	float:left;
@@ -342,15 +273,14 @@ body {
 .info .addr {
     padding: 5px 0 0 10px;
     height: 30px;
-    line-height: 27px;
-    background: #eee;
+    background: #93b5f2;
     border-bottom: 1px solid #ddd;
     font-size: 15px;
-    font-weight: 400;
+    font-weight: 600;
 }
 .info .close {
     position: absolute;
-    top: 10px;
+    top: 7px;
     right: 10px;
     color: #888;
     width: 17px;
@@ -364,20 +294,23 @@ body {
     position: relative;
     overflow: hidden;
 }
-.info .desc {
+.info .description {
     position: relative;
     margin: 15px 0 0 15px;
     height: 75px;
 }
-.desc .title {
+.description .title {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
-.desc .cost {
+.description .cost {
     font-size: 12px;
     color: #333333;
     margin: 3px 0 3px 0;
+}
+.content {
+    font-weight: 600;
 }
 .info:after {
     content: '';
@@ -390,7 +323,8 @@ body {
     background: url('http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')
 }
 .info .link {
-    color: #5085BB;
+    color: #6495ed;
+    font-weight: 600;
 }
 button {
     border: 0;

@@ -61,7 +61,6 @@ $(document).ready(function () {
         });
     });
 });
-
 $.clickEvent = function () {
     $('#apartment').setRoomType();
     $('#villa').setRoomType();
@@ -73,7 +72,6 @@ $.clickEvent = function () {
         roomTypeList.push($('.room-type').eq(i).val());
     }
 }
-
 $.fn.setRoomType = function () {
     $(this).on('click', function () {
         if ($(this).css('background-color') === selectedColor) {
@@ -90,15 +88,6 @@ $.fn.setRoomType = function () {
         }
     })
 }
-
-var getAddress = function () {
-    new daum.Postcode({
-        oncomplete: function (data) {
-            $("#tbAddress").attr("value", data.roadAddress);
-        }
-    }).open();
-};
-
 $.fn.showSlideMenu = function () {
     $(this).click(function () {
         if (slideMenuFlag == false) {
@@ -110,7 +99,7 @@ $.fn.showSlideMenu = function () {
                 $("#map").css('width', '60%');
                 $(".sub").css('width', '40%');
             }
-            $("#itemsList").css('width', '98%');
+            $("#itemList").css('width', '98%');
             $('.item').css('width', '45%');
             slideMenuFlag = true;
 
@@ -123,7 +112,7 @@ $.fn.showSlideMenu = function () {
                 $("#map").css('width', '80%');
                 $(".sub").css('width', '20%');
             }
-            $("#itemsList").css('width', '100%');
+            $("#itemList").css('width', '100%');
             $('.item').css('width', '96%');
             slideMenuFlag = false;
         }
