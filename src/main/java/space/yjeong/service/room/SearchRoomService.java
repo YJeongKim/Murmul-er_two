@@ -8,6 +8,7 @@ import space.yjeong.domain.room.RoomRepository;
 import space.yjeong.domain.salespost.PostStatus;
 import space.yjeong.domain.salespost.SalesPost;
 import space.yjeong.service.salespost.SalesPostService;
+import space.yjeong.web.dto.salespost.DetailResponseDto;
 import space.yjeong.web.dto.salespost.SummaryResponseDto;
 
 import java.math.BigDecimal;
@@ -46,5 +47,13 @@ public class SearchRoomService {
         List<SummaryResponseDto> summaryResponseDtoList = SummaryResponseDto.listOf(salesPosts);
 
         return summaryResponseDtoList;
+    }
+
+    @Transactional(readOnly = true)
+    public DetailResponseDto searchDetailRoom(Long salesPostId) {
+        SalesPost salesPost = salesPostService.findSalesPostById(salesPostId);
+        DetailResponseDto detailResponseDto = DetailResponseDto.of(salesPost);
+
+        return detailResponseDto;
     }
 }
