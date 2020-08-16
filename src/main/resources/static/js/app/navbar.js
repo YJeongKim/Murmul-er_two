@@ -6,7 +6,7 @@ var navbar = {
         _this.isLogin = $(".navbar-buttons").find('ul').length;
 
         $('#nav-search').on('click', function () {
-            _this.moveBeforeLogin('/');
+            _this.moveBeforeLogin('/salesposts');
         });
         $('#nav-register').on('click', function () {
             _this.moveAfterLogin('/rooms/register');

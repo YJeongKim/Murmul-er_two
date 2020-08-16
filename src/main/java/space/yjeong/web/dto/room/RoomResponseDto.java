@@ -87,9 +87,10 @@ public class RoomResponseDto {
     }
 
     public static List<RoomResponseDto> listOf(List<SalesPost> salesPosts) {
-        ViewHelper.count = 0;
-        return salesPosts.stream()
+        List<RoomResponseDto> responseDtos = salesPosts.stream()
                 .map(RoomResponseDto::of)
                 .collect(Collectors.toList());
+        ViewHelper.count = 0;
+        return responseDtos;
     }
 }

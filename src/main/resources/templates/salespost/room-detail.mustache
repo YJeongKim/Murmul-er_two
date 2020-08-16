@@ -1,0 +1,111 @@
+{{>layout/header}}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">
+<link rel="stylesheet" href="/css/salespost/room-detail.css"/>
+</head>
+<body>
+{{>layout/navbar}}
+<div class="wrap">
+    {{#salesPost}}
+        <div class="topText">
+            <span>[{{writeDate}}]</span>
+            <span id="roomType" value="{{roomType}}">{{roomType}}</span>
+            <span>|</span>
+            <span>{{lease}}</span>
+            <span>|</span>
+            <span>{{leasePeriod}}</span>
+        </div>
+        <div class="title">
+            <span>{{title}}</span>
+        </div>
+        <div class="location">
+            <span id="address">{{roadAddress}}</span>
+            <span class="hashTag" value="{{hashTags}}"></span>
+        </div>
+        <div align="center">
+            <ul class="slider" value="{{salesPostId}},{{images}}">
+            </ul>
+        </div>
+        <div class="detailTitle">Comment</div>
+        <div class="detailContent">{{content}}</div>
+        <div>
+            <h1 class="dtlTitle">상세정보</h1>
+            <table class="detailTb">
+                <tr>
+                    <td width=25%>층 수</td>
+                    <td width=25%>{{floor}}</td>
+
+                    <td width=25%>난방종류</td>
+                    <td width=25%>{{heating}}</td>
+                </tr>
+                <tr>
+                    <td width=25%>면적/평수</td>
+                    <td width=25% id="area" value="{{area}}"></td>
+                    <td width=25%>주차장 여부</td>
+                    <td width=25% id="parking"></td>
+                </tr>
+                <tr>
+                    <td width=25%>엘리베이터 유무</td>
+                    <td width=25% id="elevator"></td>
+                    <td width=25%>반려동물 수용 여부</td>
+                    <td width=25% id="pet"></td>
+                </tr>
+            </table>
+        </div>
+        <div>
+            <h1 class="price">가격정보</h1>
+            <table class="priceTb">
+                <tr>
+                    <td width=20%>월세/금액</td>
+                    <td width=20%>보증금</td>
+                    <td width=40%>관리비</td>
+                    <td width=20%>임대유형</td>
+                </tr>
+                <tr>
+                    <td>{{leaseFee}}</td>
+                    <td>{{leaseDeposit}}</td>
+                    <td id="maintenance" value="{{maintenanceOptions}}">
+                        {{maintenanceFee}}<br></td>
+                    <td>{{lease}}</td>
+                </tr>
+            </table>
+        </div>
+        <div>
+            <h1 class="option">옵션</h1>
+            <table id="tbOption" class="tbOption" value="{{options}}">
+            </table>
+        </div>
+        <div class="mapWrap">
+            <h1 class="which">위치</h1>
+            <div id="detailLocation" class="detailLocation">주소 : {{roadAddress}} {{detailAddress}}<br>
+                (지번 : {{jibunAddress}})</div>
+            <div class="map" id="map"></div>
+        </div>
+    {{/salesPost}}
+    {{#noContent}}
+        <div class="noContent">존재하지 않는 게시물입니다.</div>
+    {{/noContent}}
+</div>
+<div class="footer">
+    {{#salesPost}}
+        <div class="f_button">
+            <button id="btnContact" class="f_contact">임대인 정보</button>
+            <button id="btnTalk" class="f_talk">톡 보내기</button>
+        </div>
+        <div class="footerContent">
+            <button class="heart" id="heart" type="button" onclick="clickLike()"><img id="heartImg"
+                                                                                      src="/img/room/heart.png"
+                                                                                      width="40px" height="40px">
+            </button>
+            <button class="report" id="report" type="button"><img id="reportImg" src="/img/room/report.png" width="45px"
+                                                                  height="45px"></button>
+        </div>
+    {{/salesPost}}
+</div>
+{{>layout/footer}}
+<script type="text/javascript" src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
+<script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=ae3ff68e9ec7f395cd455470c3cde547&libraries=services"></script>
+<script type="text/javascript" src="/js/app/room-detail.js"></script>
+<script type="text/javascript" src="/js/app/detail-map.js"></script>
+</body>
+</html>
+

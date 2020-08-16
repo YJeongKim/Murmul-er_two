@@ -20,7 +20,7 @@ $(document).ready(function (listener) {
 	let container = document.getElementById('map'); // 지도를 표시할 div
 	let options = {
 	    center: new kakao.maps.LatLng(37.5559802396321, 126.972091251236), // 지도의 중심 좌표
-	    level: 3
+	    level: 6
 	};
 	map = new kakao.maps.Map(container, options); // 지도를 생성
     let zoomControl = new kakao.maps.ZoomControl();
