@@ -1,6 +1,5 @@
 let optionList = [];
 let hashTagList = [];
-let maintenanceOptionList = [];
 let imageList = [];
 let salesPostId = 0;
 
@@ -15,8 +14,12 @@ $(document).ready(function () {
     $.setHashTag();
 
     let maintenanceOptions = $('#maintenance').attr('value');
-    if(maintenanceOptions !== "[]")
-        $(maintenanceOptions).append($('#maintenance'));
+    maintenanceOptions = maintenanceOptions.substring(1, maintenanceOptions.length - 1);
+    if(maintenanceOptions !== "") {
+        let fee = $('#maintenance').text()
+        let content = '(' + maintenanceOptions + ')';
+        $('#maintenance').html(fee +'<br>'+ content);
+    }
 
     let images = $('.slider').attr('value');
     salesPostId = images[0];

@@ -23,6 +23,7 @@ public class RoomRequestDto {
     private String jibunAddress;
     private String roadAddress;
     private String detailAddress;
+    private String buildingName;
     private Double area;
     private Integer floor;
     private RoomType roomType;
@@ -46,6 +47,7 @@ public class RoomRequestDto {
                 .jibunAddress(jibunAddress)
                 .roadAddress(roadAddress)
                 .detailAddress(detailAddress)
+                .buildingName(buildingName)
                 .area(area)
                 .floor(floor)
                 .roomType(roomType)

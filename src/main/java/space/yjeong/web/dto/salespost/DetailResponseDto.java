@@ -25,6 +25,7 @@ public class DetailResponseDto {
     private String roadAddress;
     private String jibunAddress;
     private String detailAddress;
+    private String buildingName;
     private Double area;
     private String floor;
     private String roomType;
@@ -44,10 +45,10 @@ public class DetailResponseDto {
 
     @Builder
     public DetailResponseDto(Long roomId, Long salesPostId, BigDecimal latitude, BigDecimal longitude,
-                             String roadAddress, String jibunAddress, String detailAddress, Double area,
-                             String floor, String roomType, String heating, List<String> options, LocalDate writeDate,
-                             String title, String content, String lease, String leasePeriod, String leaseDeposit,
-                             String leaseFee, String maintenanceFee, List<String> maintenanceOptions,
+                             String roadAddress, String jibunAddress, String detailAddress, String buildingName,
+                             Double area, String floor, String roomType, String heating, List<String> options,
+                             LocalDate writeDate, String title, String content, String lease, String leasePeriod,
+                             String leaseDeposit, String leaseFee, String maintenanceFee, List<String> maintenanceOptions,
                              List<String> hashTags, List<String> images) {
         this.roomId = roomId;
         this.salesPostId = salesPostId;
@@ -56,6 +57,7 @@ public class DetailResponseDto {
         this.roadAddress = roadAddress;
         this.jibunAddress = jibunAddress;
         this.detailAddress = detailAddress;
+        this.buildingName = buildingName;
         this.area = area;
         this.floor = floor;
         this.roomType = roomType;
@@ -110,6 +112,7 @@ public class DetailResponseDto {
                 .roadAddress(room.getRoadAddress())
                 .jibunAddress(room.getJibunAddress())
                 .detailAddress(room.getDetailAddress())
+                .buildingName(room.getBuildingName())
                 .area(room.getArea())
                 .floor(floor)
                 .roomType(room.getRoomType().getTitle())

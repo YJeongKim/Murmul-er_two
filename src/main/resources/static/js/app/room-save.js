@@ -346,13 +346,16 @@ function saveRoom() {
     let maintenanceOptions = maintenanceOptionList;
     let options = optionList;
     let hashTags = hashTagList;
+    let jibunAddress = allAddress.jibunAddress;
+    if(jibunAddress === "") jibunAddress = allAddress.autoJibunAddress;
 
     let roomInfo = {
         latitude: allAddress.latitude,
         longitude: allAddress.longitude,
-        jibunAddress: allAddress.jibunAddress,
+        jibunAddress: jibunAddress,
         roadAddress: allAddress.roadAddress,
         detailAddress: defend($('#inputDetailAddress').val()),
+        buildingName: allAddress.buildingName,
         area: $('#inputArea').val(),
         floor: $('#inputFloor').val(),
         roomType: $('#btnRoomType-' + selectedRoomType).val(),

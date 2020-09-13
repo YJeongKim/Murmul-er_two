@@ -34,6 +34,9 @@ public class Room {
     @Column(nullable = false)
     private String detailAddress;
 
+    @Column
+    private String buildingName;
+
     @Column(nullable = false)
     private Double area;
 
@@ -56,12 +59,13 @@ public class Room {
     private SalesPost salesPost;
 
     @Builder
-    public Room(BigDecimal latitude, BigDecimal longitude, String jibunAddress, String roadAddress, String detailAddress, Double area, Integer floor, RoomType roomType, Heating heating, List<Option> options) {
+    public Room(BigDecimal latitude, BigDecimal longitude, String jibunAddress, String roadAddress, String detailAddress, String buildingName, Double area, Integer floor, RoomType roomType, Heating heating, List<Option> options) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.jibunAddress = jibunAddress;
         this.roadAddress = roadAddress;
         this.detailAddress = detailAddress;
+        this.buildingName = buildingName;
         this.area = area;
         this.floor = floor;
         this.roomType = roomType;
@@ -79,6 +83,7 @@ public class Room {
         this.jibunAddress = room.getJibunAddress();
         this.roadAddress = room.getRoadAddress();
         this.detailAddress = room.getRoadAddress();
+        this.buildingName = room.getBuildingName();
         this.area = room.getArea();
         this.floor = room.getFloor();
         this.roomType = room.getRoomType();
