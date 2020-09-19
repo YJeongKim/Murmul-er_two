@@ -1,0 +1,215 @@
+{{>layout/header}}
+<link rel="stylesheet" href="/css/room/room-title.css" />
+<link rel="stylesheet" href="/css/room/room-save.css" />
+</head>
+<body>
+{{>layout/navbar}}
+<div class="wrap">
+    {{>room/room-title}}
+    <div class="saveRoomForm">
+        <table class="tbRoomType">
+            <tr>
+                <td class="tbTitle" colspan="2">방 형태</td>
+            </tr>
+            <tr>
+                <td class="tbSubTitle">종류</td>
+                <td class="tdContent">
+                    <button id="btnRoomType-1" value="ONEROOM">원룸</button>
+                    <button id="btnRoomType-2" value="TWOROOM">투룸</button>
+                    <button id="btnRoomType-3" value="VILLA">빌라</button>
+                    <button id="btnRoomType-4" value="OFFICETEL">오피스텔</button>
+                    <button id="btnRoomType-5" value="APARTMENT">아파트</button>
+                </td>
+            </tr>
+        </table>
+        <table class="tbLocation">
+            <tr>
+                <td class="tbTitle" colspan="2">위치 정보</td>
+            </tr>
+            <tr>
+                <td class="tbSubTitle">주소</td>
+                <td class="tdContent">
+                    <input type="text" id="inputAddress" class="addrTextBox" onchange="changeAddress()" readonly="readonly"/>
+                    <button id="btnSearchAddress">주소 검색</button>
+                </td>
+            </tr>
+            <tr>
+                <td class="tbSubTitle">상세 주소</td>
+                <td class="tdContent">
+                    <input type="text" id="inputDetailAddress" class="fullTextBox" maxlength="100"/>
+                </td>
+            </tr>
+        </table>
+        <table class="tbRoomInfo">
+            <tr>
+                <td class="tbTitle" colspan="2">방 정보</td>
+            </tr>
+            <tr>
+                <td class="tbSubTitle">면적</td>
+                <td class="tdContent">
+                    <input type="text" id="inputSize" class="alignRight" placeholder="32" onkeyup="$(this).changeSize()"/>
+                    <label>평</label>
+                    <input type="text" id="inputArea" class="alignRight" placeholder="105.78" onkeyup="$(this).changeArea()"/>
+                    <label>M</label><sup>2</sup>
+                </td>
+            </tr>
+            <tr>
+                <td class="tbSubTitle">층수</td>
+                <td class="tdContent">
+                    <input type="number" id="inputFloor" class="alignRight" />
+                    <label>층</label>
+                    <label style="color: cornflowerblue; font-size: 14px; margin-left: 10px;">* 지하일 경우 '-'를 붙여주세요 (예) 지하2층 > -2</label>
+                </td>
+            </tr>
+            <tr>
+                <td class="tbSubTitle">금액</td>
+                <td class="tdContent">
+                    <button id="btnLease-1" value="JEONSE">전세</button>
+                    <button id="btnLease-2" value="MONTHLY_RENT">월세</button>
+                    <button id="btnLease-3" value="SHORT_TERM">단기</button>
+                    <input type="number" id="inputLeaseDeposit" class="alignRight" placeholder="보증금" />
+                    <label id="slash">만원/</label>
+                    <input type="number" id="inputLeaseFee" class="alignRight" placeholder="월세 or 단기 금액" />
+                    <label>만원</label>
+                </td>
+            </tr>
+            <tr>
+                <td class="tbSubTitle">임대기간</td>
+                <td class="tdContent">
+                    <input type="number" id="inputLeasePeriod" class="alignRight"/>
+                    <select id="inputPeriodUnit" class="selectBox">
+                        <option value="YEAR">년</option>
+                        <option value="MONTH">개월</option>
+                        <option value="WEEK">주</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+        <table class="tbDetailInfo">
+            <tr>
+                <td class="tbTitle" colspan=4>상세 정보</td>
+            </tr>
+            <tr>
+                <td class="tbSubTitle" rowspan=2>관리비</td>
+                <td class="tdContent" colspan=3>
+                    <button id="btnMaintenanceFee-1" value="N">없음</button>
+                    <button id="btnMaintenanceFee-2" value="Y">있음</button>
+                    <input type="number" id="inputMaintenanceFee" class="alignRight" readonly />
+                    <label>만원</label>
+                </td>
+            </tr>
+            <tr>
+                <td class="tdContent" colspan=3>
+                    <label>&nbsp;관리비 포함 항목 : &nbsp;&nbsp;</label>
+                    <button id="btnMaintenanceOptions-1" value="GAS_TAX">가스세</button>
+                    <button id="btnMaintenanceOptions-2" value="WATER_TAX">수도세</button>
+                    <button id="btnMaintenanceOptions-3" value="ELECTRIC_TAX">전기세</button>
+                    <button id="btnMaintenanceOptions-4" value="INTERNET_CHARGE">인터넷요금</button>
+                    <button id="btnMaintenanceOptions-5" value="TV_LICENSE_FEE">TV수신료</button>
+                    <button id="btnMaintenanceOptions-6" value="CLEANING_COST">청소비</button>
+                </td>
+            </tr>
+            <tr>
+                <td class="tbSubTitle">난방 종류</td>
+                <td class="tdHalf">
+                    <button id="btnHeating-1" value="DISTRICT">지역난방</button>
+                    <button id="btnHeating-2" value="INDIVIDUAL">개별난방</button>
+                    <button id="btnHeating-3" value="CENTRAL">중앙난방</button>
+                </td>
+                <td class="tbSubTitle">반려동물 수용</td>
+                <td class="tdHalf">
+                    <button id="btnPetAcceptance-1" value="NO_PET_ACCEPTANCE">불가능</button>
+                    <button id="btnPetAcceptance-2" value="PET_ACCEPTANCE">가능</button>
+                </td>
+            </tr>
+            <tr>
+                <td class="tbSubTitle">주차장 여부</td>
+                <td class="tdHalf">
+                    <button id="btnParkingLot-1" value="NO_PARKING_LOT">없음</button>
+                    <button id="btnParkingLot-2" value="PARKING_LOT">있음</button>
+                </td>
+                <td class="tbSubTitle">엘리베이터</td>
+                <td class="tdHalf">
+                    <button id="btnElevator-1" value="NO_ELEVATOR">없음</button>
+                    <button id="btnElevator-2" value="ELEVATOR">있음</button>
+                </td>
+            </tr>
+            <tr>
+                <td class="tbSubTitle">옵션 항목</td>
+                <td class="tdContent" colspan=3>
+                    <button id="btnOptions-1" value="REFRIGERATOR">냉장고</button>
+                    <button id="btnOptions-2" value="AIR_CONDITIONER">에어컨</button>
+                    <button id="btnOptions-3" value="WASHING_MACHINE">세탁기</button>
+                    <button id="btnOptions-4" value="TELEVISION">TV</button>
+                    <button id="btnOptions-5" value="GAS_STOVE">가스레인지</button>
+                    <button id="btnOptions-6" value="MICROWAVE">전자레인지</button>
+                    <button id="btnOptions-7" value="INDUCTION">인덕션</button>
+                    <button id="btnOptions-8" value="CLOSET">옷장</button>
+                    <button id="btnOptions-9" value="DESK">책상</button>
+                    <button id="btnOptions-10" value="BED">침대</button>
+                    <button id="btnOptions-11" value="BIDET">비데</button>
+                    <button id="btnOptions-12" value="SHOE_CUPBOARD">신발장</button>
+                    <button id="btnOptions-13" value="SAFETY_DEVICE">현관문안전장치</button>
+                    <button id="btnOptions-14" value="DIGITAL_DOOR_LOCK">디지털도어락</button>
+                </td>
+            </tr>
+        </table>
+        <table class="tbDetail">
+            <tr>
+                <td class="tbTitle" colspan=2>상세 설명</td>
+            </tr>
+            <tr>
+                <td class="tbSubTitle">제목</td>
+                <td class="tdContent">
+                    <input type=text id="inputTitle" class="fullTextBox" placeholder="예) 길음역 도보 5분거리에 위치한 좋은 방이에요." maxlength="150"/>
+                </td>
+            </tr>
+            <tr>
+                <td class="tbSubTitle">상세 설명</td>
+                <td class="tdContent">
+                    <textarea id="inputContent" rows="5"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td class="tbSubTitle">해시태그</td>
+                <td class="tdContent">
+					<span class="hashTag">
+                        <label class="hash">#</label>
+                        <input type="text" class="tag" id="inputHashTag-1" maxlength="15"/>
+                    </span>
+                    <span class="hashTag">
+                        <label class="hash">#</label>
+                        <input type="text" class="tag" id="inputHashTag-2" maxlength="15"/>
+                    </span>
+                    <span class="hashTag">
+                        <label class="hash">#</label>
+                        <input type="text" class="tag" id="inputHashTag-3" maxlength="15"/>
+                    </span>
+                </td>
+            </tr>
+        </table>
+        <table class="tbAddPhoto">
+            <tr>
+                <td class="tbTitle" colspan=2>사진 등록</td>
+            </tr>
+            <tr>
+                <td id="tdImg">
+                    <button class="upload" id="btnImg"><img class="img" src="/img/room/addImage.png"/></button>
+                    <input id="uploadImages" type="file" name="uploadFile" multiple="multiple" onchange="readURL(this);" style="display: none;" accept=".jpg, .png, .jpeg">
+                </td>
+            </tr>
+        </table>
+        <div class="lastButton">
+            <button id="btn-cancel">취소</button>
+            <button id="btn-save">등록</button>
+        </div>
+    </div>
+    <div id="map"></div>
+</div>
+{{>layout/footer}}
+<script type="text/javascript" src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=ae3ff68e9ec7f395cd455470c3cde547&libraries=services"></script>
+<script type="text/javascript" src="/js/app/room-title.js"></script>
+<script type="text/javascript" src="/js/app/room-save.js"></script>
+</body>
+</html>

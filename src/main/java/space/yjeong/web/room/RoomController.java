@@ -59,7 +59,7 @@ public class RoomController {
             if (user.getPicture() != null) {
                 model.addAttribute("userPicture", user.getPicture());
             }
-            return "/room/room-save";
+            return "/room/room-update";
         } else return "redirect:/";
     }
 }
