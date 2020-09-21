@@ -1,0 +1,18 @@
+{{>layout/header}}
+<link rel="stylesheet" href="/css/contract/contract-select.css"/>
+</head>
+<body>
+<div class="roomList" value="{{contractUser}}">
+    <div>
+        <span class="guide">계약서는 임대인 혹은 전대인만 작성할 수 있습니다.</span>
+    </div>
+    {{#rooms}}
+        <div class="btn-room">
+            <button class="selectRoom" value="{{roomId}}">
+                {{address}}/{{title}} - {{leaseDeposit}}/{{leaseFee}}</button>
+        </div>
+    {{/rooms}}
+    <div>
+        <button class="cancel" id="btn-cancel">취소</button>
+    </div>
+</div>

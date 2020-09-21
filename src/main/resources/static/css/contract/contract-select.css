@@ -1,0 +1,44 @@
+.roomList {
+    width: 800px;
+    margin: 0 auto;
+}
+
+.roomList > div > button {
+    display: block;
+    width: 60%;
+    margin: 10px auto;
+    text-align: center;
+    font-size: 15px;
+    border: 2px solid #b6e2f8;
+    outline: 0;
+    border-radius: 10px;
+    padding: 5px 20px;
+    cursor: pointer;
+    background-color: #b6e2f8;
+}
+
+.roomList .selectRoom {
+    background-color: #fff;
+}
+
+.roomList .selectRoom:hover {
+    background-color: #e9f8ff;
+}
+
+.roomList .cancel:hover {
+    background-color: #e9f8ff;
+}
+
+.guide {
+    display: block;
+    width: 60%;
+    margin: 10px 160px 10px 160px;
+    text-align: center;
+    font-size: 15px;
+    outline: 0;
+    color: rgb(136, 136, 136);
+    padding: 5px 20px;
+    width: 436px;
+    outline: 0;
+    border-radius: 10px;
+}
