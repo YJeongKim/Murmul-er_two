@@ -31,6 +31,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/files")
 public class FileController {
+
     private final ImageService imageService;
     private final RoomService roomService;
     private final HttpSession httpSession;

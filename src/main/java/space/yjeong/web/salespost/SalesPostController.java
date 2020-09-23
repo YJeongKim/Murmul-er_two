@@ -21,6 +21,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/salesposts")
 public class SalesPostController {
+
     private final SearchRoomService searchRoomService;
     private final HttpSession httpSession;
 

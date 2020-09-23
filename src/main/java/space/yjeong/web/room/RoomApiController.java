@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 @RestController
 @RequestMapping("/api/rooms")
 public class RoomApiController {
+
     private final RoomService roomService;
     private final HttpSession httpSession;
 

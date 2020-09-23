@@ -18,6 +18,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/rooms")
 public class RoomController {
+
     private final RoomService roomService;
     private final HttpSession httpSession;
 

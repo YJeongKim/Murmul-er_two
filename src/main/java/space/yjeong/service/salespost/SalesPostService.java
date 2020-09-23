@@ -2,6 +2,7 @@ package space.yjeong.service.salespost;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import space.yjeong.domain.salespost.PostStatus;
 import space.yjeong.domain.salespost.SalesPost;
 import space.yjeong.domain.salespost.SalesPostRepository;
 import space.yjeong.exception.RoomNotFoundException;
@@ -31,6 +32,10 @@ public class SalesPostService {
 
     public SalesPost findLatestSalesPostByUser(Long userId) {
         return salesPostRepository.findBySalesUserIdOrderByIdDesc(userId);
+    }
+
+    public List<SalesPost> findPostingSalesPostsByUser(Long userId) {
+        return salesPostRepository.findAllBySalesUserIdAndPostStatus(userId, PostStatus.POSTING);
     }
 
     public SalesPost saveSalesPost(SalesPost salesPost) {

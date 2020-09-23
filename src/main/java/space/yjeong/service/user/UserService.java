@@ -20,6 +20,11 @@ public class UserService {
                 .orElseThrow(UserNotFoundException::new);
     }
 
+    public User findUserById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(UserNotFoundException::new);
+    }
+
     public void checkUserAuthority(User user) {
         if (user.getRole().equals(Role.GUEST)) throw new UnauthorizedException();
     }
