@@ -77,10 +77,12 @@
             </table>
         </div>
         <div class="mapWrap">
-            <h1 class="which">위치</h1>
+            <h1 class="which" value="{{roadAddress}}">위치</h1>
             <div id="detailLocation" class="detailLocation">주소 : {{roadAddress}} {{detailAddress}}<br>
                 (지번 : {{jibunAddress}} {{buildingName}})</div>
             <div class="map" id="map"></div>
+            <div hidden="hidden" class="latitude">{{latitude}}</div>
+            <div hidden="hidden" class="longitude">{{longitude}}</div>
         </div>
     {{/salesPost}}
     {{#noContent}}

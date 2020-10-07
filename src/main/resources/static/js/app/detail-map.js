@@ -14,13 +14,13 @@ let map = new kakao.maps.Map(mapContainer, mapOption);
 let ps = new kakao.maps.services.Places();
 
 // 키워드로 장소 검색
-ps.keywordSearch($("#address").text(), placesSearchCB);
+ps.keywordSearch($(".which").attr('value'), placesSearchCB);
 
 // 키워드 검색 완료 시 호출되는 콜백함수
 function placesSearchCB (result, status, pagination) {
     if (status === kakao.maps.services.Status.OK) {
         let bounds = new kakao.maps.LatLngBounds();
-		displayMarker(result[0]);
+		displayMarker();
         bounds.extend(new kakao.maps.LatLng(result[0].y, result[0].x));
 
         // 검색된 장소 위치를 기준으로 지도 범위를 재설정
@@ -29,11 +29,13 @@ function placesSearchCB (result, status, pagination) {
 }
 
 // 지도에 마커를 표시하는 함수
-function displayMarker(place) {
+function displayMarker() {
     // 마커를 생성하고 지도에 표시합니다
+    let latitude = $(".latitude").text();
+    let longitude = $(".longitude").text();
     let marker = new kakao.maps.Marker({
         map: map,
-        position: new kakao.maps.LatLng(place.y, place.x) 
+        position: new kakao.maps.LatLng(latitude, longitude)
     });
     marker.setMap(map);
     let markerImageSrc;

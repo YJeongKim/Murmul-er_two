@@ -19,10 +19,10 @@ public class Room {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, precision = 19, scale = 13)
     private BigDecimal latitude;
 
-    @Column(nullable = false)
+    @Column(nullable = false, precision = 19, scale = 13)
     private BigDecimal longitude;
 
     @Column(nullable = false)

@@ -67,6 +67,7 @@ $.setHashTag = function () {
     let hashTag = "";
 
     for (let i = 0; i < len; i++) {
+        if(hashTagList[i] === "") continue;
         hashTag += "#" + hashTagList[i];
         if (i != len - 1)
             hashTag += "  ";
