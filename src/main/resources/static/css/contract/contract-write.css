@@ -1,0 +1,109 @@
+:root {
+    --width: 1090px;
+}
+
+.title {
+    margin: 50px auto;
+    text-align: center;
+}
+
+.wrap > .addContractForm .tbContent {
+    border: 1px solid #cccccc;
+    width: var(--width);
+    margin: 20px auto;
+    font-size: 14px;
+}
+
+.wrap > .addContractForm .caution, .wrap > .rentType {
+    margin: 20px auto;
+    width: var(--width);
+    font-size: 17px;
+}
+
+.wrap > .addContractForm .tdContent > input[name="rentType"] {
+    margin-left: 20px;
+}
+
+.wrap > .addContractForm .tdContent > input[name="mcType"] {
+    margin-left: 20px;
+}
+
+.tbContent > tbody > tr > td {
+    border-bottom: 1px solid #cccccc;
+}
+
+.tbContent > tbody > tr > td.tbtitle {
+    background-color: rgba(147, 181, 242, 0.5);
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.tbContent > tbody > tr > td.tbSubtitle {
+    width: 150px;
+    height: 50px;
+    text-align: center;
+    border-right: 1px solid #cccccc;
+    border-left: 1px solid #cccccc;
+}
+
+.tbContent > tbody > tr > td.tdSubtitleWide {
+    width: 19%;
+}
+
+.tbContent > tbody > tr > td.tdContentWide {
+    width: 31%;
+}
+
+.addContractForm .selectNum {
+    height: 30px;
+    font-size: 14px;
+    border: 1px solid #93b5f2;
+    padding: 1px 15px;
+    margin: 5px 10px;
+    text-align-last: right;
+    background-color: transparent;
+}
+
+.addContractForm .selectNum > option {
+    text-align: right;
+}
+
+.tbContent > tbody > tr > td.tdContentShort {
+    /*width: 30%;*/
+    width: 30%;
+}
+
+.tbContent tr:last-child > td {
+    border-bottom: 0;
+}
+
+.lastBtns {
+    margin: auto;
+    text-align: center;
+    width: var(--width);
+}
+
+.lastBtn {
+    font-size: 17px;
+    outline: 0;
+    border-radius: 10px;
+    padding: 5px 40px;
+    margin: 30px 10px;
+}
+
+.wrap > .addContractForm .alignRight {
+    text-align: right;
+}
+
+.tbContent input[type=text] {
+    height: 25px;
+    font-size: 14px;
+    border: 1px solid #93b5f2;
+    padding: 1px 15px;
+    margin: 5px 10px;
+}
+
+.tbContent input.setTextSize {
+    width: 250px;
+}

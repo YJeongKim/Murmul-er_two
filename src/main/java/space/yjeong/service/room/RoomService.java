@@ -21,7 +21,6 @@ import space.yjeong.service.user.UserService;
 import space.yjeong.web.dto.MessageResponseDto;
 import space.yjeong.web.dto.room.RoomRequestDto;
 import space.yjeong.web.dto.room.RoomResponseDto;
-import space.yjeong.web.dto.salespost.SummaryResponseDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,17 +45,6 @@ public class RoomService {
         List<RoomResponseDto> roomResponseDtoList = RoomResponseDto.listOf(salesPosts);
 
         return roomResponseDtoList;
-    }
-
-    @Transactional(readOnly = true)
-    public List<SummaryResponseDto> readPostingRooms(SessionUser sessionUser) {
-        User user = userService.findUserBySessionUser(sessionUser);
-
-        List<SalesPost> salesPosts = salesPostService.findPostingSalesPostsByUser(user.getId());
-
-        List<SummaryResponseDto> summaryResponseDtoList = SummaryResponseDto.listOf(salesPosts);
-
-        return summaryResponseDtoList;
     }
 
     @Transactional

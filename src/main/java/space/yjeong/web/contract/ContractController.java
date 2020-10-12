@@ -8,9 +8,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import space.yjeong.config.auth.dto.SessionUser;
+import space.yjeong.domain.user.User;
 import space.yjeong.exception.ExpectedException;
-import space.yjeong.service.room.RoomService;
+import space.yjeong.service.contract.ContractService;
 import space.yjeong.service.user.UserService;
+import space.yjeong.web.dto.ContractResponseDto;
 import space.yjeong.web.dto.salespost.SummaryResponseDto;
 
 import javax.servlet.http.HttpSession;
@@ -21,8 +23,8 @@ import java.util.List;
 @RequestMapping("/contracts")
 public class ContractController {
 
+    private final ContractService contractService;
     private final UserService userService;
-    private final RoomService roomService;
     private final HttpSession httpSession;
 
     @ApiOperation("UI : 계약서 선택 페이지")
@@ -34,7 +36,7 @@ public class ContractController {
         try {
             Long contractUserId = userService.findUserById(contractor).getId();
 
-            List<SummaryResponseDto> responses = roomService.readPostingRooms(user);
+            List<SummaryResponseDto> responses = contractService.readPostingRooms(user);
 
             model.addAttribute("rooms", responses);
             model.addAttribute("contractUser", contractUserId);
@@ -44,11 +46,29 @@ public class ContractController {
         if (type == null) {
             return "redirect:/";
         } else if (type.equals("write")) {
-            return "/contract/contract-select-writer";
+            return "/contract/contract-select-write";
         } else if (type.equals("register")) {
             return "/contract/contract-select-register";
         } else {
             return "redirect:/";
         }
+    }
+
+    @ApiOperation("UI : 계약서 작성 페이지")
+    @GetMapping("/write")
+    public String contractSelect(Model model,
+                                 @RequestParam Long contractor,
+                                 @RequestParam Long roomId) {
+        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+        User sublessor = userService.findUserBySessionUser(user);
+        User sublessee = userService.findUserById(contractor);
+
+        ContractResponseDto response = contractService.readDetailRoom(roomId);
+
+        model.addAttribute("sublessor", sublessor.getName());
+        model.addAttribute("sublessee", sublessee.getName());
+        model.addAttribute("room", response);
+
+        return "/contract/contract-write";
     }
 }
