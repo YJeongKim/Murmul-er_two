@@ -10,6 +10,7 @@ import space.yjeong.domain.user.User;
 import space.yjeong.service.salespost.SalesPostService;
 import space.yjeong.service.user.UserService;
 import space.yjeong.web.dto.ContractResponseDto;
+import space.yjeong.web.dto.salespost.DetailResponseDto;
 import space.yjeong.web.dto.salespost.SummaryResponseDto;
 
 import java.util.List;
@@ -35,11 +36,20 @@ public class ContractService {
     }
 
     @Transactional(readOnly = true)
-    public ContractResponseDto readDetailRoom(Long roomId) {
+    public ContractResponseDto readContractRoom(Long roomId) {
         SalesPost salesPost = salesPostService.findSalesPostByRoom(roomId);
 
         ContractResponseDto contractResponseDto = ContractResponseDto.of(salesPost);
 
         return contractResponseDto;
+    }
+
+    @Transactional(readOnly = true)
+    public DetailResponseDto readDetailRoom(Long roomId) {
+        SalesPost salesPost = salesPostService.findSalesPostByRoom(roomId);
+
+        DetailResponseDto detailResponseDto = DetailResponseDto.of(salesPost);
+
+        return detailResponseDto;
     }
 }

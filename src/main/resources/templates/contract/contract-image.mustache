@@ -1,0 +1,81 @@
+{{>layout/header}}
+<link rel="stylesheet" href="/css/contract/contract-image.css"/>
+</head>
+<body>
+<div class="contract-image-page">
+    <div class="header">• 작성된 파란색 글씨를 확인해주세요.</div>
+    <div class="buttons">
+        <button id="btnBack">내용 수정하기</button>
+        <button id="btnToImage">이미지로 다운로드</button>
+        <button id="btnExit">창 닫기</button>
+    </div>
+    <div class="contract-body">
+        {{#contract}}
+        <img src="/img/etc/contract_ex.jpg"/>
+        <div id="lease" value="{{lease}}"><img class="check" src="/img/etc/check_blue.png"></div>
+        <div class="jeondae-name">{{jeondaeName}}</div>
+        <div class="jeoncha-name">{{jeonchaName}}</div>
+        <div class="location">{{address}}</div>
+        <div class="building-name">${buildingName}</div>
+        <div id="buildingType" value="{{roomType}}"><img class="check" src="/img/etc/check_blue.png"></div>
+        <div class="gujo">{{buildingStructure}}</div>
+        <div class="area">{{buildingArea}}</div>
+        <div class="jeondae-bubun">{{jeondaeBubun}}</div>
+        <div class="jeondae-area">{{jeondaeArea}}</div>
+        <div class="yongdo">{{jeondaeUsage}}</div>
+
+        <div class="jeondae-deposit">{{deposit}}</div>
+        <div class="jeondae-deposit-num">{{deposit}}</div>
+
+        <div class="jeondae-contract-cost">{{contractPayment}}</div>
+        <div class="jeondae-contract-name">{{jeondaeName}}</div>
+        <div class="jeondae-middle-cost">{{middlePayment}}</div>
+        <div class="jeondae-middle-date-year">{{mdPayYear}}</div>
+        <div class="jeondae-middle-date-month">{{mdPayMonth}}</div>
+        <div class="jeondae-middle-date-day">{{mdPayDay}}</div>
+        <div class="jeondae-balance">{{remainderPayment}}</div>
+        <div class="jeondae-balance-date-year">{{remainderYear}}</div>
+        <div class="jeondae-balance-date-month">{{remainderMonth}}</div>
+        <div class="jeondae-balance-date-day">{{remainderDay}}</div>
+        <div class="jeondae-monthly-cost">{{monthlyCost}}</div>
+        <div id="mcType" value="{{mcType}}"><img class="check" src="/img/etc/check_blue.png"></div>
+        <div class="jeondae-monthly-date-day">{{mcPayDayS}}</div>
+        <div class="jeondae-from-date-year">{{fromYearS}}</div>
+        <div class="jeondae-from-date-month">{{fromMonthS}}</div>
+        <div class="jeondae-from-date-day">{{fromDayS}}</div>
+        <div class="jeondae-to-date-year">{{toYearS}}</div>
+        <div class="jeondae-to-date-month">{{toMonthS}}</div>
+        <div class="jeondae-to-date-day">{{toDayS}}</div>
+        <div class="jeondae-to-date-year2">{{toYearS}}</div>
+        <div class="jeondae-to-date-month2">{{toMonthS}}</div>
+        <div class="jeondae-to-date-day2">{{toDayS}}</div>
+        <div class="imdae-deposit">{{depositL}}</div>
+        <div class="imdae-deposit-num">{{depositL}}</div>
+        <div class="imdae-monthly-cost">{{monthlyCostL}}</div>
+        <div class="imdae-monthly-num">{{monthlyCostL}}</div>
+        <div class="imdae-name">{{lessorName}}</div>
+        <div class="imdae-from-date-year">{{fromYearL}}</div>
+        <div class="imdae-from-date-month">{{fromMonthL}}</div>
+        <div class="imdae-from-date-day">{{fromDayL}}</div>
+        <div class="imdae-to-date-year">{{toYearL}}</div>
+        <div class="imdae-to-date-month">{{toMonthL}}</div>
+        <div class="imdae-to-date-day">{{toDayL}}</div>
+        <div class="manage-cost">{{maintenanceFee}}</div>
+        <div class="manage-cost-item">{{maintenanceOptions}}</div>
+        <div class="option-item">{{options}}</div>
+        <div class="contract-date-year">{{todayYear}}</div>
+        <div class="contract-date-month">{{todayMonth}}</div>
+        <div class="contract-date-day">{{todayDay}}</div>
+        <div class="sign-jeondae-name">{{jeondaeName}}</div>
+        <div class="sign-jeoncha-name">{{jeonchaName}}</div>
+    {{/contract}}
+    </div>
+    <form id="imgForm" name="imgForm" method="POST" action="/contracts/toimage">
+        <input type="hidden" id="imgData" name="imgData">
+    </form>
+</div>
+{{>layout/footer}}
+<script type="text/javascript" src="/js/html2canvas.js"></script>
+<script type="text/javascript" src="/js/app/contract-image.js"></script>
+</body>
+</html>

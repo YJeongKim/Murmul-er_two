@@ -12,6 +12,7 @@ import space.yjeong.domain.user.User;
 import space.yjeong.exception.ExpectedException;
 import space.yjeong.service.contract.ContractService;
 import space.yjeong.service.user.UserService;
+import space.yjeong.web.dto.ContractImageResponseDto;
 import space.yjeong.web.dto.ContractResponseDto;
 import space.yjeong.web.dto.salespost.SummaryResponseDto;
 
@@ -63,12 +64,23 @@ public class ContractController {
         User sublessor = userService.findUserBySessionUser(user);
         User sublessee = userService.findUserById(contractor);
 
-        ContractResponseDto response = contractService.readDetailRoom(roomId);
+        ContractResponseDto response = contractService.readContractRoom(roomId);
 
         model.addAttribute("sublessor", sublessor.getName());
         model.addAttribute("sublessee", sublessee.getName());
         model.addAttribute("room", response);
 
         return "/contract/contract-write";
+    }
+
+    @ApiOperation("UI : 계약서 이미지 페이지")
+    @GetMapping(value = "/show")
+    public String contractImageShow(Model model) {
+        ContractImageResponseDto contract = (ContractImageResponseDto) httpSession.getAttribute("contract");
+        httpSession.removeAttribute("contract");
+
+        model.addAttribute("contract", contract);
+
+        return "/contract/contract-image";
     }
 }

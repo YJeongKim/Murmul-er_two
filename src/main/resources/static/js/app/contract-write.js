@@ -128,9 +128,11 @@ $.fn.onlyNum = function() {
     });
 }
 $.fn.clickRegisterBtn = function() {
-    $(this).click(function(){
-        if(!$(this).checkValid())
-            return ;
+    $(this).click(function () {
+        let formData = $("form[name=contractForm]").serializeObject();
+        if (!$(this).checkValid())
+            return;
+        console.log(formData);
         Swal.fire({
             text: "이대로 등록하시겠습니까?",
             type: "question",
@@ -141,7 +143,15 @@ $.fn.clickRegisterBtn = function() {
             cancelButtonText: '취소'
         }).then(result => {
             if (result.value) {
-                document.contractForm.submit();
+                $.ajax({
+                    type: 'POST',
+                    url: "/api/contracts/write",
+                    contentType: 'application/json; charset=utf-8',
+                    data: JSON.stringify(formData)
+                }).done(function () {
+                    window.location.href = '/contracts/show';
+                }).fail(function () {
+                });
             }
         })
     });
