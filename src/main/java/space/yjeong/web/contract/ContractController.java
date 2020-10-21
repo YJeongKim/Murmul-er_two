@@ -12,8 +12,8 @@ import space.yjeong.domain.user.User;
 import space.yjeong.exception.ExpectedException;
 import space.yjeong.service.contract.ContractService;
 import space.yjeong.service.user.UserService;
-import space.yjeong.web.dto.ContractImageResponseDto;
-import space.yjeong.web.dto.ContractResponseDto;
+import space.yjeong.web.dto.contract.ContractImageResponseDto;
+import space.yjeong.web.dto.contract.ContractResponseDto;
 import space.yjeong.web.dto.salespost.SummaryResponseDto;
 
 import javax.servlet.http.HttpSession;
@@ -57,7 +57,7 @@ public class ContractController {
 
     @ApiOperation("UI : 계약서 작성 페이지")
     @GetMapping("/write")
-    public String contractSelect(Model model,
+    public String contractWrite(Model model,
                                  @RequestParam Long contractor,
                                  @RequestParam Long roomId) {
         SessionUser user = (SessionUser) httpSession.getAttribute("user");
@@ -71,6 +71,24 @@ public class ContractController {
         model.addAttribute("room", response);
 
         return "/contract/contract-write";
+    }
+
+    @ApiOperation("UI : 계약서 등록 페이지")
+    @GetMapping("/register")
+    public String contractRegister(Model model,
+                                 @RequestParam Long contractor,
+                                 @RequestParam Long roomId) {
+        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+        User sublessor = userService.findUserBySessionUser(user);
+        User sublessee = userService.findUserById(contractor);
+
+        ContractResponseDto response = contractService.readContractRoom(roomId);
+
+        model.addAttribute("sublessor", sublessor.getId());
+        model.addAttribute("sublessee", sublessee.getId());
+        model.addAttribute("room", response);
+
+        return "/contract/contract-register";
     }
 
     @ApiOperation("UI : 계약서 이미지 페이지")

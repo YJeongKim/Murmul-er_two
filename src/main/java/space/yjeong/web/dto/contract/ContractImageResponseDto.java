@@ -1,4 +1,4 @@
-package space.yjeong.web.dto;
+package space.yjeong.web.dto.contract;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -115,7 +115,7 @@ public class ContractImageResponseDto {
         this.todayDay = todayDay;
     }
 
-    public static ContractImageResponseDto of(ContractRequestDto requestDto, Map<String, String> roomInfo) {
+    public static ContractImageResponseDto of(ContractImageRequestDto requestDto, Map<String, String> roomInfo) {
         return ContractImageResponseDto.builder()
                 .roomId(requestDto.getRoomId())
                 .address(roomInfo.get("address"))

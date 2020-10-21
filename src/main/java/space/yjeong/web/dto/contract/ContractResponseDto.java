@@ -1,4 +1,4 @@
-package space.yjeong.web.dto;
+package space.yjeong.web.dto.contract;
 
 import lombok.Builder;
 import lombok.Getter;

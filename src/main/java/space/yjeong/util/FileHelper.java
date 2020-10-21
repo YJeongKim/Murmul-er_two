@@ -129,6 +129,30 @@ public class FileHelper {
         }
     }
 
+    public File uploadContract(String path, String file, MultipartFile multipartFile) {
+        if (multipartFile == null) {
+            logger.error("실패: 올바르지 않은 파일입니다.");
+            return null;
+        }
+        logger.info("업로드 경로: " + path);
+
+        String fileName = multipartFile.getOriginalFilename();
+        if (fileName.contains("/")) {
+            fileName = fileName.substring(fileName.lastIndexOf("/") + 1);
+        }
+        try {
+            String extension = fileName.substring(fileName.lastIndexOf("."));
+            String name = file + extension;
+
+            File saveFile = new File(path, name);
+            multipartFile.transferTo(saveFile);
+            return saveFile;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public boolean downloadFile(String path, String fileName, HttpServletResponse response) {
         if (path == null || path.trim().equals("")) {
             logger.error("실패: 잘못된 경로입니다.");

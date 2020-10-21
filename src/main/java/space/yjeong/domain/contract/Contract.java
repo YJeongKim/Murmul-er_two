@@ -5,10 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import space.yjeong.domain.BaseTimeEntity;
-import space.yjeong.domain.salespost.Lease;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 
 @Getter
 @Entity
@@ -34,9 +32,6 @@ public class Contract extends BaseTimeEntity {
     private String contractForm;
 
     @Column(nullable = false)
-    private LocalDate contractDate;
-
-    @Column(nullable = false)
     private Integer leaseDeposit;
 
     @Column(nullable = false)
@@ -51,23 +46,25 @@ public class Contract extends BaseTimeEntity {
     @Column(nullable = false)
     private String address;
 
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Lease lease;
+    private String lease;
 
     @Builder
-    public Contract(Long roomId, Long sublessorId, Long sublesseeId, String contractForm, LocalDate contractDate,
-                    Integer leaseDeposit, Integer leaseFee, String stayFrom, String stayTo, String address, Lease lease) {
+    public Contract(Long roomId, Long sublessorId, Long sublesseeId, String contractForm, Integer leaseDeposit,
+                    Integer leaseFee, String stayFrom, String stayTo, String address, String lease) {
         this.roomId = roomId;
         this.sublessorId = sublessorId;
         this.sublesseeId = sublesseeId;
         this.contractForm = contractForm;
-        this.contractDate = contractDate;
         this.leaseDeposit = leaseDeposit;
         this.leaseFee = leaseFee;
         this.stayFrom = stayFrom;
         this.stayTo = stayTo;
         this.address = address;
         this.lease = lease;
+    }
+
+    public void updateContractForm(String contractForm) {
+        this.contractForm = contractForm;
     }
 }

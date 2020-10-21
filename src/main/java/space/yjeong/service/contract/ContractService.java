@@ -4,12 +4,16 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import space.yjeong.config.auth.dto.SessionUser;
+import space.yjeong.domain.contract.Contract;
 import space.yjeong.domain.contract.ContractRepository;
+import space.yjeong.domain.room.Room;
 import space.yjeong.domain.salespost.SalesPost;
 import space.yjeong.domain.user.User;
+import space.yjeong.exception.UnauthorizedException;
 import space.yjeong.service.salespost.SalesPostService;
 import space.yjeong.service.user.UserService;
-import space.yjeong.web.dto.ContractResponseDto;
+import space.yjeong.web.dto.contract.ContractRequestDto;
+import space.yjeong.web.dto.contract.ContractResponseDto;
 import space.yjeong.web.dto.salespost.DetailResponseDto;
 import space.yjeong.web.dto.salespost.SummaryResponseDto;
 
@@ -51,5 +55,33 @@ public class ContractService {
         DetailResponseDto detailResponseDto = DetailResponseDto.of(salesPost);
 
         return detailResponseDto;
+    }
+
+    @Transactional
+    public Contract saveContract(ContractRequestDto responseDto, SessionUser sessionUser) {
+        User user = userService.findUserBySessionUser(sessionUser);
+        SalesPost salesPost = salesPostService.findSalesPostByRoom(responseDto.getRoomId());
+        Room room = salesPost.getRoom();
+
+        if(!user.getId().equals(salesPost.getSalesUser().getId())) throw new UnauthorizedException();
+
+        if(!user.getId().equals(responseDto.getSublessor())) throw new UnauthorizedException();
+
+        User sublessee = userService.findUserById(responseDto.getSublessee());
+
+        Contract contract = Contract.builder()
+                .roomId(room.getId())
+                .sublessorId(user.getId())
+                .sublesseeId(sublessee.getId())
+                .contractForm("temp")
+                .leaseDeposit(responseDto.getLeaseDeposit())
+                .leaseFee(responseDto.getLeaseFee())
+                .stayFrom(responseDto.getStayFrom())
+                .stayTo(responseDto.getStayTo())
+                .address(room.getRoadAddress() + " " +room.getDetailAddress())
+                .lease(responseDto.getLease())
+                .build();
+
+        return contractRepository.save(contract);
     }
 }

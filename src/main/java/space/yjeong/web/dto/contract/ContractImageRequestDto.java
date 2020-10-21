@@ -1,4 +1,4 @@
-package space.yjeong.web.dto;
+package space.yjeong.web.dto.contract;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ContractRequestDto {
+public class ContractImageRequestDto {
     private Long roomId;
     private String jeondaeName;
     private String jeonchaName;
