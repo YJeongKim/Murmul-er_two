@@ -4,8 +4,8 @@ $(document).ready(function(){
     $.setNumberUnit();
     $.checkType();
     $.initGetLeft();
-    $.setBounds();
-    $.resizeEvent();
+    // $.setBounds();
+    // $.resizeEvent();
     $.setSpecialProvision();
     $('#btnBack').clickEvent('back');
     $('#btnToImage').downloadImage();
@@ -84,20 +84,20 @@ $.initGetLeft = function(){
         divLeft.push(left-7);
     }
 }
-$.resizeEvent = function() {
-    $(window).resize(function(){
-        $.setBounds();
-    });
-}
-$.setBounds = function(){
-    let width = $(window).width();
-    if(width < 1000) return;
-    let div = $('.contract-body > div');
-    for(let i = 0; i < divLeft.length; i++) {
-        let plus =  (width - 1000) / 2;
-        div.eq(i).css('left', (divLeft[i]+plus));
-    }
-}
+// $.resizeEvent = function() {
+//     $(window).resize(function(){
+//         $.setBounds();
+//     });
+// }
+// $.setBounds = function(){
+//     let width = $(window).width();
+//     if(width < 1000) return;
+//     let div = $('.contract-body > div');
+//     for(let i = 0; i < divLeft.length; i++) {
+//         let plus =  (width - 1000) / 2;
+//         div.eq(i).css('left', (divLeft[i]+plus));
+//     }
+// }
 $.setNumberUnit = function() {
     $(".jeondae-deposit").addMan();
     $(".jeondae-contract-cost").addMan();
@@ -119,7 +119,7 @@ $.setSpecialProvision = function () {
         $('.manage-cost').text('');
         $('.manage-cost-item').text('');
     } else {
-        $('.manage-cost').text('관리비 : ' + manageCost.format() +"원");
+        $('.manage-cost').text('관리비 : ' + manageCost);
         $('.manage-cost-item').text('(포함항목 : ' + manages.substr(1, manages.length - 2) + ')');
     }
     if(options){
@@ -151,8 +151,8 @@ $.fn.addComma = function () {
 Number.prototype.format = function(){
     if(this == 0) return '';
 
-    var reg = /(^[+-]?\d+)(\d{3})/;
-    var n = (this + '');
+    let reg = /(^[+-]?\d+)(\d{3})/;
+    let n = (this + '');
 
     while (reg.test(n)) n = n.replace(reg, '$1' + ',' + '$2');
 
@@ -167,3 +167,16 @@ String.prototype.format = function(){
     return num.format();
 };
 
+// 스크립트 방어
+function defend(value) {
+    value = value + "";
+    value = value.trim();
+    value = value.replace(/</gi, "&lt;").replace(/>/gi, "&gt;");
+    // value = value.replace(/\\(/gi, "& #40;").replace(/\\)/gi, "& #41;");
+    value = value.replace(/'/gi, "&#39;");
+    value = value.replace(/eval\\((.*)\\)/gi, "");
+    value = value.replace(/[\\\"\\\'][\\s]*javascript:(.*)[\\\"\\\']/gi, "\"\"");
+    value = value.replace(/<script>/gi, "");
+    value = value.replace(/<\/script>/gi, "");
+    return value;
+}

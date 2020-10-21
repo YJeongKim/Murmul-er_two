@@ -121,6 +121,7 @@ public class ContractImageResponseDto {
                 .address(roomInfo.get("address"))
                 .jeondaeName(requestDto.getJeondaeName())
                 .jeonchaName(requestDto.getJeonchaName())
+                .buildingName(requestDto.getBuildingName())
                 .buildingArea(requestDto.getBuildingName())
                 .jeondaeArea(roomInfo.get("jeondaeArea"))
                 .buildingArea(requestDto.getBuildingArea())

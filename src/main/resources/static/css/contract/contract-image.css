@@ -2,91 +2,112 @@
     width: 1000px;
     margin: 0 auto;
     font-size: 17px;
+    display: block;
+    position: relative;
+    top: 180px;
 }
 .check { width: 22px; }
 .contract-image-page > div.header {
-    position: absolute; font-size: 17px; color: #ff4488;
-    top: 70px;  width:1000px; margin: 0 auto;
+    position: relative;
+    font-size: 17px;
+    color: #ff545b;
+    font-weight: 600;
+    top: 150px;
+    width: 100%;
+    display: block;
+    text-align: center;
+    margin: 0 auto;
 }
 .contract-body > img { width: 100%; }
 .contract-body > div { position: absolute; color: blue; }
-.contract-body > .rent-type1 { top: 133px; left: 52px; font-size: 20px;}
-.contract-body > .rent-type2 { top: 133px; left: 100px; font-size: 20px;}
-.contract-body > .rent-type3 { top: 133px; left: 148px; font-size: 20px;}
-.contract-body > .jeondae-name { top: 177px; left: 120px; }
-.contract-body > .jeoncha-name { top: 177px; left: 290px; }
-.contract-body > .location { top: 260px; left: 180px; }
-.contract-body > .building-name { top: 310px; left: 180px; }
-.contract-body > .building-type1 { top: 288px; left: 415px; font-size: 20px; }
-.contract-body > .building-type2 { top: 288px; left: 472px; font-size: 20px; }
-.contract-body > .building-type3 { top: 288px; left: 531px; font-size: 20px; }
-.contract-body > .building-type4 { top: 288px; left: 408px; font-size: 20px; }
-.contract-body > .building-type5 { top: 288px; left: 460px; font-size: 20px; }
-.contract-body > .building-type6 { top: 288px; left: 498px; font-size: 20px; }
-.contract-body > .building-type7 { top: 288px; left: 541px; font-size: 20px; }
-.contract-body > .gujo { top: 310px; left: 675px; }
-.contract-body > .area { top: 310px; left: 885px; }
-.contract-body > .jeondae-bubun { top: 361px; left: 180px; }
-.contract-body > .jeondae-area { top: 361px; left: 600px; }
-.contract-body > .yongdo { top: 361px; left: 810px; }
-.contract-body > .jeondae-deposit { top: 466px; left: 310px; }
-.contract-body > .jeondae-deposit-num { top: 466px; left: 480px; }
-.contract-body > .jeondae-contract-cost { top: 501px; left: 310px; }
-.contract-body > .jeondae-contract-name { top: 501px; left: 680px; }
-.contract-body > .jeondae-middle-cost { top: 534px; left: 310px; }
-.contract-body > .jeondae-middle-date-year { top: 534px; left: 455px; }
-.contract-body > .jeondae-middle-date-month { top: 534px; left: 525px; }
-.contract-body > .jeondae-middle-date-day { top: 534px; left: 585px; }
-.contract-body > .jeondae-balance { top: 568px; left: 310px; }
-.contract-body > .jeondae-balance-date-year { top: 568px; left: 455px; }
-.contract-body > .jeondae-balance-date-month { top: 568px; left: 525px; }
-.contract-body > .jeondae-balance-date-day { top: 568px; left: 585px; }
-.contract-body > .jeondae-monthly-cost { top: 604px; left: 310px; }
-.contract-body > .jeondae-monthly-type1 { top: 590px; left: 440px; font-size: 20px; }
-.contract-body > .jeondae-monthly-type2 { top: 590px; left: 490px; font-size: 20px; }
-.contract-body > .jeondae-monthly-date-day { top: 604px; left: 590px; }
-.contract-body > .jeondae-from-date-year { top: 632px; left: 190px; }
-.contract-body > .jeondae-from-date-month { top: 632px; left: 270px; }
-.contract-body > .jeondae-from-date-day { top: 632px; left: 340px; }
-.contract-body > .jeondae-to-date-year { top: 632px; left: 430px; }
-.contract-body > .jeondae-to-date-month { top: 632px; left: 510px; }
-.contract-body > .jeondae-to-date-day { top: 632px; left: 580px; }
-.contract-body > .jeondae-to-date-year2 { top: 658px; left: 580px; }
-.contract-body > .jeondae-to-date-month2 { top: 658px; left: 660px; }
-.contract-body > .jeondae-to-date-day2 { top: 658px; left: 730px; }
-.contract-body > .imdae-deposit { top: 843px; left: 210px; }
-.contract-body > .imdae-deposit-num { top: 843px; left: 370px; }
-.contract-body > .imdae-monthly-cost { top: 843px; left: 660px; }
-.contract-body > .imdae-monthly-num { top: 843px; left: 810px; }
-.contract-body > .imdae-name { top: 883px; left: 220px; }
-.contract-body > .imdae-from-date-year { top: 883px; left: 535px; }
-.contract-body > .imdae-from-date-month { top: 883px; left: 620px; }
-.contract-body > .imdae-from-date-day { top: 883px; left: 677px; }
-.contract-body > .imdae-to-date-year { top: 883px; left: 760px; }
-.contract-body > .imdae-to-date-month { top: 883px; left: 835px; }
-.contract-body > .imdae-to-date-day { top: 883px; left: 883px; }
-.contract-body > .option-item { top: 1005px; left: 65px; }
-.contract-body > .manage-cost { top: 1031px; left: 65px; }
-.contract-body > .manage-cost-item { top: 1031px; left: 210px; }
-.contract-body > .contract-date-year { top: 1086px; left: 795px; }
-.contract-body > .contract-date-month { top: 1086px; left: 865px; }
-.contract-body > .contract-date-day { top: 1086px; left: 930px; }
-.contract-body > .sign-jeondae-name { top: 1201px; left: 770px; }
-.contract-body > .sign-jeoncha-name { top: 1304px; left: 770px; }
+.contract-body > .lease1 { top: 65px; left: 45px; font-size: 20px;}
+.contract-body > .lease2 { top: 65px; left: 92px; font-size: 20px;}
+.contract-body > .lease3 { top: 65px; left: 141px; font-size: 20px;}
+.contract-body > .jeondae-name { top: 111px; left: 115px; }
+.contract-body > .jeoncha-name { top: 111px; left: 285px; }
+.contract-body > .location { top: 195px; left: 170px; }
+.contract-body > .building-name { top: 243px; left: 170px; }
+.contract-body > .building-type1 { top: 219px; left: 405px; font-size: 20px; }
+.contract-body > .building-type2 { top: 219px; left: 464px; font-size: 20px; }
+.contract-body > .building-type3 { top: 219px; left: 523px; font-size: 20px; }
+.contract-body > .building-type4 { top: 245px; left: 398px; font-size: 20px; }
+.contract-body > .building-type5 { top: 245px; left: 450px; font-size: 20px; }
+.contract-body > .building-type6 { top: 245px; left: 489px; font-size: 20px; }
+.contract-body > .building-type7 { top: 245px; left: 531px; font-size: 20px; }
+.contract-body > .gujo { top: 243px; left: 670px; }
+.contract-body > .area { top: 243px; left: 870px; }
+.contract-body > .jeondae-bubun { top: 295px; left: 170px; }
+.contract-body > .jeondae-area { top: 295px; left: 585px; }
+.contract-body > .yongdo { top: 295px; left: 820px; }
+.contract-body > .jeondae-deposit { top: 400px; left: 280px; }
+.contract-body > .jeondae-deposit-num { top: 400px; left: 450px; }
+.contract-body > .jeondae-contract-cost { top: 435px; left: 280px; }
+.contract-body > .jeondae-contract-name { top: 435px; left: 680px; }
+.contract-body > .jeondae-middle-cost { top: 470px; left: 280px; }
+.contract-body > .jeondae-middle-date-year { top: 470px; left: 445px; }
+.contract-body > .jeondae-middle-date-month { top: 470px; left: 525px; }
+.contract-body > .jeondae-middle-date-day { top: 470px; left: 580px; }
+.contract-body > .jeondae-balance { top: 502px; left: 280px; }
+.contract-body > .jeondae-balance-date-year { top: 502px; left: 445px; }
+.contract-body > .jeondae-balance-date-month { top: 502px; left: 525px; }
+.contract-body > .jeondae-balance-date-day { top: 502px; left: 580px; }
+.contract-body > .jeondae-monthly-cost { top: 536px; left: 280px; }
+.contract-body > .jeondae-monthly-type1 { top: 530px; left: 450px; font-size: 20px; }
+.contract-body > .jeondae-monthly-type2 { top: 530px; left: 505px; font-size: 20px; }
+.contract-body > .jeondae-monthly-date-day { top: 536px; left: 581px; }
+.contract-body > .jeondae-from-date-year { top: 565px; left: 180px; }
+.contract-body > .jeondae-from-date-month { top: 565px; left: 260px; }
+.contract-body > .jeondae-from-date-day { top: 565px; left: 330px; }
+.contract-body > .jeondae-to-date-year { top: 565px; left: 415px; }
+.contract-body > .jeondae-to-date-month { top: 565px; left: 498px; }
+.contract-body > .jeondae-to-date-day { top: 565px; left: 568px; }
+.contract-body > .jeondae-to-date-year2 { top: 590px; left: 565px; }
+.contract-body > .jeondae-to-date-month2 { top: 590px; left: 650px; }
+.contract-body > .jeondae-to-date-day2 { top: 590px; left: 718px; }
+.contract-body > .imdae-deposit { top: 776px; left: 200px; }
+.contract-body > .imdae-deposit-num { top: 776px; left: 360px; }
+.contract-body > .imdae-monthly-cost { top: 776px; left: 630px; }
+.contract-body > .imdae-monthly-num { top: 776px; left: 790px; }
+.contract-body > .imdae-name { top: 817px; left: 180px; }
+.contract-body > .imdae-from-date-year { top: 817px; left: 532px; }
+.contract-body > .imdae-from-date-month { top: 817px; left: 607px; }
+.contract-body > .imdae-from-date-day { top: 817px; left: 667px; }
+.contract-body > .imdae-to-date-year { top: 817px; left: 750px; }
+.contract-body > .imdae-to-date-month { top: 817px; left: 828px; }
+.contract-body > .imdae-to-date-day { top: 817px; left: 873px; }
+.contract-body > .option-item { top: 938px; left: 60px; }
+.contract-body > .manage-cost { top: 968px; left: 60px; }
+.contract-body > .manage-cost-item { top: 968px; left: 210px; }
+.contract-body > .contract-date-year { top: 1020px; left: 780px; }
+.contract-body > .contract-date-month { top: 1020px; left: 860px; }
+.contract-body > .contract-date-day { top: 1020px; left: 915px; }
+.contract-body > .sign-jeondae-name { top: 1135px; left: 770px; }
+.contract-body > .sign-jeoncha-name { top: 1240px; left: 770px; }
 
-.buttons { text-align: center; margin: 20px 0 0 0;}
+.buttons {
+    text-align: center;
+    width: 100%;
+    height: 105px;
+    top: 0px;
+    margin: auto;
+    display: block;
+    z-index: 30;
+    position: fixed;
+    box-shadow: 0 0 10px #6b6b6b;
+    background-color: white;
+}
 .buttons > button {
     font-size: 17px;
-    border: 0;
-    background-color: transparent;
+    font-weight: bold;
+    background-color: white;
     outline: 0;
     height: 45px;
-    border: 1px solid #b6e2f8;
+    border: 1px solid #ff545b;
     border-radius: 10px;
     padding: 5px 50px;
-    margin: 0 10px;
+    margin: 30px;
 }
 .buttons > button:hover {
     cursor: pointer;
-    background-color: #e9f8ff;
+    background-color: #ffa0a4;
 }
