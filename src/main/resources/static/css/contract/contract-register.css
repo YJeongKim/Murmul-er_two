@@ -1,8 +1,8 @@
-:root {
+:root{
     --width: 1090px;
 }
 
-.title {
+.title{
     margin: 50px auto;
     text-align: center;
 }
@@ -10,30 +10,21 @@
 .wrap > .addContractForm .tbContent {
     border: 1px solid #cccccc;
     width: var(--width);
-    margin: 20px auto;
+    margin: 40px auto 20px auto;
     font-size: 14px;
 }
 
-.wrap > .addContractForm .caution {
-    margin: 20px auto;
-    width: var(--width);
-    font-size: 17px;
-}
-
-.wrap > .addContractForm .tdContent > input[name="lease"] {
+.wrap > .addContractForm .tdContent > input[name="lease"]{
     margin-left: 20px;
 }
 
-.wrap > .addContractForm .tdContent > input[name="mcType"] {
-    margin-left: 20px;
-}
-
-.tbContent > tbody > tr > td {
+.tbContent > tbody >  tr > td {
+    height: 30px;
     border-bottom: 1px solid #cccccc;
 }
 
 .tbContent > tbody > tr > td.tbtitle {
-    background-color: rgba(147, 181, 242, 0.5);
+    background-color: rgba(255, 84, 91, 0.5);
     text-align: center;
     font-size: 20px;
     font-weight: bold;
@@ -55,16 +46,15 @@
     width: 31%;
 }
 
-.addContractForm .selectNum {
+.addContractForm .selectNum{
     height: 30px;
     font-size: 14px;
-    border: 1px solid #93b5f2;
+    border: 1px solid #ffa0a4;
     padding: 1px 15px;
     margin: 5px 10px;
     text-align-last: right;
     background-color: transparent;
 }
-
 .addContractForm .selectNum > option {
     text-align: right;
 }
@@ -99,11 +89,29 @@
 .tbContent input[type=text] {
     height: 25px;
     font-size: 14px;
-    border: 1px solid #93b5f2;
+    border: 1px solid #ffa0a4;
     padding: 1px 15px;
     margin: 5px 10px;
 }
 
-.tbContent input.setTextSize {
+.tbContent input.setTextSize{
     width: 250px;
+}
+
+.tbContent .tdContent > #fileName{
+    font-size: 15px;
+    margin: 0px 10px;
+}
+.tbContent .tdContent > input[type=file]{
+    display: none;
+}
+.tbContent .tdContent > button {
+    outline: 0;
+    font-size: 17px;
+    border-radius: 10px;
+    padding: 5px 40px;
+    margin: 5px 10px;
+}
+.tbContent .tdContent > button:focus {
+    outline: none;
 }

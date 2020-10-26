@@ -1,0 +1,92 @@
+{{>layout/header}}
+<link rel="stylesheet" href="/css/contract/contract-register.css"/>
+</head>
+<body>
+<div class="wrap">
+    <div class="title">
+        <h1>계약서 등록</h1>
+    </div>
+    <div class="addContractForm">
+        <form name="contractForm" onsubmit="return false;">
+            {{#room}}
+            <input type="hidden" name="roomId" value="{{roomId}}">
+            <table class="tbContent">
+                <tr>
+                    <td colspan="4" class="tbtitle">계약 정보</td>
+                    <input hidden="hidden" name="sublessor" value="{{sublessor}}">
+                    <input hidden="hidden" name="sublessee" value="{{sublessee}}">
+                </tr>
+                <tr>
+                    <td class="tbSubtitle">임대 유형</td>
+                    <td class="tdContent" colspan="3">
+                        <input type="radio" value="1" name="lease">전세
+                        <input type="radio" value="2" name="lease">월세
+                        <input type="radio" value="3" name="lease">보증금 있는 월세
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tbSubtitle tdSubtitleWide">보증금</td>
+                    <td class="tdContent tdContentWide">
+                        &nbsp;&nbsp;금<input type="text" id="deposit" name="leaseDeposit" class="alignRight" value="{{leaseDeposit}}"/>만 원
+                    </td>
+                    <td class="tbSubtitle tdSubtitleWide">월세</td>
+                    <td class="tdContent tdContentWide">
+                        &nbsp;&nbsp;금<input type="text" id="monthlyCost" name="leaseFee" class="alignRight" value="{{leaseFee}}"/>만 원
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tbSubtitle">기간</td>
+                    <td class="tdContent" colspan="3">
+                        <select class="selectNum s1" id="fromYearS" name="fromYearS">
+                            <option value="" selected>------</option>
+                        </select>
+                        년&nbsp;
+                        <select class="selectNum s1" id="fromMonthS" name="fromMonthS">
+                            <option value="" selected>------</option>
+                        </select>
+                        월&nbsp;
+                        <select class="selectNum s1" id="fromDayS" name="fromDayS">
+                            <option value="" selected>------</option>
+                        </select>
+                        일 부터<br>
+                        <select class="selectNum s2" id="toYearS" name="toYearS">
+                            <option value="" selected>------</option>
+                        </select>
+                        년&nbsp;
+                        <select class="selectNum s2" id="toMonthS" name="toMonthS">
+                            <option value="" selected>------</option>
+                        </select>
+                        월&nbsp;
+                        <select class="selectNum s2" id="toDayS" name="toDayS">
+                            <option value="" selected>------</option>
+                        </select>일까지
+                    </td>
+                </tr>
+            </table>
+            <table class="tbContent">
+                <tr>
+                    <td colspan="2" class="tbtitle">계약서 스캔 이미지</td>
+                </tr>
+                <tr>
+                    <td class="tbSubtitle tdSubtitleWide">이미지 첨부</td>
+                    <td id="tdImg" class="tdContent">
+                        <button class="btn btn-info" type="button" onclick="readFile()">파일선택</button>
+                        <input type="file" name="uploadFile" id="uploadFile" onchange="readName(this)" />
+                        <span id="fileName" name="fileName"></span>
+                    </td>
+                </tr>
+            </table>
+            <div class="lastBtns">
+                <button class="btn btn-info lastBtn" id="cancel">뒤로</button>
+                <button class="btn btn-info lastBtn" id="lastBtn">등록</button>
+            </div>
+            {{/room}}
+        </form>
+    </div>
+</div>
+{{>layout/footer}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-serialize-object/2.5.0/jquery.serialize-object.min.js"></script>
+<script type="text/javascript" src="/js/app/contract-form.js"></script>
+<script type="text/javascript" src="/js/app/contract-register.js"></script>
+</body>
+</html>
