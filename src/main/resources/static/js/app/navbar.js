@@ -14,6 +14,12 @@ var navbar = {
         $('#nav-manage').on('click', function () {
             _this.moveAfterLogin('/rooms');
         });
+        $('#nav-contract-write').on('click', function () {
+            _this.moveAfterLogin('//contracts/select?contractor=2&type=write');
+        });
+        $('#nav-contract-register').on('click', function () {
+            _this.moveAfterLogin('//contracts/select?contractor=2&type=register');
+        });
     }, moveAfterLogin : function (location) {
         if(this.isLogin === 1) {
             window.location.href = location;
