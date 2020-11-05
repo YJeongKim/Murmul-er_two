@@ -23,7 +23,7 @@ before_deploy:
   - cp script/*.sh deploy/
   - cp appspec.yml deploy/
   - cp build/libs/*.jar deploy/
-  - cd deploy && zip -r murmul-er.zip deploy * # 전체 압축
+  - zip -r murmul-er.zip deploy/* # 전체 압축
 
 deploy:
   - provider: s3
