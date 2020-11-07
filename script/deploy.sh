@@ -5,7 +5,7 @@ PROJECT_NAME=Murmul-er
 
 echo "> Build 파일 복사"
 
-cp $REPOSITORY/build/build/libs/*.jar $REPOSITORY/jar/
+cp $REPOSITORY/build/*.jar $REPOSITORY/jar/
 
 echo "> 현재 구동 중인 애플리케이션 pid 확인"
 
